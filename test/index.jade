@@ -1,0 +1,43 @@
+doctype html
+head
+	meta(charset="utf-8")
+	title Tests:
+	link(rel="stylesheet", href="node_modules/mocha/mocha.css")
+
+body
+	#mocha
+
+	script(src="node_modules/mocha/mocha.js")
+	script(src="node_modules/chai/chai.js")
+	script(src="node_modules/sinon/pkg/sinon-1.12.1.js")
+
+	script.
+		window.mocha.setup('bdd');
+		window.mocha.reporter('html');
+		window.expect = chai.expect;
+
+		window.chai.config.includeStack = true;
+		window.chai.config.showDiff = false;
+
+		beforeEach(function() {
+			this.sinon = sinon.sandbox.create();
+		});
+
+		afterEach(function(){
+			this.sinon.restore();
+		});
+
+	script(src="test.js")
+
+	script.
+		window.mocha.checkLeaks();
+
+		var myGlobals = ['I', 'H', 'isTestRunner', 'appDelay'];
+		var ieIframeNameGlobals = ['app', 'submit-trap'];
+		var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
+
+		window.mocha.globals(myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals));
+		window.mocha.run();
+
+		window.isTestRunner = true;
+		window.appDelay = 250;
