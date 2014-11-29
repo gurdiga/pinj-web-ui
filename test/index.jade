@@ -27,17 +27,17 @@ body
 			this.sinon.restore();
 		});
 
+	script(src="node_modules/q/q.js")
+	script(src="test/navigation.js")
+	script(src="test/iframe-setup.js")
 	script(src="test.js")
 
 	script.
 		window.mocha.checkLeaks();
 
-		var myGlobals = ['I', 'H', 'isTestRunner', 'appDelay'];
+		var myGlobals = [];
 		var ieIframeNameGlobals = ['app', 'submit-trap'];
 		var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
 
 		window.mocha.globals(myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals));
 		window.mocha.run();
-
-		window.isTestRunner = true;
-		window.appDelay = 250;

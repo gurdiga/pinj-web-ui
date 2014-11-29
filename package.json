@@ -8,6 +8,7 @@
   "devDependencies": {
     "coffee-script": "1.8.0",
     "coffeelint": "1.6.1",
+    "q": "1.1.2",
     "express": "4.10.4",
     "express-static": "1.0.3",
     "browserify": "6.3.3",

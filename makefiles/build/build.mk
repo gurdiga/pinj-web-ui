@@ -1,4 +1,4 @@
-build: compile-html compile-js
+build: compile-html compile-js copy-test-helpers
 .PHONY: build
 
 compile-html:
@@ -16,3 +16,8 @@ compile-js:
 		echo " - $$entry -> build$$bundle"; \
 		browserify -t coffeeify $$entry > build$$bundle; \
 	done
+
+copy-test-helpers:
+	mkdir -p build/test
+	cp test/navigation.js build/test
+	cp test/iframe-setup.js build/test

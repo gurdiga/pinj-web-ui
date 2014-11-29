@@ -1,7 +1,7 @@
 default: lint build clean
 
 clean:
-	@rm -f build/*.{js,html}
+	@rm -rf build/*.{js,html} build/test
 
 deps:
 	npm install
