@@ -1,0 +1,132 @@
+@import '../../../../node_modules/bourbon/dist/_bourbon';
+@import 'pure-nr-min';
+
+body {
+	font: 18px Alegreya, serif;
+	max-width: 27em;
+	padding: 0 1em;
+	margin: 0 auto;
+}
+
+$input-width: 215px;
+
+#registration-form,
+#authentication-form,
+#password-recovery-form,
+#client-list-form {
+	@extend .pure-form;
+	margin-bottom: 2em;
+
+	.glued-fields {
+		@extend .pure-group;
+	}
+
+	textarea,
+	input {
+		box-shadow: none !important;
+		font: inherit;
+		width: $input-width;
+	}
+
+	textarea {
+		width: 75%;
+		height: 250px;
+	}
+
+	button {
+		@extend .pure-button;
+    @extend .pure-button-primary;
+	}
+}
+
+#top-nav {
+	margin: 1em 0 2em;
+
+	h1 {
+		display: inline-block;
+		margin: 0;
+		line-height: 100%;
+		text-shadow: 1px 1px 2px rgba(150, 150, 150, 0.5);
+
+		a {
+			color: inherit;
+			text-decoration: none;
+		}
+	}
+
+	nav {
+		margin-top: -5px;
+
+		a {
+			margin-right: 4px;
+
+			&::before {
+				content: '•';
+				display: inline-block;
+				margin-right: 2px;
+			}
+
+			&[current] {
+				text-decoration: none;
+				color: inherit;
+				pointer-events: none;
+			}
+		}
+	}
+}
+
+h2 {
+	font-weight: normal;
+	margin-bottom: 0;
+}
+
+a {
+	color: blue;
+}
+
+.message {
+	border-radius: 2px;
+	padding: .2em .4em;
+	font-style: italic;
+
+	&.information {
+		color: green;
+		background-color: #dfd;
+	}
+}
+
+.validation-error {
+	p {
+		@extend .message;
+		color: #ca1c3c;
+		background-color: #fdd;
+		display: inline-block;
+	}
+}
+
+.submit-button-spinner {
+	margin-left: 5px;
+	vertical-align: -6px;
+}
+
+#client-list-spinner {
+	position: absolute;
+	margin-left: 10px;
+	margin-top: 10px;
+	@include filter(grayscale(100%));
+}
+
+a#password-recovery {
+	position: absolute;
+	font-size: smaller;
+	margin-top: -48px;
+	margin-left: $input-width;
+	padding: .5em;
+
+	opacity: .5;
+	@include transition(opacity .5s);
+
+	&:hover {
+		opacity: 1;
+	}
+}

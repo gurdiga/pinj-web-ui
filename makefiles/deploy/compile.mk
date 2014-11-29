@@ -1,4 +1,4 @@
-compile: compile-html compile-js copy-static-assets copy-test-helpers
+compile: compile-html compile-js copy-static-assets
 
 compile-html:
 	@echo "Compipling HTML from templates:"
@@ -17,12 +17,8 @@ compile-js:
 copy-static-assets:
 	@echo "Copying assets:"
 	@coffee makefiles/common/static-assets.coffee | \
+	grep --invert-match '^test/' | \
 	while read destination source; do \
 		mkdir -p $$(dirname build$$destination); \
 		cp -v $$source build$$destination; \
 	done
-
-copy-test-helpers:
-	mkdir -p build/test
-	cp test/navigation.js build/test
-	cp test/iframe-setup.js build/test

@@ -1,9 +1,6 @@
 express = require 'express'
 app = express()
 
-staticMiddleware = require 'express-static'
-app.use staticMiddleware './'
-
 browserify = require 'browserify-middleware'
 coffeeify = require 'coffeeify'
 browserifyOptions =
@@ -30,6 +27,16 @@ for htmlFile, template of pageTemplatePairs
 
 for destination, source of require '../common/static-assets'
   app.get destination, (req, res) -> res.sendFile "#{process.cwd()}/#{source}"
+
+sassMiddleware = require 'node-sass-middleware'
+app.use sassMiddleware
+  includePaths: './'
+  src: './src/web-ui/pages'
+  dest: './build'
+  outputStyle: 'compressed'
+
+staticMiddleware = require 'express-static'
+app.use staticMiddleware './build'
 
 app.listen process.env.HTTP_PORT, ->
   console.log 'Listening on port', process.env.HTTP_PORT

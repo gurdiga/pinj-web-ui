@@ -1,3 +1,13 @@
 node_modules
+package.json
+!makefiles/deps/package.json
+
 bower_components
+bower.json
+!makefiles/deps/bower.json
+
 !Makefile
+
+build/*
+!build/README.md
+!build/CNAME
