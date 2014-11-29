@@ -8,6 +8,7 @@ browserify = require 'browserify-middleware'
 coffeeify = require 'coffeeify'
 browserifyOptions =
   transform: ['coffeeify']
+  minify: true
   debug: true
 
 for bundle, entry of require '../common/bundle-entry-pairs'
@@ -26,5 +27,5 @@ pairs[''] = pairs['index.html']
 
 app.get "/#{htmlFile}", serve(template) for htmlFile, template of pairs
 
-app.listen 3000, ->
-  console.log 'Listening on port 3000'
+app.listen process.env.HTTP_PORT, ->
+  console.log 'Listening on port', process.env.HTTP_PORT

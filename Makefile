@@ -1,3 +1,6 @@
+export
+	HTTP_PORT=3000
+
 default: lint build clean
 
 clean:
