@@ -1,5 +1,4 @@
-build: compile-html compile-js copy-test-helpers
-.PHONY: build
+compile: compile-html compile-js copy-static-assets copy-test-helpers
 
 compile-html:
 	@echo "Compipling HTML from templates:"
@@ -13,6 +12,14 @@ compile-js:
 	@coffee makefiles/common/bundle-entry-pairs.coffee | \
 	while read bundle entry; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT$$bundle --output-document=build$$bundle; \
+	done
+
+copy-static-assets:
+	@echo "Copying assets:"
+	@coffee makefiles/common/static-assets.coffee | \
+	while read destination source; do \
+		mkdir -p $$(dirname build$$destination); \
+		cp -v $$source build$$destination; \
 	done
 
 copy-test-helpers:

@@ -4,7 +4,7 @@ export
 default: lint build clean
 
 clean:
-	@rm -rf build/*.{js,html} build/test
+	@ls -1 --directory build/* | grep -E -v '(CNAME|README.md)' | xargs rm -rf
 
 deps:
 	npm install

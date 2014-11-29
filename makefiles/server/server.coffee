@@ -19,13 +19,17 @@ app.set 'views', './'
 app.set 'view engine', 'jade'
 app.engine 'jade', jade.__express
 
-serve = (template) ->
+serveTemplate = (template) ->
   (req, res) -> res.render(template)
 
-pairs = require '../common/page-template-pairs'
-pairs[''] = pairs['index.html']
+pageTemplatePairs = require '../common/page-template-pairs'
+pageTemplatePairs[''] = pageTemplatePairs['index.html']
 
-app.get "/#{htmlFile}", serve(template) for htmlFile, template of pairs
+for htmlFile, template of pageTemplatePairs
+  app.get "/#{htmlFile}", serveTemplate(template)
+
+for destination, source of require '../common/static-assets'
+  app.get destination, (req, res) -> res.sendFile "#{process.cwd()}/#{source}"
 
 app.listen process.env.HTTP_PORT, ->
   console.log 'Listening on port', process.env.HTTP_PORT
