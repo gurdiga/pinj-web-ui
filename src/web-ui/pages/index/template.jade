@@ -3,5 +3,35 @@ extends ../layout
 block page.title
 	| Home
 
+block page.head
+//
+	link(rel="prefetch", href="images/email.png")
+	link(rel="prefetch", href="client-list.html")
+	link(rel="prefetch", href="client-list.bundle.js")
+	link(rel="prefetch", href="registration.html")
+	link(rel="prefetch", href="registration.bundle.js")
+
 block content
-	h1 This is the Home page!
+	p TODO: Rethink navigation
+	p acest sistem vă scuteşte de căutări manuale pe paginile 
+		a(href="//instante.justice.md/") instante.justice.md
+		|	şi 
+		a(href="//csj.md") csj.md
+		| : urmăreşte evoluţia dosarelor clienţilor dumneavoastră şi vă trimite 
+		a(href="/index/images/email.png") un email
+		|  cînd se schimbă ceva.
+
+	form#authentication-form(method="post", action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html")
+		p Dacă v-aţi înregistrat deja, aici vă puteţi autentifica:
+
+		fieldset.glued-fields
+			input(name="email", type="text", placeholder="Adresa de email")
+			input(name="password", type="password", placeholder="Parola")
+
+		//a#password-recovery(href="/password-recovery.html") Uitată?
+
+		button(type="submit") Autentifică
+
+	p#already-authenticated.information.message(style="display: none") Sunteţi autentificat(ă) deja.
+
+	script(async, defer, src="index.js")
