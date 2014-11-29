@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "dependencies": {
+    "pure": "0.5.0"
+  },
+  "name": "none"
+}
