@@ -1,0 +1,12 @@
+define deploy-build
+	$(eval remote=$(strip $(1)))
+	$(eval host=$(strip $(2)))
+
+	$(eval directory="build")
+
+	echo $(host) > $(directory)/CNAME && \
+	git add --force -- $(directory) && \
+	git commit --no-verify --message="Production deploy" -- $(directory) && \
+	git push --force $(remote) $$(git subtree split --prefix $(directory) HEAD):gh-pages && \
+	git reset --hard HEAD~1
+endef
