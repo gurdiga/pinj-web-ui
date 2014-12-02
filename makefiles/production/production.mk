@@ -29,5 +29,3 @@ rollback-production: \
 chekcout-previously-deployed-revision:
 	$(eval previously-deployed-revision=$(shell git tag --list | tail -1))
 	git checkout $(previously-deployed-revision)
-
-#git push --force origin $$(git subtree split --prefix build $(previously-deployed-revision)):gh-pages
