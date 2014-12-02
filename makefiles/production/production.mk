@@ -17,4 +17,16 @@ create-deploy-tag:
 	git tag "production-deploy-$$(date +%Y%m%d-%H%M)"
 	git push --tags origin
 
-rollback-production:
+rollback-production: \
+	assert-git-clean \
+	chekcout-previously-deployed-revision \
+	prepare-build \
+	delete-build-symlinks \
+	deploy-production \
+	clean-build \
+	create-build-symlinks \
+	create-deploy-tag
+
+chekcout-previously-deployed-revision:
+	$(eval previously-deployed-revision=$(shell git tag --list | tail -1))
+	git push --force origin $$(git subtree split --prefix build $(previously-deployed-revision)):gh-pages
