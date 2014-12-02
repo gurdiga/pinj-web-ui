@@ -24,9 +24,10 @@ rollback-production: \
 	delete-build-symlinks \
 	deploy-production \
 	clean-build \
-	create-build-symlinks \
-	create-deploy-tag
+	create-build-symlinks
 
 chekcout-previously-deployed-revision:
 	$(eval previously-deployed-revision=$(shell git tag --list | tail -1))
-	git push --force origin $$(git subtree split --prefix build $(previously-deployed-revision)):gh-pages
+	git checkout $(previously-deployed-revision)
+
+#git push --force origin $$(git subtree split --prefix build $(previously-deployed-revision)):gh-pages
