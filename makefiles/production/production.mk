@@ -16,16 +16,3 @@ deploy-production:
 create-deploy-tag:
 	git tag "production-deploy-$$(date +%Y%m%d-%H%M)"
 	git push --tags origin
-
-rollback-production: \
-	assert-git-clean \
-	chekcout-previously-deployed-revision \
-	prepare-build \
-	delete-build-symlinks \
-	deploy-production \
-	clean-build \
-	create-build-symlinks
-
-chekcout-previously-deployed-revision:
-	$(eval previously-deployed-revision=$(shell git tag --list | tail -1))
-	git checkout $(previously-deployed-revision)
