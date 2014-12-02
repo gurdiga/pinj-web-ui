@@ -1,4 +1,5 @@
 create-build-symlinks:
+	@mkdir -p build
 	@ln \
 		--verbose \
 		--force \

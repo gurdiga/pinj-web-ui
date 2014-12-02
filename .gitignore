@@ -8,6 +8,4 @@ bower.json
 
 !Makefile
 
-build/*
-!build/README.md
-!build/CNAME
+build
