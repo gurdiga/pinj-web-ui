@@ -34,7 +34,6 @@ copy-stylesheets:
 copy-static-assets:
 	@echo "Copying assets:"
 	@coffee makefiles/common/static-assets.coffee | \
-	grep --invert-match '^test/' | \
 	while read destination source; do \
 		mkdir -p $$(dirname build$$destination); \
 		cp -v $$source build$$destination; \
