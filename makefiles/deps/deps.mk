@@ -9,4 +9,4 @@ install-bower-packages:
 	ln --force --symbolic makefiles/deps/bower.json && \
 	bower prune && \
 	bower install && \
-	cp --verbose bower_components/pure/pure-nr-min.css src/pages/common/css/pure-nr-min.scss
+	cp --verbose bower_components/pure/pure-nr-min.css app/pages/common/css/pure-nr-min.scss

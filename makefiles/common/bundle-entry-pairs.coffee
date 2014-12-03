@@ -1,7 +1,7 @@
 glob = require 'glob'
 path = require 'path'
 
-entries = glob.sync 'src/pages/**/index.coffee'
+entries = glob.sync 'app/pages/**/index.coffee'
 pairs = entries.reduce (pairs, entry) ->
   bundle = "/#{path.basename(path.dirname(entry))}.js"
   pairs[bundle] = "./#{entry}"
