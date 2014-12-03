@@ -1,1 +1,1 @@
-require './one.coffee'
+require './dom.coffee'
