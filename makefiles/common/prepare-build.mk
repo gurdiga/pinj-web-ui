@@ -1,9 +1,13 @@
 prepare-build: \
+	create-build-directory \
 	compile-html \
 	compile-js \
 	copy-stylesheets \
 	copy-static-assets \
 	check-404s-locally
+
+create-build-directory:
+	mkdir -p build
 
 compile-html:
 	@echo "Compipling HTML from templates:"
