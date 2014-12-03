@@ -1,7 +1,7 @@
 glob = require 'glob'
 path = require 'path'
 
-templates = glob.sync 'src/web-ui/pages/**/template.jade'
+templates = glob.sync 'src/pages/**/template.jade'
 pairs = templates.reduce (pairs, template) ->
   htmlFile = "#{path.basename(path.dirname(template))}.html"
   pairs[htmlFile] = template

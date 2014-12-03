@@ -2,11 +2,10 @@ express = require 'express'
 app = express()
 
 browserify = require 'browserify-middleware'
-coffeeify = require 'coffeeify'
 browserifyOptions =
   transform: ['coffeeify']
+  extensions: ['.js', '.json', '.coffee']
   minify: true
-  debug: true
 
 for bundle, entry of require '../common/bundle-entry-pairs'
   app.use bundle, browserify(entry, browserifyOptions)
@@ -31,7 +30,7 @@ for destination, source of require '../common/static-assets'
 sassMiddleware = require 'node-sass-middleware'
 app.use sassMiddleware
   includePaths: './'
-  src: './src/web-ui/pages'
+  src: './src/pages'
   dest: './build'
   outputStyle: 'compressed'
 

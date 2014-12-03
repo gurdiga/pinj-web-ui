@@ -1,9 +1,9 @@
 glob = require 'glob'
 path = require 'path'
 
-assets = glob.sync 'src/web-ui/pages/**/images/**/*'
+assets = glob.sync 'src/pages/**/images/**/*'
 pairs = assets.reduce (pairs, asset) ->
-  destination = asset.replace 'src/web-ui/pages', ''
+  destination = asset.replace 'src/pages', ''
   pairs[destination] = asset
   pairs
 , {}
