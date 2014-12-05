@@ -1,5 +1,5 @@
 {
   "browserify": {
-    "transform": ["caching-coffeeify"]
+    "transform": ["coffeeify"]
   }
 }
