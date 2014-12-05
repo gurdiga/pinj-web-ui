@@ -1,2 +1,2 @@
-require './services/dom'
-require './services/promise'
+require './services/dom.coffee'
+require './services/promise.coffee'

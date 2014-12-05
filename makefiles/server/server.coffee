@@ -2,14 +2,8 @@ express = require 'express'
 app = express()
 
 browserify = require 'browserify-middleware'
-browserifyOptions =
-  transform: ['coffeeify']
-  extensions: ['.js', '.json', '.coffee']
-  minify: true
-  debug: true
-
 for bundle, entry of require '../common/bundle-entry-pairs'
-  app.use bundle, browserify(entry, browserifyOptions)
+  app.use bundle, browserify(entry)
 
 jade = require 'jade'
 app.set 'views', './'

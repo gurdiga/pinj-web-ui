@@ -1,4 +1,4 @@
-DOM = require '../../app/services/dom'
+DOM = require 'app/services/dom.coffee'
 
 describe 'DOM', ->
   describe 'require', ->

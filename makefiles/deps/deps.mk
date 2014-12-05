@@ -1,4 +1,4 @@
-deps: install-npm-packages install-bower-packages
+deps: install-npm-packages install-bower-packages mount-app
 
 install-npm-packages:
 	ln --force --symbolic makefiles/deps/package.json && \
@@ -10,3 +10,6 @@ install-bower-packages:
 	bower prune && \
 	bower install && \
 	cp --verbose bower_components/pure/pure-nr-min.css app/pages/common/css/pure-nr-min.scss
+
+mount-app:
+	ln --force --symbolic --target=node_modules ../app
