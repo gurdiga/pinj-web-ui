@@ -20,7 +20,7 @@ test-staging:
 	grep --invert-match '^test.html ' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://$$STAGING_HOST_NAME/$$html_file && \
-		rm /tmp/pinj-404-check.log || \
+		rm -rf $$STAGING_HOST_NAME /tmp/pinj-404-check.log || \
 		( \
 			cat /tmp/pinj-404-check.log; \
 			exit 1 \
