@@ -3,3 +3,5 @@ server: create-build-symlinks
 
 stop:
 	@kill $$(pgrep -f "ROOT=$$(pwd)")
+
+restart: stop server
