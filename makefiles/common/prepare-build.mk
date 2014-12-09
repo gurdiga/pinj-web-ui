@@ -11,7 +11,7 @@ create-build-directory:
 
 compile-html:
 	@echo "Compipling HTML from templates:"
-	@coffee makefiles/common/page-template-pairs.coffee | \
+	@node makefiles/common/page-template-pairs.js | \
 	grep --invert-match 'test.html' | \
 	while read html_file template; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT/$$html_file --output-document=build/$$html_file || exit 1; \
@@ -19,7 +19,7 @@ compile-html:
 
 compile-js:
 	@echo "Compipling JS bundles:"
-	@coffee makefiles/common/bundle-entry-pairs.coffee | \
+	@node makefiles/common/bundle-entry-pairs.js | \
 	grep --invert-match 'test.js' | \
 	while read bundle entry; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT$$bundle --output-document=build$$bundle || exit 1; \
@@ -27,7 +27,7 @@ compile-js:
 
 copy-stylesheets:
 	@echo "Copying stylesheets:"
-	@coffee makefiles/common/stylesheets.coffee | \
+	@node makefiles/common/stylesheets.js | \
 	grep --invert-match 'pure-nr-min.css' | \
 	while read stylesheet; do \
 		mkdir -p $$(dirname build$$stylesheet); \
@@ -37,7 +37,7 @@ copy-stylesheets:
 	
 copy-static-assets:
 	@echo "Copying assets:"
-	@coffee makefiles/common/static-assets.coffee | \
+	@node makefiles/common/static-assets.js | \
 	while read destination source; do \
 		mkdir -p $$(dirname build$$destination); \
 		cp -v $$source build$$destination; \
@@ -45,7 +45,7 @@ copy-static-assets:
 
 check-404s-locally:
 	@echo "Checking for 404s locally:"
-	@coffee makefiles/common/page-template-pairs.coffee | \
+	@node makefiles/common/page-template-pairs.js | \
 	grep --invert-match '^test.html ' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://localhost:$$HTTP_PORT/$$html_file && \

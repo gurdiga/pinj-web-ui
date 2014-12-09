@@ -16,7 +16,7 @@ deploy-staging:
 test-staging:
 	@echo "Checking for 404s on stage:"
 	sleep 10
-	@coffee makefiles/common/page-template-pairs.coffee | \
+	@node makefiles/common/page-template-pairs.js | \
 	grep --invert-match '^test.html ' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://$$STAGING_HOST_NAME/$$html_file && \

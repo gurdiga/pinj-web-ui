@@ -1,5 +1,6 @@
 (function() {
   'use strict';
+  /*global Q*/
 
   before(function() {
     this.helpers = {

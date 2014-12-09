@@ -1,3 +1,4 @@
+LINT_FILES=$(shell find makefiles/common app/ test/ -name '*.js')
 lint:
 	@echo "Linting..."
-	@find makefiles/common app/ test/ -name '*.coffee' | xargs coffeelint --file makefiles/lint/coffeelint.json --quiet
+	@jshint -c makefiles/lint/jshintrc.json $(LINT_FILES) && touch makefiles/lint/jshintrc.json
