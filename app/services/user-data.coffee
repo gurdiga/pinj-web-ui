@@ -4,16 +4,22 @@ Firebase = require 'firebase'
 class UserData
   firebaseRef = new Firebase('https://pinj-dev.firebaseio.com')
 
+  assertAuthenticated = =>
+    throw new Error('Not authenticated') if not aid?
+
+  aid = undefined
+  setAIDFromEmail = (email) =>
+    if email?
+      aid = email.replace(/\./g, ':')
+    else
+      aid = undefined
+
   registerUser: (email, password) =>
     new Promise (resolve, reject) =>
       firebaseRef.createUser
         email: email,
         password: password
-      , (error) =>
-        if not error?
-          resolve()
-        else
-          reject getLocalizedError(error.code)
+      , forwardTo(resolve, reject)
 
   authenticateUser: (email, password) =>
     new Promise (resolve, reject) =>
@@ -22,7 +28,7 @@ class UserData
         password: password
       , (error, session) =>
         if not error?
-          @aid = email.replace(/\./g, ':')
+          setAIDFromEmail email
           @set 'uid', session.uid
           .then resolve, reject
         else
@@ -45,17 +51,11 @@ class UserData
 
   sendPasswordRecoveryEmail: (email) =>
     new Promise (resolve, reject) =>
-      firebaseRef.resetPassword
-        email: email
-      , (error) =>
-        if not error?
-          resolve()
-        else
-          reject getLocalizedError(error.code)
+      firebaseRef.resetPassword email: email, forwardTo(resolve, reject)
 
   unauthenticateCurrentUser: =>
     new Promise (resolve, reject) =>
-      @email = undefined
+      setAIDFromEmail undefined
       firebaseRef.unauth()
       resolve()
 
@@ -66,7 +66,7 @@ class UserData
         password: password
       , (error) =>
         if not error?
-          @aid = email.replace(/\./g, ':')
+          setAIDFromEmail email
           @set '', null
           .then resolve, reject
         else
@@ -74,20 +74,23 @@ class UserData
 
   set: (path, value) =>
     new Promise (resolve, reject) =>
-      throw new Error('Not authenticated') unless @aid?
-
-      firebaseRef.child("/data/#{@aid}/#{path}").set value
-      , (error) =>
-        if not error?
-          resolve()
-        else
-          reject getLocalizedError(error.code)
+      assertAuthenticated()
+      firebaseRef.child("/data/#{aid}/#{path}").set value
+      , forwardTo(resolve, reject)
 
   get: (path) =>
     new Promise (resolve, reject) =>
-      firebaseRef.child("/data/#{@aid}/#{path}").once "value"
+      assertAuthenticated()
+      firebaseRef.child("/data/#{aid}/#{path}").once "value"
       , (snapshot) => resolve snapshot.val()
       , (error) => reject getLocalizedError(error.code)
+
+forwardTo = (resolve, reject) =>
+  (error) =>
+    if not error?
+      resolve()
+    else
+      reject getLocalizedError(error.code)
 
 getLocalizedError = (code) =>
   MESSAGES_BY_CODE =
