@@ -9,3 +9,4 @@ bower.json
 !Makefile
 
 build
+server.log
