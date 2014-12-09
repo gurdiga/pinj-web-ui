@@ -10,7 +10,10 @@ class UserData
         email: email,
         password: password
       , (error) =>
-        if error? then reject getLocalizedError(error.code) else resolve()
+        if not error?
+          resolve()
+        else
+          reject getLocalizedError(error.code)
 
   authenticateUser: (email, password) =>
     new Promise (resolve, reject) =>
@@ -18,12 +21,12 @@ class UserData
         email: email,
         password: password
       , (error, session) =>
-        if error?
-          reject getLocalizedError(error.code)
-        else
+        if not error?
           @aid = email.replace(/\./g, ':')
           @set 'uid', session.uid
           .then resolve, reject
+        else
+          reject getLocalizedError(error.code)
 
   isCurrentlyAuthenticated: =>
     session = firebaseRef.getAuth()
@@ -45,10 +48,10 @@ class UserData
       firebaseRef.resetPassword
         email: email
       , (error) =>
-        if error?
-          reject getLocalizedError(error.code)
-        else
+        if not error?
           resolve()
+        else
+          reject getLocalizedError(error.code)
 
   unauthenticateCurrentUser: =>
     new Promise (resolve, reject) =>
@@ -62,12 +65,12 @@ class UserData
         email: email
         password: password
       , (error) =>
-        if error?
-          reject getLocalizedError(error.code)
-        else
+        if not error?
           @aid = email.replace(/\./g, ':')
           @set '', null
           .then resolve, reject
+        else
+          reject getLocalizedError(error.code)
 
   set: (path, value) =>
     new Promise (resolve, reject) =>
@@ -75,10 +78,10 @@ class UserData
 
       firebaseRef.child("/data/#{@aid}/#{path}").set value
       , (error) =>
-        if error?
-          reject getLocalizedError(error.code)
-        else
+        if not error?
           resolve()
+        else
+          reject getLocalizedError(error.code)
 
   get: (path) =>
     new Promise (resolve, reject) =>
