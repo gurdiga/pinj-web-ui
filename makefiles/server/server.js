@@ -23,7 +23,11 @@ for (var htmlFile in pageTemplatePairs)
 
 var staticAssets = require('../common/static-assets');
 for (var destination in staticAssets)
-  app.get(destination, function(req, res) { res.sendFile(process.cwd() + '/'  + staticAssets[destination]); });
+  app.get(destination, serveStaticAsset(staticAssets[destination]));
+
+function serveStaticAsset(file) {
+  return function(req, res) { res.sendFile(process.cwd() + '/'  + file); }
+}
 
 var sassMiddleware = require('node-sass-middleware');
 app.use(sassMiddleware({
