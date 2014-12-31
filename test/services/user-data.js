@@ -33,11 +33,7 @@ describe.integration('UserData', function() {
     var path = 'some/path';
     var value = 'yes';
 
-    console.log('now');
     userData.set(path, value)
-    .then(function() {
-      console.log('OK set');
-    })
     .then(function() {
       return userData.get(path);
     })
@@ -45,6 +41,7 @@ describe.integration('UserData', function() {
       expect(returnedValue).to.equal(value);
       done();
     })
+    .then(deleteTestUserProfile)
     .catch(done);
   });
 
@@ -74,4 +71,8 @@ describe.integration('UserData', function() {
     })
     .finally(done);
   });
+
+  function deleteTestUserProfile() {
+    return userData.set('', null);
+  }
 });
