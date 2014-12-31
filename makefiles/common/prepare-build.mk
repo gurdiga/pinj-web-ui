@@ -49,6 +49,7 @@ check-404s-locally:
 	grep --invert-match '^test.html ' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://localhost:$$HTTP_PORT/$$html_file && \
+		rm -rf localhost:$$HTTP_PORT && \
 		rm /tmp/pinj-404-check.log || \
 		( \
 			cat /tmp/pinj-404-check.log; \
