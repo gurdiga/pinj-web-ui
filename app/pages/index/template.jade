@@ -27,10 +27,11 @@ block content
 			input(name="email", type="text", placeholder="Adresa de email")
 			input(name="password", type="password", placeholder="Parola")
 
-		//a#password-recovery(href="/password-recovery.html") Uitată?
+		a#password-recovery(href="/password-recovery.html") Uitată?
 
 		button(type="submit") Autentifică
 
 	p#already-authenticated.information.message(style="display: none") Sunteţi autentificat(ă) deja.
 
-	script(async, defer, src="index.js")
+block page.scripts
+	script(src="index.js")

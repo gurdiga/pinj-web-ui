@@ -6,6 +6,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "inherits": "2.0.1",
     "firebase": "2.0.6",
     "q": "1.1.2",
     "express": "4.10.4",
@@ -14,10 +15,12 @@
     "bourbon": "thoughtbot/bourbon#v4.0.2",
     "browserify": "6.3.3",
     "browserify-middleware": "4.1.0",
+    "source-map-support": "0.2.8",
     "jade": "1.7.0",
     "glob": "4.2.1",
     "mocha": "2.0.1",
     "chai": "1.10.0",
+    "chai-as-promised": "4.1.1",
     "sinon-chai": "2.6.0"
   },
   "repository": {

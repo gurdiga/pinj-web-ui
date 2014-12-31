@@ -11,12 +11,12 @@ body
 	script(src="node_modules/chai/chai.js")
 	script(src="node_modules/sinon/pkg/sinon-1.12.1.js")
 	script(src="node_modules/sinon-chai/lib/sinon-chai.js")
+	script(src="node_modules/chai-as-promised/lib/chai-as-promised.js")
 	script(src="node_modules/source-map-support/browser-source-map-support.js")
 
 	script.
 		sourceMapSupport.install();
 		window.mocha.setup('bdd');
-		window.mocha.reporter('html');
 		window.expect = chai.expect;
 
 		window.chai.config.includeStack = true;
@@ -47,7 +47,11 @@ body
 	script.
 		window.mocha.checkLeaks();
 
-		var myGlobals = [];
+		before(function() {
+			window.H = this.helpers;
+		});
+
+		var myGlobals = ['H'];
 		var ieIframeNameGlobals = ['app', 'submit-trap'];
 		var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
 

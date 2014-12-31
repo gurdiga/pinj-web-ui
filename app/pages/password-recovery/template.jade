@@ -1,0 +1,23 @@
+extends ../layout
+
+block page.title
+	| Recuperarea parolei
+
+block content
+	h2
+		block page.title
+
+	p Introduceţi adresa dumneavoastră de email. Vă vom trimite o parolă valabilă
+		| timp de 24 de ore cu care o să vă puteţi accesa contul şi reseta parola.
+
+	form#password-recovery-form
+		fieldset
+			input(name="email", type="text", placeholder="Adresa de email")
+
+		button(type="submit") Trimite
+
+	p#success-message.information.message(style="display: none")
+		| Mesajul a fost trimis. Verificaţi cutia poştală peste cîteva minute.
+
+block page.scripts
+	script(async, defer, src="password-recovery.js")

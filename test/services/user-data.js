@@ -39,10 +39,9 @@ describe.integration('UserData', function() {
     })
     .then(function(returnedValue) {
       expect(returnedValue).to.equal(value);
-      done();
     })
     .then(deleteTestUserProfile)
-    .catch(done);
+    .then(done, done);
   });
 
   it('can unregister the registered user', function(done) {

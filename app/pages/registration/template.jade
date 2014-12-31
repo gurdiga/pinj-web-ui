@@ -1,0 +1,28 @@
+extends ../layout
+
+block page.title
+	| Înregistrare
+
+block page.head
+	link(rel="prefetch", href="index/images/email.png")
+
+block content
+	h2
+		block page.title
+
+	p Primele 31 de zile de la înregistrare sunt gratuite. Dacă vă este util, puteţi alege
+		| un abonament lunar de 15, 30, sau 60 de clienţi pentru 3, 6, sau 9 USD corespunzător.
+
+	form#registration-form(method="post", action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html")
+		fieldset.glued-fields
+			input(name="email", type="text", placeholder="Adresa de email")
+			input(name="password", type="password", placeholder="Parola")
+			input(name="password-confirmation", type="password", placeholder="Confirmarea parolei")
+
+		button(type="submit") Înregistrează
+
+	p#already-registered.information.message(style="display: none")
+		| Sunteţi înregistrat(ă) deja.
+
+block page.scripts
+	script(async, defer, src="registration.js")
