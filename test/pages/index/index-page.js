@@ -15,13 +15,11 @@ describe('IndexPage', function() {
 
   beforeEach(function() {
     userData = new UserData();
-    this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
-    this.sinon.stub(userData, 'isCurrentlyAuthenticated').returns(false);
   });
 
   describe('when user is already authenticated', function() {
     beforeEach(function() {
-      userData.isCurrentlyAuthenticated.returns(true);
+      this.sinon.stub(userData, 'isCurrentlyAuthenticated').returns(true);
       indexPage = new IndexPage(this.app, userData);
     });
 
@@ -31,22 +29,26 @@ describe('IndexPage', function() {
     });
   });
 
-  describe('form submission', function() {
+  describe('when user is not yet authenticated', function() {
     beforeEach(function() {
+      this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
+      this.sinon.stub(userData, 'isCurrentlyAuthenticated').returns(false);
       indexPage = new IndexPage(this.app, userData);
     });
 
-    beforeEach(function(done) {
-      indexPage.submitForm({
-        'email'   : 'test@test.com',
-        'password': 'P4ssw0rd!'
-      })
-      .then(H.waitForReload)
-      .then(done, done);
-    });
+    describe('after authentication', function() {
+      beforeEach(function(done) {
+        indexPage.submitForm({
+          'email'   : 'test@test.com',
+          'password': 'P4ssw0rd!'
+        })
+        .then(H.waitForReload)
+        .then(done, done);
+      });
 
-    it('redirects to the client list page', function() {
-      expect(this.iframe.location.pathname).to.equal(Navigation.getPathForPage('ClientListPage'));
+      it('redirects to the client list page', function() {
+        expect(this.iframe.location.pathname).to.equal(Navigation.getPathForPage('ClientListPage'));
+      });
     });
   });
 });
