@@ -16,3 +16,4 @@ require('./pages/password-recovery/password-recovery-page.js');
 require('./pages/registration/registration-form-validator.js');
 require('./pages/registration/registration-form.js');
 require('./pages/registration/registration-page.js');
+require('./widgets/navigation.js');

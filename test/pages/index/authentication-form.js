@@ -1,8 +1,7 @@
 'use strict';
 
 var AuthenticationForm = require('app/pages/index/authentication-form');
-var IndexPage = require('app/pages/index/index-page');
-var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
+var Navigation = require('app/widgets/navigation');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var UserData = require('app/services/user-data');
@@ -194,7 +193,7 @@ describe('AuthenticationForm', function() {
     });
 
     it('submits email to the password recovery page', function() {
-      expect(submitURL).to.include(PasswordRecoveryPage.PATH);
+      expect(submitURL).to.include(Navigation.getPathForPage('PasswordRecoveryPage'));
       expect(submitURL).to.include('email=' + encodeURIComponent(email));
       expect(submitURL).not.to.include(password);
     });
@@ -223,7 +222,7 @@ describe('AuthenticationForm', function() {
   }
 
   function getProductionDOMElement(context) {
-    return H.navigateTo(IndexPage.PATH)
+    return H.navigateTo(Navigation.getPathForPage('IndexPage'))
     .then(function() {
       return DOM.require('#authentication-form', context.app);
     });

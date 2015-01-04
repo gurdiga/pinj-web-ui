@@ -1,13 +1,15 @@
 'use strict';
 
 var ClientListPage = require('app/pages/client-list/client-list-page');
+var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
 
 describe('ClientListPage', function() {
   var clientListPage, userData;
 
   before(function(done) {
-    H.navigateTo(ClientListPage.PATH).then(done, done);
+    H.navigateTo(Navigation.getPathForPage('ClientListPage'))
+    .then(done, done);
   });
 
   beforeEach(function() {

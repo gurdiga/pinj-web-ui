@@ -1,7 +1,7 @@
 'use strict';
 
 var ClientListForm = require('app/pages/client-list/client-list-form');
-var ClientListPage = require('app/pages/client-list/client-list-page');
+var Navigation = require('app/widgets/navigation');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var ClientList = require('app/pages/client-list/client-list');
@@ -140,7 +140,7 @@ describe('ClientListForm', function() {
         expect(clientListForm.isSubmitDisabled()).to.be.false;
       });
     });
-    
+
     function submitForm() {
       clientListForm.submit({
         'client-list': clientListText
@@ -149,7 +149,7 @@ describe('ClientListForm', function() {
   });
 
   function getProductionDOMElement(context) {
-    return H.navigateTo(ClientListPage.PATH)
+    return H.navigateTo(Navigation.getPathForPage('ClientListPage'))
     .then(function() {
       return DOM.require('#client-list-form', context.app);
     });

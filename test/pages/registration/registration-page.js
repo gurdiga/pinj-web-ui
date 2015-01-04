@@ -1,7 +1,7 @@
 'use strict';
 
 var RegistrationPage = require('app/pages/registration/registration-page');
-var ClientListPage = require('app/pages/client-list/client-list-page');
+var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
 var Promise = require('app/services/promise');
 
@@ -9,7 +9,8 @@ describe('RegistrationPage', function() {
   var registrationPage, userData;
 
   before(function(done) {
-    H.navigateTo(RegistrationPage.PATH).then(done, done);
+    H.navigateTo(Navigation.getPathForPage('RegistrationPage'))
+    .then(done, done);
   });
 
   beforeEach(function() {
@@ -47,7 +48,7 @@ describe('RegistrationPage', function() {
     });
 
     it('redirects to the client list page', function() {
-      expect(this.iframe.location.pathname).to.equal(ClientListPage.PATH);
+      expect(this.iframe.location.pathname).to.equal(Navigation.getPathForPage('ClientListPage'));
     });
   });
 });

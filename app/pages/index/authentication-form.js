@@ -4,7 +4,7 @@ var DOM = require('app/services/dom');
 var Form = require('app/super/form');
 var inherits = require('inherits');
 var AuthenticationFormValidator = require('./authentication-form-validator');
-var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
+var Navigation = require('app/widgets/navigation');
 
 inherits(AuthenticationForm, Form);
 
@@ -34,7 +34,7 @@ function AuthenticationForm(domElement, formValidationError, submitButtonSpinner
 
   function submitEmailToPasswordRecoveryPage() {
     domElement.method = 'GET';
-    domElement.action = PasswordRecoveryPage.PATH;
+    domElement.action = Navigation.getPathForPage('PasswordRecoveryPage');
     passwordField.value = '';
     domElement.submit();
   }

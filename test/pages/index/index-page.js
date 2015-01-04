@@ -1,7 +1,7 @@
 'use strict';
 
 var IndexPage = require('app/pages/index/index-page');
-var ClientListPage = require('app/pages/client-list/client-list-page');
+var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
 var Promise = require('app/services/promise');
 
@@ -9,7 +9,8 @@ describe('IndexPage', function() {
   var indexPage, userData;
 
   before(function(done) {
-    H.navigateTo(IndexPage.PATH).then(done, done);
+    H.navigateTo(Navigation.getPathForPage('IndexPage'))
+    .then(done, done);
   });
 
   beforeEach(function() {
@@ -45,7 +46,7 @@ describe('IndexPage', function() {
     });
 
     it('redirects to the client list page', function() {
-      expect(this.iframe.location.pathname).to.equal(ClientListPage.PATH);
+      expect(this.iframe.location.pathname).to.equal(Navigation.getPathForPage('ClientListPage'));
     });
   });
 });

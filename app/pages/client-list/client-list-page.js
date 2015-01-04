@@ -8,8 +8,6 @@ var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var ClientList = require('./client-list');
 var ClientListForm = require('./client-list-form');
 
-ClientListPage.PATH = '/client-list.html';
-
 inherits(ClientListPage, PageWithForm);
 
 function ClientListPage(domElement, userData) {

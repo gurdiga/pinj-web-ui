@@ -1,7 +1,7 @@
 'use strict';
 
 var RegistrationForm = require('app/pages/registration/registration-form');
-var RegistrationPage = require('app/pages/registration/registration-page');
+var Navigation = require('app/widgets/navigation');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var UserData = require('app/services/user-data');
@@ -227,7 +227,7 @@ describe('RegistrationForm', function() {
   });
 
   function getProductionDOMElement(context) {
-    return H.navigateTo(RegistrationPage.PATH)
+    return H.navigateTo(Navigation.getPathForPage('RegistrationPage'))
     .then(function() {
       return DOM.require('#registration-form', context.app);
     });

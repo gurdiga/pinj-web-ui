@@ -7,8 +7,6 @@ var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var AuthenticationForm = require('./authentication-form');
 
-IndexPage.PATH = '/index.html';
-
 inherits(IndexPage, PageWithForm);
 
 function IndexPage(domElement, userData) {

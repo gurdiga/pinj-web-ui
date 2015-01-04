@@ -8,8 +8,6 @@ var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var isValidEmail = require('app/util/is-valid-email');
 
-PasswordRecoveryPage.PATH = '/password-recovery.html';
-
 inherits(PasswordRecoveryPage, PageWithForm);
 
 function PasswordRecoveryPage(domElement, userData) {

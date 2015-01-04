@@ -1,6 +1,7 @@
 'use strict';
 
 var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
+var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
 var Promise = require('app/services/promise');
 
@@ -11,7 +12,7 @@ describe('PasswordRecoveryPage', function() {
     email = 'test@test.com';
     queryString = '?email=' + encodeURIComponent(email);
 
-    H.navigateTo(PasswordRecoveryPage.PATH + queryString)
+    H.navigateTo(Navigation.getPathForPage('PasswordRecoveryPage') + queryString)
     .then(done, done);
   });
 

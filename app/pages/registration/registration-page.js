@@ -7,8 +7,6 @@ var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var RegistrationForm = require('./registration-form');
 
-RegistrationPage.PATH = '/registration.html';
-
 inherits(RegistrationPage, PageWithForm);
 
 function RegistrationPage(domElement, UserService) {

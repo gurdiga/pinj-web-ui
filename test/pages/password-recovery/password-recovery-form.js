@@ -1,7 +1,7 @@
 'use strict';
 
 var PasswordRecoveryForm = require('app/pages/password-recovery/password-recovery-form');
-var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
+var Navigation = require('app/widgets/navigation');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var UserData = require('app/services/user-data');
@@ -188,7 +188,7 @@ describe('PasswordRecoveryForm', function() {
   });
 
   function getProductionDOMElement(context) {
-    return H.navigateTo(PasswordRecoveryPage.PATH)
+    return H.navigateTo(Navigation.getPathForPage('PasswordRecoveryPage'))
     .then(function() {
       return DOM.require('#password-recovery-form', context.app);
     });
