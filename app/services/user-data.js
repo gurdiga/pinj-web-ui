@@ -1,7 +1,7 @@
 'use strict';
 
 var Promise = require('app/services/promise');
-var Firebase = require('firebase');
+/*global Firebase*/
 
 function UserData() {
   var firebaseRef = new Firebase('https://pinj-dev.firebaseio.com');

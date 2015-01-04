@@ -1,6 +1,6 @@
 'use strict';
 
-var Q = require('q');
+/*global Q*/
 
 function Promise(f) {
   return Q.Promise(f);

@@ -1,3 +1,6 @@
+window.Firebase = require('firebase');
+window.Q = require('q');
+
 require('./services/dom.js');
 require('./services/promise.js');
 require('./services/user-data.js');
