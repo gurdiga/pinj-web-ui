@@ -22,7 +22,8 @@
     "mocha": "2.0.1",
     "chai": "1.10.0",
     "chai-as-promised": "4.1.1",
-    "sinon-chai": "2.6.0"
+    "sinon-chai": "2.6.0",
+    "lintspaces-cli": "0.0.4"
   },
   "repository": {
     "type": "git",

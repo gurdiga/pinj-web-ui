@@ -1,4 +1,13 @@
 LINT_FILES=$(shell find makefiles/common app/ test/ -name '*.js')
-lint:
+
+lint: lintspaces
 	@echo "Linting..."
-	@jshint -c makefiles/lint/jshintrc.json $(LINT_FILES) && touch makefiles/lint/jshintrc.json
+	@jshint -c makefiles/lint/jshintrc.json $(LINT_FILES)
+
+lintspaces:
+	@lintspaces \
+		--newline \
+		--maxnewlines 2 \
+		--trailingspaces \
+		--indentation spaces \
+		$(LINT_FILES)

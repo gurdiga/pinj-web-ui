@@ -24,7 +24,7 @@ describe('RegistrationForm', function() {
 
     formValidationError = new FormValidationError(domElement);
     submitButtonSpinner = new SubmitButtonSpinner(domElement);
-		userData = new UserData();
+    userData = new UserData();
 
     registrationForm = new RegistrationForm(domElement, formValidationError, submitButtonSpinner, userData);
   });
