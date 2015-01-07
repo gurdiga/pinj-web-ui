@@ -25,6 +25,8 @@ describe('RegistrationForm', function() {
     formValidationError = new FormValidationError(domElement);
     submitButtonSpinner = new SubmitButtonSpinner(domElement);
     userData = new UserData();
+    this.sinon.stub(userData, 'registerUser');
+    this.sinon.stub(userData, 'authenticateUser');
 
     registrationForm = new RegistrationForm(domElement, formValidationError, submitButtonSpinner, userData);
   });
@@ -62,8 +64,7 @@ describe('RegistrationForm', function() {
       email = 'test@test.com';
       password = 'P4ssw0rd!';
 
-      this.sinon.stub(userData, 'registerUser');
-      this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
+      userData.authenticateUser.returns(Promise.resolve());
     });
 
     it('asks userData to register and authenticate the new user', function(done) {
@@ -160,14 +161,19 @@ describe('RegistrationForm', function() {
       });
 
       describe('on submit', function() {
-        it('shows the progress indicator and prevents multiple submits on submit', function() {
+        var submittedTheForm;
+
+        it('shows the progress indicator and prevents multiple submits on submit', function(done) {
           expect(submitButtonSpinner.isShown(), 'progress indicator is hidden initially').to.be.false;
           expect(registrationForm.isSubmitDisabled()).to.be.false;
 
-          submitForm();
+          submittedTheForm = submitForm();
 
           expect(submitButtonSpinner.isShown(), 'progress indicator is shown').to.be.true;
           expect(registrationForm.isSubmitDisabled()).to.be.true;
+
+          submittedTheForm.then(done, done);
+          userServiceRequest.simulateSuccess();
         });
       });
 
@@ -196,7 +202,7 @@ describe('RegistrationForm', function() {
       });
 
       function submitForm() {
-        registrationForm.submit({
+        return registrationForm.submit({
           'email': email,
           'password': password,
           'password-confirmation': password
