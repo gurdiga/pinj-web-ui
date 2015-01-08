@@ -10,8 +10,6 @@ describe('PasswordRecoveryFormValidator', function() {
   });
 
   describe('validate', function() {
-    this.timeout(100);
-
     it('rejects empty email', function(done) {
       expect(validator.validate({
         'email': ''

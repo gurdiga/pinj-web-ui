@@ -48,9 +48,8 @@ body
 			};
 		});
 
-	script(src="node_modules/q/q.js")
-	script(src="test/helpers.js")
-	script(src="test.js")
+	each file in testFiles()
+		script(src=file)
 
 	script.
 		window.mocha.checkLeaks();

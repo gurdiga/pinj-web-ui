@@ -3,14 +3,21 @@
 var glob = require('glob');
 var path = require('path');
 
-var entries = glob.sync('app/pages/**/index.js');
-var pairs = entries.reduce(function(pairs, entry) {
+var pairs = {};
+
+glob.sync('app/pages/**/index.js')
+.forEach(function(entry) {
   var bundle = '/'  + path.basename(path.dirname(entry)) + '.js';
   pairs[bundle] = './' + entry;
-  return pairs;
-}, {});
+});
 
-pairs['/test.js'] = './test/index.js';
+glob.sync('test/**/*.js')
+.filter(function(entry) {
+  return entry !== 'test/helpers.js';
+})
+.forEach(function(entry) {
+  pairs['/' + entry] = './' + entry;
+});
 
 if (require.main === module) {
   for (var bundle in pairs) {

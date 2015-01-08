@@ -17,7 +17,7 @@ test-staging:
 	@echo "Checking for 404s on stage:"
 	sleep 10
 	@node makefiles/common/page-template-pairs.js | \
-	grep --invert-match '^test.html ' | \
+	grep --invert-match 'test' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://$$STAGING_HOST_NAME/$$html_file && \
 		rm -rf $$STAGING_HOST_NAME /tmp/pinj-404-check.log || \

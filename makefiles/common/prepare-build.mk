@@ -13,7 +13,7 @@ create-build-directory:
 compile-html:
 	@echo "Compipling HTML from templates:"
 	@node makefiles/common/page-template-pairs.js | \
-	grep --invert-match 'test.html' | \
+	grep --invert-match 'test' | \
 	while read html_file template; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT/$$html_file --output-document=build/$$html_file || exit 1; \
 	done
@@ -21,7 +21,7 @@ compile-html:
 compile-js:
 	@echo "Compipling JS bundles:"
 	@node makefiles/common/bundle-entry-pairs.js | \
-	grep --invert-match 'test.js' | \
+	grep --invert-match 'test' | \
 	while read bundle entry; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT$$bundle --output-document=build$$bundle || exit 1; \
 	done
@@ -29,7 +29,7 @@ compile-js:
 externalize-source-maps:
 	@echo "Externalizing JS bundle source maps:"
 	@node makefiles/common/bundle-entry-pairs.js | \
-	grep --invert-match 'test.js' | \
+	grep --invert-match 'test' | \
 	while read bundle entry; do \
 		exorcist build$$bundle.js.map < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
 	done
@@ -55,7 +55,7 @@ copy-static-assets:
 check-404s-locally:
 	@echo "Checking for 404s locally:"
 	@node makefiles/common/page-template-pairs.js | \
-	grep --invert-match '^test.html ' | \
+	grep --invert-match 'test' | \
 	while read html_file template; do \
 		wget --spider -o /tmp/pinj-404-check.log -e robots=off -r -p http://localhost:$$HTTP_PORT/$$html_file && \
 		rm -rf localhost:$$HTTP_PORT && \

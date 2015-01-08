@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 
 var browserify = require('browserify-middleware');
+var glob = require('glob');
 var bundles = require('../common/bundle-entry-pairs');
 for (var bundle in bundles)
   app.use(bundle, browserify(bundles[bundle]));
@@ -11,6 +12,11 @@ app.set('views', './');
 app.set('view engine', 'jade');
 app.engine('jade', jade.__express);
 app.locals.pretty = true;
+app.locals.testFiles = function() {
+	return glob.sync('test/**/*.js').sort(function(a, b) {
+		return a.length - b.length;
+	});
+};
 
 function serveTemplate(template) {
   return function(req, res) { res.render(template); }
