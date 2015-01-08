@@ -10,6 +10,7 @@ var jade = require('jade');
 app.set('views', './');
 app.set('view engine', 'jade');
 app.engine('jade', jade.__express);
+app.locals.pretty = true;
 
 function serveTemplate(template) {
   return function(req, res) { res.render(template); }
