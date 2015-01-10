@@ -51,10 +51,9 @@
 
 
   function navigateWithNoCache(self, pathname) {
-    var TIME_FOR_THE_IFRAME_TO_CHANGE_LOCATION = 100;
-
     self.iframeElement.src = pathname;
-    return Q.delay(TIME_FOR_THE_IFRAME_TO_CHANGE_LOCATION)
+
+    return self.helpers.waitForReload(self)
     .then(function() {
       self.iframeElement.contentWindow.location.reload(true);
       return self.helpers.waitForReload(self);
