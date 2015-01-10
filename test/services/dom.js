@@ -58,4 +58,49 @@ describe('DOM', function() {
       return div;
     }
   });
+
+  describe('isVisible', function() {
+    var element;
+
+    describe('when element itself is set to display:none', function() {
+      beforeEach(function() {
+        element = document.createElement('div');
+        element.textContent = 'something';
+        document.body.appendChild(element);
+
+        expect(DOM.isVisible(element), 'initially it is visible').to.be.true;
+      });
+
+      beforeEach(function() {
+        element.style.display = 'none';
+      });
+
+      it('correctly reports invisibility', function() {
+        expect(DOM.isVisible(element)).to.be.false;
+      });
+
+      afterEach(function() {
+        document.body.removeChild(element);
+      });
+    });
+
+    describe('when element’s container is set to display:none', function() {
+      var container;
+
+      beforeEach(function() {
+        container = document.createElement('div');
+        container.style.display = 'none';
+        container.appendChild(element);
+        document.body.appendChild(container);
+      });
+
+      afterEach(function() {
+        document.body.removeChild(container);
+      });
+
+      it('correctly reports invisibility', function() {
+        expect(DOM.isVisible(element)).to.be.false;
+      });
+    });
+  });
 });

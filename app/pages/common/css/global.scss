@@ -94,6 +94,10 @@ header {
 					color: inherit;
 					pointer-events: none;
 				}
+
+				&.private {
+					display: none;
+				}
 			}
 		}
 	}

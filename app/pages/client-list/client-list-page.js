@@ -2,6 +2,7 @@
 
 var inherits = require('inherits');
 var PageWithForm = require('app/super/page-with-form');
+var Navigation = require('app/widgets/navigation');
 var DOM = require('app/services/dom');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
@@ -11,6 +12,9 @@ var ClientListForm = require('./client-list-form');
 inherits(ClientListPage, PageWithForm);
 
 function ClientListPage(domElement, userData) {
+  var navigationDOMElement = DOM.require('nav', domElement);
+  new Navigation(navigationDOMElement, userData);
+
   var formDOMElement = DOM.require('#client-list-form', domElement);
   var notAuthenticatedMessageDOMElement = DOM.require('#not-authenticated', domElement);
 

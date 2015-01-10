@@ -1,11 +1,15 @@
 'use strict';
 
-function Navigation(domElement, userData, pages) {
-  var relevantPages = userData.isCurrentlyAuthenticated() ? pages.authenticated : pages.unauthenticated;
+function Navigation(domElement, userData) {
+  if (userData.isCurrentlyAuthenticated()) showPrivateLinks();
 
-  domElement.innerHTML += relevantPages.map(function(className) {
-    return '<a href="' + Navigation.getPathForPage(className) + '">' + Navigation.getTitleForPage(className) + '</a>';
-  }).join('');
+  function showPrivateLinks() {
+    var links = [].slice.call(domElement.querySelectorAll('a'));
+
+    links.forEach(function(link) {
+      link.classList.remove('private');
+    });
+  }
 }
 
 Navigation.PAGES = {
