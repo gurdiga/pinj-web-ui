@@ -32,7 +32,10 @@ block content
 
 		button(type="submit") Autentifică
 
-	p#already-authenticated.information.message(style="display: none") Sunteţi autentificat(ă) deja.
+	p#already-authenticated.information.message(style="display: none")
+		| Sunteţi autentificat(ă) deja. Vă puteţi 
+		a(href="/client-list.html") administra lista de clienţi
+		| .
 
 block page.scripts
 	script(src="index.js")

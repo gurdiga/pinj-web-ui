@@ -22,7 +22,9 @@ block content
 		button(type="submit") Înregistrează
 
 	p#already-registered.information.message(style="display: none")
-		| Sunteţi înregistrat(ă) deja.
+		| Sunteţi înregistrat(ă) deja. Vă puteţi 
+		a(href="/client-list.html") administra lista de clienţi
+		| .
 
 block page.scripts
 	script(async, defer, src="registration.js")
