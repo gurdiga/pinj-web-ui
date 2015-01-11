@@ -180,8 +180,6 @@ describe('AuthenticationForm', function() {
   });
 
   describe('password recovery link', function() {
-    var submitURL;
-
     beforeEach(function(done) {
       authenticationForm.fill({
         'email': email,
@@ -189,24 +187,21 @@ describe('AuthenticationForm', function() {
       });
 
       authenticationForm.submitEmailToPasswordRecoveryPage();
-      waitForSubmitToFinish().then(done);
+      this.helpers.waitForReload(submitTrap)
+      .then(done, done);
     });
 
     it('submits email to the password recovery page', function() {
+      var submitURL = getSubmitURL();
+
       expect(submitURL).to.include(Navigation.getPathForPage('PasswordRecoveryPage'));
       expect(submitURL).to.include('email=' + encodeURIComponent(email));
       expect(submitURL).not.to.include(password);
     });
 
-    function waitForSubmitToFinish() {
-      return new Promise(function(resolve) {
-        submitTrap.addEventListener('load', function() {
-          var submitLocation = submitTrap.contentWindow.location;
-          submitURL = submitLocation.pathname + submitLocation.search;
-
-          resolve();
-        });
-      });
+    function getSubmitURL() {
+      var submitLocation = submitTrap.contentWindow.location;
+      return submitLocation.pathname + submitLocation.search;
     }
   });
 
