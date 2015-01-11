@@ -21,7 +21,7 @@ describe('Navigation', function() {
 
       letFirstLinkBePrivate(domElement);
       privateLinks = getPrivateLinks(domElement);
-      expect(privateLinks).not.have.length(1);
+      expect(privateLinks).to.have.length(1);
       expect(areAllHidden(privateLinks), 'private links are hidden initially').to.be.true;
     });
 
