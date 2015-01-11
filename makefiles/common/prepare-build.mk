@@ -1,41 +1,42 @@
 prepare-build: \
 	create-build-directory \
-	compile-html \
-	compile-js \
-	externalize-source-maps \
-	copy-stylesheets \
-	copy-static-assets \
+	prepare-html \
+	prepare-js \
+	externalize-js-source-maps \
+	prepare-css \
+	prepare-static-assets \
 	check-404s-locally
 
 create-build-directory:
 	mkdir -p build
 
-compile-html:
-	@echo "Compipling HTML from templates:"
+prepare-html:
+	@echo "Preparing HTML:"
 	@node makefiles/common/page-template-pairs.js | \
 	grep --invert-match 'test' | \
 	while read html_file template; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT/$$html_file --output-document=build/$$html_file || exit 1; \
 	done
 
-compile-js:
-	@echo "Compipling JS bundles:"
+prepare-js:
+	@echo "Preparing JS:"
 	@node makefiles/common/bundle-entry-pairs.js | \
 	grep --invert-match 'test' | \
 	while read bundle entry; do \
 		wget --no-verbose http://localhost:$$HTTP_PORT$$bundle --output-document=build$$bundle || exit 1; \
 	done
 
-externalize-source-maps:
-	@echo "Externalizing JS bundle source maps:"
+externalize-js-source-maps:
+	@echo "Externalizing JS source maps:"
 	@node makefiles/common/bundle-entry-pairs.js | \
 	grep --invert-match 'test' | \
 	while read bundle entry; do \
+		echo $$bundle; \
 		exorcist build$$bundle.js.map < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
-	done
+	done;
 
-copy-stylesheets:
-	@echo "Copying stylesheets:"
+prepare-css:
+	@echo "Preparing CSS:"
 	@node makefiles/common/stylesheets.js | \
 	grep --invert-match 'pure-nr-min.css' | \
 	while read stylesheet; do \
@@ -44,8 +45,8 @@ copy-stylesheets:
 		mv build$$stylesheet.downloaded build$$stylesheet; \
 	done
 	
-copy-static-assets:
-	@echo "Copying assets:"
+prepare-static-assets:
+	@echo "Preparing static assets:"
 	@node makefiles/common/static-assets.js | \
 	while read destination source; do \
 		mkdir -p $$(dirname build$$destination); \
