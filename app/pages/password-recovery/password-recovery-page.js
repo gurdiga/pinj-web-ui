@@ -2,7 +2,7 @@
 
 var inherits = require('inherits');
 var PageWithForm = require('app/super/page-with-form');
-var Navigation = require('app/widgets/navigation');
+var PageWithNavigation = require('app/super/page-with-navigation');
 var DOM = require('app/services/dom');
 var PasswordRecoveryForm = require('./password-recovery-form');
 var FormValidationError = require('app/widgets/form-validation-error');
@@ -10,11 +10,9 @@ var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var isValidEmail = require('app/util/is-valid-email');
 
 inherits(PasswordRecoveryPage, PageWithForm);
+inherits(PasswordRecoveryPage, PageWithNavigation);
 
 function PasswordRecoveryPage(domElement, userData) {
-  var navigationDOMElement = DOM.require('nav', domElement);
-  new Navigation(navigationDOMElement, userData);
-
   var formDOMElement = DOM.require('#password-recovery-form', domElement);
   var successMessageDOMElement = DOM.require('#success-message', domElement);
 
@@ -30,6 +28,7 @@ function PasswordRecoveryPage(domElement, userData) {
   };
 
   PageWithForm.call(this, domElement, passwordRecoveryForm, formDOMElement, successMessageDOMElement);
+  PageWithNavigation.call(this, domElement, userData);
 
   this.submitForm = function(data) {
     return passwordRecoveryForm.submit(data)

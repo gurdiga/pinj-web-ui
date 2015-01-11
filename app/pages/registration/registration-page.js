@@ -2,18 +2,16 @@
 
 var inherits = require('inherits');
 var PageWithForm = require('app/super/page-with-form');
-var Navigation = require('app/widgets/navigation');
+var PageWithNavigation = require('app/super/page-with-navigation');
 var DOM = require('app/services/dom');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var RegistrationForm = require('./registration-form');
 
 inherits(RegistrationPage, PageWithForm);
+inherits(RegistrationPage, PageWithNavigation);
 
 function RegistrationPage(domElement, userData) {
-  var navigationDOMElement = DOM.require('nav', domElement);
-  new Navigation(navigationDOMElement, userData);
-
   var formDOMElement = DOM.require('#registration-form', domElement);
   var alreadyRegisteredMessageDOMElement = DOM.require('#already-registered', domElement);
 
@@ -26,6 +24,7 @@ function RegistrationPage(domElement, userData) {
   };
 
   PageWithForm.call(this, domElement, registrationForm, formDOMElement, alreadyRegisteredMessageDOMElement);
+  PageWithNavigation.call(this, domElement, userData);
 }
 
 module.exports = RegistrationPage;
