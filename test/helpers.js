@@ -25,22 +25,24 @@
         expect(subimitButton, 'submit button').to.exist;
         subimitButton.click();
 
-        return self.helpers.waitForReload(self);
+        return self.helpers.waitForReload();
       };
     },
 
     'waitForReload': function(self) {
-      return function() {
+      return function(iframeElement) {
+        if (!iframeElement) iframeElement = self.iframeElement;
+
         var deferred = Q.defer();
 
         deferred.replaceWith = function(promise) {
           promise.then(this.resolve, this.reject);
         };
 
-        once('load', self.iframeElement, function() {
-          var redirectingPage = !!self.iframeElement.contentWindow.document.querySelector('meta[http-equiv="refresh"]');
+        once('load', iframeElement, function() {
+          var redirectingPage = !!iframeElement.contentWindow.document.querySelector('meta[http-equiv="refresh"]');
 
-          if (redirectingPage) deferred.replaceWith(self.helpers.waitForReload(self));
+          if (redirectingPage) deferred.replaceWith(self.helpers.waitForReload());
           else deferred.resolve(setTestContext(self));
         });
 
@@ -53,10 +55,10 @@
   function navigateWithNoCache(self, pathname) {
     self.iframeElement.src = pathname;
 
-    return self.helpers.waitForReload(self)
+    return self.helpers.waitForReload()
     .then(function() {
       self.iframeElement.contentWindow.location.reload(true);
-      return self.helpers.waitForReload(self);
+      return self.helpers.waitForReload();
     });
   }
 
