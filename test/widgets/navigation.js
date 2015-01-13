@@ -19,9 +19,8 @@ describe('Navigation', function() {
       userData = new UserData();
       this.sinon.stub(userData, 'isCurrentlyAuthenticated');
 
-      letFirstLinkBePrivate(domElement);
       privateLinks = getPrivateLinks(domElement);
-      expect(privateLinks).to.have.length(1);
+      expect(privateLinks).to.have.length(2);
       expect(areAllHidden(privateLinks), 'private links are hidden initially').to.be.true;
     });
 
@@ -67,10 +66,6 @@ describe('Navigation', function() {
       function isNotVisible(element) {
         return !DOM.isVisible(element);
       }
-    }
-
-    function letFirstLinkBePrivate(domElement) {
-      getAllLinks(domElement)[0].className = 'private';
     }
   });
 
