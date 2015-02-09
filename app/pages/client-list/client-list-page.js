@@ -18,7 +18,7 @@ function ClientListPage(domElement, userData) {
 
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
-  var clientList = new ClientList(userData.getCurrentUserEmail());
+  var clientList = new ClientList(userData);
   var authenticationForm = new ClientListForm(formDOMElement, formValidationError, submitButtonSpinner, clientList);
 
   this.isFormRelevant = function() {

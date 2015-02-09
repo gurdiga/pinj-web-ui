@@ -1,19 +1,13 @@
 'use strict';
 
-var Promise = require('app/services/promise');
+module.exports = ClientList;
 
-function ClientList(userEmail) {
-  this.userEmail = userEmail;
-
+function ClientList(userData) {
   this.load = function() {
-    return new Promise(function() {
-    });
+    return userData.get('clients');
   };
 
-  this.save = function() {
-    return new Promise(function() {
-    });
+  this.save = function(list) {
+    return userData.set('clients', list);
   };
 }
-
-module.exports = ClientList;
