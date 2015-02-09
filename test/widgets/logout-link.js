@@ -1,8 +1,5 @@
 'use strict';
 
-var LogoutLink = require('app/widgets/logout-link');
-var UserData = require('app/services/user-data');
-
 describe('LogoutLink', function() {
   var link, userData;
   var navigationTrap;
@@ -77,3 +74,7 @@ describe('LogoutLink', function() {
     setTimeout(f);
   }
 });
+
+var LogoutLink = require('app/widgets/logout-link');
+var UserData = require('app/services/user-data');
+var Promise = require('app/services/promise');

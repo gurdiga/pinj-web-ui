@@ -44,5 +44,7 @@
 
     "H": false,
     "type": false
-  }
+  },
+
+  "predef": [ "-Promise" ]
 }
