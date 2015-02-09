@@ -37,6 +37,10 @@ $input-width: 215px;
 		@extend .pure-button;
 		@extend .pure-button-primary;
 	}
+
+	p {
+		margin-bottom: 0;
+	}
 }
 
 header {
