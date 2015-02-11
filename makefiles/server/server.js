@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var app = express();
 
@@ -13,27 +15,27 @@ app.set('view engine', 'jade');
 app.engine('jade', jade.__express);
 app.locals.pretty = true;
 app.locals.testFiles = function() {
-	return glob.sync('test/**/*.js').sort(function(a, b) {
-		return a.length - b.length;
-	});
+  return glob.sync('test/**/*.js').sort(function(a, b) {
+    return a.length - b.length;
+  });
 };
 
 function serveTemplate(template) {
-  return function(req, res) { res.render(template); }
+  return function(req, res) { res.render(template); };
 }
 
 var pageTemplatePairs = require('../common/page-template-pairs');
 pageTemplatePairs[''] = pageTemplatePairs['index.html'];
 
 for (var htmlFile in pageTemplatePairs)
-  app.get("/" + htmlFile, serveTemplate(pageTemplatePairs[htmlFile]))
+  app.get('/' + htmlFile, serveTemplate(pageTemplatePairs[htmlFile]));
 
 var staticAssets = require('../common/static-assets');
 for (var destination in staticAssets)
   app.get(destination, serveStaticAsset(staticAssets[destination]));
 
 function serveStaticAsset(file) {
-  return function(req, res) { res.sendFile(process.cwd() + '/'  + file); }
+  return function(req, res) { res.sendFile(process.cwd() + '/'  + file); };
 }
 
 var sassMiddleware = require('node-sass-middleware');
@@ -49,4 +51,8 @@ app.use(staticMiddleware('./build'));
 
 app.listen(process.env.HTTP_PORT, function() {
   console.log('Listening on port', process.env.HTTP_PORT);
+});
+
+process.on('SIGTERM', function() {
+  process.exit(0);
 });

@@ -1,7 +1,9 @@
-server: create-build-symlinks
-	@DEBUG='*' node makefiles/server/server.js ROOT=$$(pwd) &> server.log & disown
+SERVER_LOG_FILE=server.log
 
-stop:
-	@kill $$(pgrep -f "ROOT=$$(pwd)")
+server-start: create-build-symlinks
+	@DEBUG='*' node makefiles/server/server.js SERVER_LABEL=$$(pwd) &> $(SERVER_LOG_FILE) || cat $(SERVER_LOG_FILE) & disown
 
-restart: stop server
+server-stop:
+	@kill -s TERM $$(pgrep -f "SERVER_LABEL=$$(pwd)")
+
+server-restart: server-stop server-start

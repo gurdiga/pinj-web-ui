@@ -28,6 +28,7 @@
     "console": false,
     "localStorage": false,
 
+    "process": false,
     "require": false,
     "module": false,
     "Promise": true,
