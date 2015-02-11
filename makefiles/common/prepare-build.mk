@@ -32,7 +32,7 @@ externalize-js-source-maps:
 	grep --invert-match 'test' | \
 	while read bundle entry; do \
 		echo $$bundle; \
-		exorcist build$$bundle.js.map < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
+		exorcist build$$bundle.map < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
 	done;
 
 prepare-css:
