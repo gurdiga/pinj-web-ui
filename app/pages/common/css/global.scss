@@ -113,11 +113,14 @@ a {
 }
 
 .validation-error {
+	margin: .5em 0;
+
 	p {
 		@extend .message;
 		color: #ca1c3c;
 		background-color: #fdd;
 		display: inline-block;
+		margin: 0;
 	}
 }
 
@@ -139,7 +142,6 @@ a#password-recovery {
 	margin-left: $input-width;
 	padding: .5em;
 }
-
 
 @media all and (min-width: 321px) {
 	body {
