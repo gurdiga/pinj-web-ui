@@ -149,15 +149,7 @@ a {
 
 a#password-recovery {
 	position: absolute;
-	font-size: smaller;
-	margin-top: -48px;
+	margin-top: -63px;
 	margin-left: $input-width;
 	padding: .5em;
-
-	opacity: .5;
-	@include transition(opacity .5s);
-
-	&:hover {
-		opacity: 1;
-	}
 }
