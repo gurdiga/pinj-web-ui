@@ -19,6 +19,7 @@ $input-width: 215px;
 
 	.glued-fields {
 		@extend .pure-group;
+		padding-bottom: .5em;
 	}
 
 	textarea,
@@ -36,6 +37,7 @@ $input-width: 215px;
 	button {
 		@extend .pure-button;
 		@extend .pure-button-primary;
+		margin-left: 1px;
 	}
 
 	p {
