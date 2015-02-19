@@ -2,7 +2,7 @@
 @import 'pure-nr-min';
 
 body {
-	font: 18px Alegreya, serif;
+	font: 16px Alegreya, serif;
 	max-width: 27em;
 	padding: 0 1em;
 	margin: 0 auto;
@@ -46,7 +46,7 @@ $input-width: 215px;
 }
 
 header {
-	margin: 1em 0 2em;
+	margin: 1em 0;
 
 	h1 {
 		display: inline-block;
@@ -69,41 +69,25 @@ header {
 			height: 1.3em;
 		}
 
+		label[for="menu-toggle"]::before {
+			content: "▸";
+			margin-right: .1em;
+		}
+
+		#menu-toggle:checked~label[for="menu-toggle"]::before {
+			content: "▾";
+		}
+
 		a {
 			display: block;
 			overflow: hidden;
 			height: 0;
 			@include transition(height .5s ease);
-		}
-	}
 
-	@media all and (min-width: 321px) {
-		nav {
-			margin-top: -5px;
-
-			#menu-toggle+label {
-				display: none;
-			}
-
-			a {
-				margin-right: 7px;
-				display: inline;
-
-				&::before {
-					content: '»';
-					display: inline-block;
-					margin-right: 2px;
-				}
-
-				&[current] {
-					text-decoration: none;
-					color: inherit;
-					pointer-events: none;
-				}
-
-				&.private {
-					display: none;
-				}
+			&::before {
+				content: '»';
+				display: inline-block;
+				margin-right: 2px;
 			}
 		}
 	}
@@ -154,4 +138,38 @@ a#password-recovery {
 	margin-top: -63px;
 	margin-left: $input-width;
 	padding: .5em;
+}
+
+
+@media all and (min-width: 321px) {
+	body {
+		font-size: 18px;
+	}
+
+	header {
+		margin-bottom: 2em;
+
+		nav {
+			margin-top: -5px;
+
+			#menu-toggle+label {
+				display: none;
+			}
+
+			a {
+				margin-right: 7px;
+				display: inline;
+
+				&[current] {
+					text-decoration: none;
+					color: inherit;
+					pointer-events: none;
+				}
+
+				&.private {
+					display: none;
+				}
+			}
+		}
+	}
 }
