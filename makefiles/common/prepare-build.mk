@@ -5,7 +5,7 @@ prepare-build: \
 	externalize-js-source-maps \
 	prepare-css \
 	prepare-static-assets \
-	check-404s-locally
+	check-404s
 
 create-build-directory:
 	mkdir -p build
@@ -53,8 +53,8 @@ prepare-static-assets:
 		cp -v $$source build$$destination; \
 	done
 
-check-404s-locally:
-	@echo "Checking for 404s locally:"
+check-404s:
+	@echo "Checking for 404s:"
 	@node makefiles/common/page-template-pairs.js | \
 	grep --invert-match 'test' | \
 	while read html_file template; do \
