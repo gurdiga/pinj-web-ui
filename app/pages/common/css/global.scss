@@ -89,6 +89,10 @@ header {
 				display: inline-block;
 				margin-right: 2px;
 			}
+
+			&.private {
+				display: none;
+			}
 		}
 	}
 }
