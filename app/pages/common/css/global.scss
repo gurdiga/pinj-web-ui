@@ -37,6 +37,7 @@ $input-width: 215px;
 	button {
 		@extend .pure-button;
 		@extend .pure-button-primary;
+		@extend %small-caps;
 		margin-left: 1px;
 	}
 
@@ -185,8 +186,12 @@ footer {
 	}
 }
 
+%small-caps {
+	font-family: "Alegreya SC";
+}
+
 %headers {
-	font-family: 'Alegreya SC';
+	@extend %small-caps;
 }
 
 %navigation-link {
