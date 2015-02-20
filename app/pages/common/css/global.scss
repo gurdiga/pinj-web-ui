@@ -1,10 +1,6 @@
 @import '../../../../node_modules/bourbon/dist/_bourbon';
 @import 'pure-nr-min';
 
-%headers {
-	font-family: 'Alegreya SC';
-}
-
 body {
 	font: 16px Alegreya, serif;
 	max-width: 27em;
@@ -88,12 +84,7 @@ header {
 			overflow: hidden;
 			height: 0;
 			@include transition(height .5s ease);
-
-			&::before {
-				content: '»';
-				display: inline-block;
-				margin-right: 2px;
-			}
+			@extend %navigation-link;
 
 			&.private {
 				display: none;
@@ -181,5 +172,27 @@ a#password-recovery {
 				}
 			}
 		}
+	}
+}
+
+footer {
+	font-size: smaller;
+	margin: 1em 0;
+
+	a {
+		margin-right: .4em;
+		@extend %navigation-link;
+	}
+}
+
+%headers {
+	font-family: 'Alegreya SC';
+}
+
+%navigation-link {
+	&::before {
+		content: '»';
+		display: inline-block;
+		margin-right: .1em;
 	}
 }
