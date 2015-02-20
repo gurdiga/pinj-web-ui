@@ -1,6 +1,10 @@
 @import '../../../../node_modules/bourbon/dist/_bourbon';
 @import 'pure-nr-min';
 
+%headers {
+	font-family: 'Alegreya SC';
+}
+
 body {
 	font: 16px Alegreya, serif;
 	max-width: 27em;
@@ -49,6 +53,7 @@ header {
 	margin: 1em 0;
 
 	h1 {
+		@extend %headers;
 		display: inline-block;
 		margin: 0;
 		line-height: 100%;
@@ -98,6 +103,7 @@ header {
 }
 
 h2 {
+	@extend %headers;
 	font-weight: normal;
 	margin-bottom: 0;
 }
