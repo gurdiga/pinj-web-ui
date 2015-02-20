@@ -10,6 +10,10 @@ body {
 
 $input-width: 215px;
 
+%headers {
+	font-family: 'Alegreya SC';
+}
+
 #registration-form,
 #authentication-form,
 #password-recovery-form,
@@ -49,6 +53,7 @@ header {
 	margin: 1em 0;
 
 	h1 {
+		@extend %headers;
 		display: inline-block;
 		margin: 0;
 		line-height: 100%;
@@ -59,45 +64,51 @@ header {
 			text-decoration: none;
 		}
 	}
+}
 
-	nav {
-		#menu-toggle {
+nav {
+	&.bottom {
+		font-size: smaller;
+		margin-bottom: 1em;
+	}
+
+	#menu-toggle {
+		display: none;
+	}
+
+	#menu-toggle:checked~a {
+		height: 1.3em;
+	}
+
+	label[for="menu-toggle"]::before {
+		content: "▸";
+		margin-right: .1em;
+	}
+
+	#menu-toggle:checked~label[for="menu-toggle"]::before {
+		content: "▾";
+	}
+
+	a {
+		display: block;
+		overflow: hidden;
+		height: 0;
+		@include transition(height .5s ease);
+
+		&::before {
+			content: '»';
+			display: inline-block;
+			margin-right: 2px;
+		}
+
+		&.private {
 			display: none;
-		}
-
-		#menu-toggle:checked~a {
-			height: 1.3em;
-		}
-
-		label[for="menu-toggle"]::before {
-			content: "▸";
-			margin-right: .1em;
-		}
-
-		#menu-toggle:checked~label[for="menu-toggle"]::before {
-			content: "▾";
-		}
-
-		a {
-			display: block;
-			overflow: hidden;
-			height: 0;
-			@include transition(height .5s ease);
-
-			&::before {
-				content: '»';
-				display: inline-block;
-				margin-right: 2px;
-			}
-
-			&.private {
-				display: none;
-			}
 		}
 	}
 }
 
 h2 {
+	@extend %headers;
 	font-weight: normal;
 	margin-bottom: 0;
 }
@@ -154,25 +165,25 @@ a#password-recovery {
 
 	header {
 		margin-bottom: 2em;
+	}
 
-		nav {
-			#menu-toggle+label {
-				display: none;
+	nav {
+		#menu-toggle+label {
+			display: none;
+		}
+
+		a {
+			margin-right: 7px;
+			display: inline;
+
+			&[current] {
+				text-decoration: none;
+				color: inherit;
+				pointer-events: none;
 			}
 
-			a {
-				margin-right: 7px;
-				display: inline;
-
-				&[current] {
-					text-decoration: none;
-					color: inherit;
-					pointer-events: none;
-				}
-
-				&.private {
-					display: none;
-				}
+			&.private {
+				display: none;
 			}
 		}
 	}
