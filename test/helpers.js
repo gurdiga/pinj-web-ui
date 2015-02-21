@@ -79,12 +79,8 @@
 
   var IFRAME_ID = 'app';
 
-  before(function(done) {
+  before(function() {
     injectIframe(this);
-
-    this.helpers.navigateTo('/')
-    .then(updateTheTitle(this))
-    .then(done, done);
   });
 
   function injectIframe(self) {
@@ -115,14 +111,6 @@
       '}';
 
     document.body.appendChild(css);
-  }
-
-  function updateTheTitle(self) {
-    return function() {
-      if (document.title.substr(-1) === ':') {
-        document.title += ' ' + self.iframe.document.title;
-      }
-    };
   }
 
 }());

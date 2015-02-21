@@ -22,7 +22,8 @@
     "chai": "2.0.0",
     "chai-as-promised": "4.2.0",
     "sinon-chai": "2.7.0",
-    "lintspaces-cli": "0.0.4"
+    "lintspaces-cli": "0.0.4",
+    "scriptjs": "2.5.7"
   },
   "repository": {
     "type": "git",

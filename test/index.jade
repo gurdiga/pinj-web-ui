@@ -12,11 +12,9 @@ body
 	script(src="node_modules/sinon/pkg/sinon-1.12.1.js")
 	script(src="node_modules/sinon-chai/lib/sinon-chai.js")
 	script(src="node_modules/chai-as-promised/lib/chai-as-promised.js")
-	script(src="node_modules/source-map-support/browser-source-map-support.js")
+	script(src="node_modules/scriptjs/dist/script.min.js")
 
 	script.
-		sourceMapSupport.install();
-
 		window.mocha.setup({
 			'ui': 'bdd',
 			'timeout': 5000
@@ -28,9 +26,6 @@ body
 
 		beforeEach(function() {
 			this.timeout(5000);
-		});
-
-		beforeEach(function() {
 			this.sinon = sinon.sandbox.create();
 		});
 
@@ -38,29 +33,47 @@ body
 			this.sinon.restore();
 		});
 
-		var TYPES_OF_TESTS = ['integration'];
-
-		TYPES_OF_TESTS.forEach(function(type) {
-			describe[type] = function(description, tests) {
-				var command = 'skip-' + type + '-tests';
-				var enclosure = location.hash.indexOf(command) > -1 ? describe.skip : describe;
-				return enclosure(description, tests);
-			};
-		});
-
-	each file in testFiles()
-		script(src=file)
+	script(src="test/lib.js")
+	script(src="test/helpers.js")
 
 	script.
-		window.mocha.checkLeaks();
+		loadTestScripts().then(runMocha);
 
-		before(function() {
-			window.H = this.helpers;
-		});
+		function loadTestScripts() {
+			var allTests = !{JSON.stringify(testFiles(), null, '  ')};
+			var testsToRun = allTests
+				.filter(getTestFilter())
+				.filter(notInfrastructureFiles);
 
-		var myGlobals = ['H'];
-		var ieIframeNameGlobals = ['app', 'submit-trap'];
-		var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
+			return Q.Promise(function(resolve) {
+				$script(testsToRun, resolve);
+			});
 
-		window.mocha.globals(myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals));
-		window.mocha.run();
+			function getTestFilter() {
+				if (location.hash === '#') return function() { return true; };
+				else {
+					var testFilter = new RegExp(location.hash.substr(1));
+					return function(path) { return testFilter.test(path); };
+				}
+			}
+		}
+
+		function runMocha() {
+			before(function() {
+				window.H = this.helpers;
+			});
+
+			var myGlobals = ['H'];
+			var ieIframeNameGlobals = ['app', 'submit-trap'];
+			var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
+			var allGlobals = myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals);
+
+			window.mocha.checkLeaks();
+			window.mocha.globals(allGlobals);
+			window.mocha.run();
+		}
+
+		function notInfrastructureFiles(path) {
+			if (path === 'test/lib.js' || path === 'test/helpers.js') return false;
+			else return true;
+		}

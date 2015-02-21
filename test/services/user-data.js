@@ -2,7 +2,7 @@
 
 var UserData = require('app/services/user-data');
 
-describe.integration('UserData', function() {
+describe('UserData', function() {
   this.timeout(10000);
 
   var email = 'user-data@test.com';
