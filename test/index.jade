@@ -43,7 +43,7 @@ body
 			var allTests = !{JSON.stringify(testFiles(), null, '  ')};
 			var testsToRun = allTests
 				.filter(getTestFilter())
-				.filter(notInfrastructureFiles);
+				.filter(applicationTest);
 
 			return Q.Promise(function(resolve) {
 				$script(testsToRun, resolve);
@@ -73,7 +73,8 @@ body
 			window.mocha.run();
 		}
 
-		function notInfrastructureFiles(path) {
-			if (path === 'test/lib.js' || path === 'test/helpers.js') return false;
+		function applicationTest(path) {
+			var isInRootDirectory = path.lastIndexOf('/') === 4;
+			if (isInRootDirectory) return false;
 			else return true;
 		}

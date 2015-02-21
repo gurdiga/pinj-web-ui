@@ -5,7 +5,6 @@ var app = express();
 
 var browserify = require('browserify-middleware');
 var glob = require('glob');
-var path = require('path');
 var bundles = require('../common/bundle-entry-pairs');
 for (var bundle in bundles)
   app.use(bundle, browserify(bundles[bundle]));
@@ -40,6 +39,7 @@ function serveStaticAsset(file) {
 }
 
 var sassMiddleware = require('node-sass-middleware');
+var path = require('path');
 app.use(sassMiddleware({
   src: path.join(process.cwd(), 'app/pages'),
   dest: path.join(process.cwd(), 'build'),
