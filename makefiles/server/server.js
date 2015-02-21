@@ -6,8 +6,11 @@ var app = express();
 var browserify = require('browserify-middleware');
 var glob = require('glob');
 var bundles = require('../common/bundle-entry-pairs');
-for (var bundle in bundles)
-  app.use(bundle, browserify(bundles[bundle]));
+var options = {};
+for (var bundle in bundles) {
+  if (bundle === '/test/lib.js') options = { debug: false };
+  app.use(bundle, browserify(bundles[bundle], options));
+}
 
 var jade = require('jade');
 app.set('views', './');
