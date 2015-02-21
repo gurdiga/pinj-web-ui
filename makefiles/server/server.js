@@ -5,6 +5,7 @@ var app = express();
 
 var browserify = require('browserify-middleware');
 var glob = require('glob');
+var path = require('path');
 var bundles = require('../common/bundle-entry-pairs');
 for (var bundle in bundles)
   app.use(bundle, browserify(bundles[bundle]));
@@ -40,14 +41,12 @@ function serveStaticAsset(file) {
 
 var sassMiddleware = require('node-sass-middleware');
 app.use(sassMiddleware({
-  includePaths: './',
-  src: './app/pages',
-  dest: './build',
+  src: path.join(process.cwd(), 'app/pages'),
+  dest: path.join(process.cwd(), 'build'),
   outputStyle: 'compressed'
 }));
 
-var staticMiddleware = require('express-static');
-app.use(staticMiddleware('./build'));
+app.use(express.static('./build'));
 
 app.listen(process.env.HTTP_PORT, function() {
   console.log('Listening on port', process.env.HTTP_PORT);
