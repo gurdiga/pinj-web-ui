@@ -6,9 +6,9 @@ var app = express();
 var browserify = require('browserify-middleware');
 var glob = require('glob');
 var bundles = require('../common/bundle-entry-pairs');
-var options = {};
+var options;
 for (var bundle in bundles) {
-  if (bundle === '/test/lib.js') options = { debug: false };
+  options = bundle === '/test/lib.js' ? { debug: false, precompile: true, cache: true } : {};
   app.use(bundle, browserify(bundles[bundle], options));
 }
 
