@@ -52,13 +52,18 @@
   };
 
 
+  var uncached = {};
+
   function navigateWithNoCache(self, pathname) {
     self.iframeElement.src = pathname;
 
     return self.helpers.waitForReload()
     .then(function() {
+      if (pathname in uncached) return;
+
       self.iframeElement.contentWindow.location.reload(true);
-      return self.helpers.waitForReload();
+      return self.helpers.waitForReload()
+      .then(function() { uncached[pathname] = true; });
     });
   }
 
