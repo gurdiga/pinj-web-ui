@@ -27,6 +27,7 @@
     "clearTimeout": false,
     "console": false,
     "localStorage": false,
+    "$": false,
 
     "process": false,
     "require": false,

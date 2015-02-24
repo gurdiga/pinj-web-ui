@@ -2,6 +2,7 @@
 
 var DOM = require('app/services/dom');
 var assertMembers = require('app/util/assert-members');
+var emit = require('app/util/emit');
 
 function Form(domElement, formValidator, formValidationError, submitButtonSpinner) {
   var context = this;
@@ -43,7 +44,8 @@ function Form(domElement, formValidator, formValidationError, submitButtonSpinne
     return formValidator.validate(getFormData())
     .then(context.processForm)
     .catch(formValidationError.show)
-    .finally(submitButtonSpinner.hide);
+    .finally(submitButtonSpinner.hide)
+    .then(emit(domElement, 'work-finished'));
   }
 
   function getFormData() {
