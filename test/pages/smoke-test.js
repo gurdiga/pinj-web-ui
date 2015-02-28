@@ -1,6 +1,6 @@
 'use strict';
 
-describe('The app', function() {
+describe('The smoke test', function() {
   var email = 'smoke-test' + Date.now() + '@test.com';
   var password = email;
 
@@ -53,19 +53,18 @@ describe('The app', function() {
         });
       });
 
-      describe('successful registration', function() {
-        describe('when the email and password are accepted', function() {
-          before(function() {
-            this.form['email'].value = email;
-            this.form['password'].value = password;
-            this.form['password-confirmation'].value = password;
-            this.submitButton.click();
-            return H.waitForReload();
-          });
-
-          testAuthenticatesTheUser();
-          testDisplayedTheClientListPage();
+      describe('when the email and password are accepted', function() {
+        before(function() {
+          this.form['email'].value = email;
+          this.form['password'].value = password;
+          this.form['password-confirmation'].value = password;
+          this.submitButton.click();
+          return H.waitForReload();
         });
+
+        testAuthenticatesTheUser();
+        testDisplayedTheClientListPage();
+        testLogoutLink();
       });
     });
   });
@@ -142,6 +141,8 @@ describe('The app', function() {
 
       testAuthenticatesTheUser();
       testDisplayedTheClientListPage();
+      testPrivateNavigation();
+      testLogoutLink();
     });
   });
 
@@ -203,12 +204,6 @@ describe('The app', function() {
       var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
       expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare']);
     });
-
-    function get(propertyName) {
-      return function(object) {
-        return object[propertyName];
-      };
-    }
   }
 
   function testAuthenticatesTheUser() {
@@ -219,11 +214,20 @@ describe('The app', function() {
   }
 
   function testDisplayedTheClientListPage() {
-    var logoutLink;
-
     it('redirects to their Client List page', function() {
       expect(this.iframe.location.pathname).to.equal('/client-list.html');
     });
+  }
+
+  function testPrivateNavigation() {
+    it('it shows the private links', function() {
+      var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
+      expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare', 'Lista de clienţi', 'Ieşire']);
+    });
+  }
+
+  function testLogoutLink() {
+    var logoutLink;
 
     it('displays the logout link', function() {
       logoutLink = $('#logout', this.app);
@@ -234,6 +238,12 @@ describe('The app', function() {
       logoutLink[0].click();
       return H.waitForReload();
     });
+  }
+
+  function get(propertyName) {
+    return function(object) {
+      return object[propertyName];
+    };
   }
 });
 
