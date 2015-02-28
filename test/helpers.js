@@ -52,18 +52,13 @@
   };
 
 
-  var uncached = {};
-
   function navigateWithNoCache(self, pathname) {
     self.iframeElement.src = pathname;
 
     return self.helpers.waitForReload()
     .then(function() {
-      if (pathname in uncached) return;
-
       self.iframeElement.contentWindow.location.reload(true);
-      return self.helpers.waitForReload()
-      .then(function() { uncached[pathname] = true; });
+      return self.helpers.waitForReload();
     });
   }
 
@@ -73,13 +68,13 @@
   }
 
   function once(eventName, element, f) {
+    element.addEventListener(eventName, callback);
+
     function callback() {
       var args = [].slice.call(arguments);
       element.removeEventListener(eventName, callback);
       f(args);
     }
-
-    element.addEventListener(eventName, callback);
   }
 
   var IFRAME_ID = 'app';
