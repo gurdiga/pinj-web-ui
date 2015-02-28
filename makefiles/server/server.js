@@ -18,10 +18,20 @@ app.set('view engine', 'jade');
 app.engine('jade', jade.__express);
 app.locals.pretty = true;
 app.locals.testFiles = function() {
-  return glob.sync('test/**/*.js').sort(function(a, b) {
-    return a.length - b.length;
-  });
+  return glob.sync('test/**/*.js')
+  .filter(nonincludes)
+  .filter(applicationTest);
 };
+
+function nonincludes(path) {
+  return path.indexOf('/include-') === -1;
+}
+
+function applicationTest(path) {
+  var isInRootDirectory = path.lastIndexOf('/') === 4;
+  if (isInRootDirectory) return false;
+  else return true;
+}
 
 function serveTemplate(template) {
   return function(req, res) { res.render(template); };

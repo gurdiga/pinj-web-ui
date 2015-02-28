@@ -46,9 +46,7 @@ body
 
 		function loadTestScripts() {
 			var allTests = !{JSON.stringify(testFiles(), null, '  ')};
-			var testsToRun = allTests
-				.filter(getTestFilter())
-				.filter(applicationTest);
+			var testsToRun = allTests.filter(getTestFilter());
 
 			return Q.Promise(function(resolve) {
 				$script(testsToRun, resolve);
@@ -76,10 +74,4 @@ body
 			window.mocha.checkLeaks();
 			window.mocha.globals(allGlobals);
 			window.mocha.run();
-		}
-
-		function applicationTest(path) {
-			var isInRootDirectory = path.lastIndexOf('/') === 4;
-			if (isInRootDirectory) return false;
-			else return true;
 		}
