@@ -45,7 +45,7 @@ function Form(domElement, formValidator, formValidationError, submitButtonSpinne
     .then(context.processForm)
     .catch(formValidationError.show)
     .finally(submitButtonSpinner.hide)
-    .then(emit(domElement, 'work-finished'));
+    .then(emit(domElement, 'finished-work'));
   }
 
   function getFormData() {
