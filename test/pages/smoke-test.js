@@ -165,7 +165,9 @@ describe('The smoke test', function() {
 
   after(function() {
     var userData = new UserData();
-    return userData.unregisterUser(email, password);
+    return userData.set('', null).then(function() {
+      return userData.unregisterUser(email, password);
+    });
   });
 
   function logOut() {
