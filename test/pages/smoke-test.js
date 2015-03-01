@@ -64,7 +64,24 @@ describe('The smoke test', function() {
 
         testAuthenticatesTheUser();
         testDisplayedTheClientListPage();
-        testLogoutLink();
+
+        describe('when authenticated', function() {
+          before(function() {
+            return H.navigateTo(Navigation.getPathForPage('RegistrationPage'));
+          });
+
+          it('hides the registration form', function() {
+            var form = $('#registration-form', this.app);
+            expect(form).not.to.be.visible;
+          });
+
+          it('shows a message that the user is already authenticated', function() {
+            var message = $('#already-registered', this.app);
+            expect(message).to.be.visible;
+          });
+        });
+
+        logOut();
       });
     });
   });
@@ -142,15 +159,24 @@ describe('The smoke test', function() {
       testAuthenticatesTheUser();
       testDisplayedTheClientListPage();
       testPrivateNavigation();
-      testLogoutLink();
+      logOut();
     });
   });
 
   after(function() {
     var userData = new UserData();
-    return userData.unregisterUser(email, password)
-    .then(userData.unauthenticateCurrentUser);
+    return userData.unregisterUser(email, password);
   });
+
+  function logOut() {
+    after(function() {
+      DOM.require('#logout', this.app).click();
+      return H.waitForReload();
+    });
+
+    var assertLoggedOut = assertPublicNavigation;
+    after(assertLoggedOut);
+  }
 
   function testEmailValidation() {
     describe('when form is submitted without entering the email', function() {
@@ -200,10 +226,13 @@ describe('The smoke test', function() {
   }
 
   function testPublicNavigation() {
-    it('only shows the non-private navigation links', function() {
-      var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
-      expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare']);
-    });
+    it('only shows the non-private navigation links', assertPublicNavigation);
+  }
+
+  function assertPublicNavigation() {
+    /*jshint validthis:true */
+    var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
+    expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare']);
   }
 
   function testAuthenticatesTheUser() {
@@ -223,20 +252,6 @@ describe('The smoke test', function() {
     it('it shows the private links', function() {
       var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
       expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare', 'Lista de clienţi', 'Ieşire']);
-    });
-  }
-
-  function testLogoutLink() {
-    var logoutLink;
-
-    it('displays the logout link', function() {
-      logoutLink = $('#logout', this.app);
-      expect(logoutLink).to.be.visible;
-    });
-
-    after(function() {
-      logoutLink[0].click();
-      return H.waitForReload();
     });
   }
 
