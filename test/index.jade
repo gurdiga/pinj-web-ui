@@ -54,9 +54,12 @@ body
 			});
 
 			function getTestFilter() {
-				if (location.hash === '#') return function() { return true; };
-				else {
-					var testFilter = new RegExp(location.hash.substr(1));
+				var filter = location.search.substr(1);
+
+				if (!filter) {
+					return function() { return true; };
+				} else {
+					var testFilter = new RegExp(filter);
 					return function(path) { return testFilter.test(path); };
 				}
 			}
