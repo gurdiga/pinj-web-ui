@@ -3,6 +3,7 @@
 var RegistrationPage = require('app/pages/registration/registration-page');
 var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var Promise = require('app/services/promise');
 
 describe('RegistrationPage', function() {
@@ -14,7 +15,7 @@ describe('RegistrationPage', function() {
   });
 
   beforeEach(function() {
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
     this.sinon.stub(userData, 'registerUser').returns(Promise.resolve());
     this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
     this.sinon.stub(userData, 'isCurrentlyAuthenticated').returns(false);

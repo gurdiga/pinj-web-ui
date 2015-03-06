@@ -5,6 +5,7 @@ var Navigation = require('app/widgets/navigation');
 var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var DOM = require('app/services/dom');
 var Promise = require('app/services/promise');
 
@@ -28,7 +29,7 @@ describe('AuthenticationForm', function() {
 
     formValidationError = new FormValidationError(domElement);
     submitButtonSpinner = new SubmitButtonSpinner(domElement);
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
 
     authenticationForm = new AuthenticationForm(domElement, formValidationError, submitButtonSpinner, userData);
   });

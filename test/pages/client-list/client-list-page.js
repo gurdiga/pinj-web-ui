@@ -3,6 +3,7 @@
 var ClientListPage = require('app/pages/client-list/client-list-page');
 var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 
 describe('ClientListPage', function() {
   var clientListPage, userData;
@@ -13,7 +14,7 @@ describe('ClientListPage', function() {
   });
 
   beforeEach(function() {
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
     this.sinon.stub(userData, 'isCurrentlyAuthenticated');
   });
 

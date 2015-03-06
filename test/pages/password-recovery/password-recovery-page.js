@@ -3,6 +3,7 @@
 var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
 var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var Promise = require('app/services/promise');
 
 describe('PasswordRecoveryPage', function() {
@@ -17,7 +18,7 @@ describe('PasswordRecoveryPage', function() {
   });
 
   beforeEach(function() {
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
     passwordRecoveryPage = new PasswordRecoveryPage(this.app, userData);
   });
 

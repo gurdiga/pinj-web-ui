@@ -5,7 +5,7 @@ describe('ClientList class', function() {
 
   beforeEach(function() {
     text = 'Client1\nClient2\nClient3';
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
     this.sinon.stub(userData, 'get').returns(Promise.resolve(text));
     this.sinon.stub(userData, 'set').returns(Promise.resolve());
     clientList = new ClientList(userData);
@@ -32,4 +32,5 @@ describe('ClientList class', function() {
 
 var ClientList = require('app/pages/client-list/client-list');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var Promise = require('app/services/promise');

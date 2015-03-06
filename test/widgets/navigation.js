@@ -2,6 +2,7 @@
 
 var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var DOM = require('app/services/dom');
 
 describe('Navigation', function() {
@@ -16,7 +17,7 @@ describe('Navigation', function() {
     });
 
     beforeEach(function() {
-      userData = new UserData();
+      userData = new UserData(config.FIREBASE_URL);
       this.sinon.stub(userData, 'isCurrentlyAuthenticated');
 
       privateLinks = getPrivateLinks(domElement);

@@ -79,6 +79,13 @@ describe('The smoke test', function() {
             var message = $('#already-registered', this.app);
             expect(message).to.be.visible;
           });
+
+          it('has the profile initialized', function() {
+            var userData = makeUserData();
+            return userData.get('').then(function(data) {
+              console.log('TODO', data);
+            });
+          });
         });
 
         logOut();
@@ -164,7 +171,7 @@ describe('The smoke test', function() {
   });
 
   after(function() {
-    var userData = new UserData();
+    var userData = makeUserData();
     return userData.set('', null).then(function() {
       return userData.unregisterUser(email, password);
     });
@@ -239,7 +246,7 @@ describe('The smoke test', function() {
 
   function testAuthenticatesTheUser() {
     it('authenticates the user', function() {
-      var userData = new UserData();
+      var userData = makeUserData();
       expect(userData.isCurrentlyAuthenticated()).to.be.true;
     });
   }
@@ -262,9 +269,14 @@ describe('The smoke test', function() {
       return object[propertyName];
     };
   }
+
+  function makeUserData() {
+    return new UserData(config.FIREBASE_URL);
+  }
 });
 
 var Navigation = require('app/widgets/navigation');
 var DOM = require('app/services/dom');
 var when = require('app/util/when');
 var UserData = require('app/services/user-data');
+var config = require('app/config');

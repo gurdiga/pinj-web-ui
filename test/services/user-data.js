@@ -1,77 +1,32 @@
 'use strict';
 
-var UserData = require('app/services/user-data');
-
 describe('UserData', function() {
-  this.timeout(10000);
-
-  var email = 'user-data@test.com';
-  var password = 'P4ssw0rd!';
+  var email = 'pinj-search-engine-user-data@test.com';
+  var password = email;
   var userData;
 
-  beforeEach(function() {
-    userData = new UserData();
+  before(function() {
+    userData = new UserData('https://pinj-dev.firebaseio.com');
+    return userData.registerUser(email, password)
+    .then(function() { return userData.authenticateUser(email, password); });
   });
 
-  it('can register a user', function(done) {
-    userData.registerUser(email, password)
-    .then(done, done);
+  var registrationTimestamp;
+
+  it('records timestamps on authentication', function() {
+    return userData.get('timestamps')
+    .then(function(timestamps) {
+      expect(timestamps).to.have.property('registration');
+      expect(timestamps).to.have.property('lastLogin');
+      registrationTimestamp = timestamps.registration;
+    });
   });
 
-  it('can authenticate the registered user', function(done) {
-    userData.authenticateUser(email, password)
-    .then(function() {
-      expect(userData.isCurrentlyAuthenticated()).to.be.true;
-      expect(userData.getCurrentUserEmail()).to.equal(email);
-      expect(userData.getCurrentUserId()).to.exist;
-      done();
-    })
-    .catch(done);
+  after(function() {
+    return userData.set('', null)
+    .then(function() { return userData.unregisterUser(email, password); })
+    .then(userData.unauthenticateCurrentUser);
   });
-
-  it('can get some saved piece of data', function(done) {
-    var path = 'some/path';
-    var value = 'yes';
-
-    userData.set(path, value)
-    .then(function() {
-      return userData.get(path);
-    })
-    .then(function(returnedValue) {
-      expect(returnedValue).to.equal(value);
-    })
-    .then(deleteTestUserProfile)
-    .then(done, done);
-  });
-
-  it('can unregister the registered user', function(done) {
-    userData.unregisterUser(email, password)
-    .then(done, done);
-  });
-
-  it('can unauthenticate the registered user', function(done) {
-    userData.unauthenticateCurrentUser()
-    .then(function() {
-      expect(userData.isCurrentlyAuthenticated()).to.be.false;
-      expect(userData.getCurrentUserEmail()).to.equal('NOT_AUTHENTICATED');
-      expect(userData.getCurrentUserId()).to.equal('NOT_AUTHENTICATED');
-      done();
-    })
-    .catch(done);
-  });
-
-  after(function(done) {
-    userData.unregisterUser(email, password)
-    .then(function() {
-      expect(it, 'User should have been unregistered').not.to.be.false;
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('Această adresă de email nu este înregistrată.');
-    })
-    .finally(done);
-  });
-
-  function deleteTestUserProfile() {
-    return userData.set('', null);
-  }
 });
+
+var UserData = require('app/services/user-data');

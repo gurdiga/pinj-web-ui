@@ -8,7 +8,7 @@ describe('LogoutLink', function() {
     link = createLink();
     trapNavigationFor(link);
 
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
     this.sinon.stub(userData, 'unauthenticateCurrentUser');
 
     new LogoutLink(link, userData);
@@ -77,4 +77,5 @@ describe('LogoutLink', function() {
 
 var LogoutLink = require('app/widgets/logout-link');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var Promise = require('app/services/promise');

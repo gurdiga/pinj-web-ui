@@ -3,6 +3,7 @@
 var IndexPage = require('app/pages/index/index-page');
 var Navigation = require('app/widgets/navigation');
 var UserData = require('app/services/user-data');
+var config = require('app/config');
 var Promise = require('app/services/promise');
 
 describe('IndexPage', function() {
@@ -14,7 +15,7 @@ describe('IndexPage', function() {
   });
 
   beforeEach(function() {
-    userData = new UserData();
+    userData = new UserData(config.FIREBASE_URL);
   });
 
   describe('when user is already authenticated', function() {
