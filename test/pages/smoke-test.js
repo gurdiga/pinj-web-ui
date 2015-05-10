@@ -239,13 +239,13 @@ describe('The smoke test', function() {
 
   function testAuthenticatesTheUser() {
     it('authenticates the user', function() {
-      var userData = new UserData();
-      expect(userData.isCurrentlyAuthenticated()).to.be.true;
+      var navigationLinks = $('nav a:visible', this.app).get().map(get('innerText'));
+      expect(navigationLinks).to.deep.equal(['Home', 'Înregistrare', 'Lista de clienţi', 'Ieşire']);
     });
   }
 
   function testDisplayedTheClientListPage() {
-    it('redirects to their Client List page', function() {
+    it('redirects the user to their Client List page', function() {
       expect(this.iframe.location.pathname).to.equal('/client-list.html');
     });
   }
