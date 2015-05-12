@@ -1,4 +1,4 @@
-PRODUCTION_HOST_NAME=new-pinj.pentru.md
+PRODUCTION_HOST_NAME=pinj.pentru.md
 PRODUCTION_GIT_REMOTE=origin
 
 production: \
