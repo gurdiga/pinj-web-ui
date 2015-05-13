@@ -1,21 +1,12 @@
 'use strict';
 
-var RegistrationForm = require('app/pages/registration/registration-form');
-var Navigation = require('app/widgets/navigation');
-var FormValidationError = require('app/widgets/form-validation-error');
-var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
-var UserData = require('app/services/user-data');
-var DOM = require('app/services/dom');
-var Promise = require('app/services/promise');
-
-describe('RegistrationForm', function() {
+describe.only('-- RegistrationForm', function() {
   var registrationForm, domElement, formValidationError, submitButtonSpinner, userData;
   var productionDOMElement;
 
-  before(function(done) {
-    getProductionDOMElement(this)
-    .then(function(domElement) { productionDOMElement = domElement; })
-    .then(done, done);
+  before(function() {
+    return getProductionDOMElement(this)
+    .then(function(domElement) { productionDOMElement = domElement; });
   });
 
   beforeEach(function() {
@@ -27,6 +18,7 @@ describe('RegistrationForm', function() {
     userData = new UserData();
     this.sinon.stub(userData, 'registerUser');
     this.sinon.stub(userData, 'authenticateUser');
+    this.sinon.stub(userData, 'set').returns(Promise.resolve());
 
     registrationForm = new RegistrationForm(domElement, formValidationError, submitButtonSpinner, userData);
   });
@@ -40,8 +32,8 @@ describe('RegistrationForm', function() {
       this.sinon.spy(formValidationError, 'show');
     });
 
-    it('displays an appropriate error message', function(done) {
-      registrationForm.submit({
+    it('displays an appropriate error message', function() {
+      return registrationForm.submit({
         'email': 'garbage',
         'password': 'P4ssw0rd!',
         'password-confirmation': 'P4ssw0rd!'
@@ -49,8 +41,7 @@ describe('RegistrationForm', function() {
       .catch(function(error) {
         expect(formValidationError.show).to.have.been.called;
         expect(formValidationError.getMessage(), 'error message text').to.equal(error.message);
-      })
-      .then(done, done);
+      });
     });
   });
 
@@ -86,22 +77,26 @@ describe('RegistrationForm', function() {
     });
 
     describe('when userData fulfills the registration request', function() {
+      var theTimestamp;
+
       beforeEach(function() {
         userData.registerUser.returns(Promise.resolve());
         this.sinon.spy(domElement, 'submit');
+        theTimestamp = sinon.match.number;
       });
 
-      it('submits the DOM form', function(done) {
-        registrationForm
+      it('asks it to also record registration and authentication timestamps and then submits the DOM form', function() {
+        return registrationForm
         .submit({
           'email': email,
           'password': password,
           'password-confirmation': password
         })
         .then(function() {
+          expect(userData.set).to.have.been.calledWith('timestamps/registration', theTimestamp);
+          expect(userData.set).to.have.been.calledWith('timestamps/lastLogin', theTimestamp);
           expect(domElement.submit).to.have.been.called;
-        })
-        .then(done, done);
+        });
       });
 
       it('hides any previous validation error message', function(done) {
@@ -239,3 +234,11 @@ describe('RegistrationForm', function() {
     });
   }
 });
+
+var RegistrationForm = require('app/pages/registration/registration-form');
+var Navigation = require('app/widgets/navigation');
+var FormValidationError = require('app/widgets/form-validation-error');
+var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
+var UserData = require('app/services/user-data');
+var DOM = require('app/services/dom');
+var Promise = require('app/services/promise');
