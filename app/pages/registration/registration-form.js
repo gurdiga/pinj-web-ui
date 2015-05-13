@@ -11,15 +11,25 @@ function RegistrationForm(domElement, formValidationError, submitButtonSpinner, 
 
   this.processForm = function(formData) {
     return registerUser()
+    .then(recordRegistrationTimestamp)
     .then(authenticateRegisteredUser)
+    .then(recordLastLogin)
     .then(submitForm);
 
     function registerUser() {
       return userData.registerUser(formData.email, formData.password);
     }
 
+    function recordRegistrationTimestamp() {
+      return userData.set('timestamps/registration', Date.now());
+    }
+
     function authenticateRegisteredUser() {
       return userData.authenticateUser(formData.email, formData.password);
+    }
+
+    function recordLastLogin() {
+      return userData.set('timestamps/lastLogin', Date.now());
     }
 
     function submitForm() {
