@@ -24,8 +24,7 @@
     "chai-jquery": "gurdiga/chai-jquery#improve-failure-messages",
     "jquery": "2.1.3",
     "sinon-chai": "2.7.0",
-    "lintspaces-cli": "0.0.4",
-    "scriptjs": "2.5.7"
+    "lintspaces-cli": "0.0.4"
   },
   "repository": {
     "type": "git",
