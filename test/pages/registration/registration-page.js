@@ -17,6 +17,7 @@ describe('RegistrationPage', function() {
     userData = new UserData();
     this.sinon.stub(userData, 'registerUser').returns(Promise.resolve());
     this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
+    this.sinon.stub(userData, 'set').returns(Promise.resolve());
     this.sinon.stub(userData, 'isCurrentlyAuthenticated').returns(false);
   });
 

@@ -77,12 +77,12 @@ describe('RegistrationForm', function() {
     });
 
     describe('when userData fulfills the registration request', function() {
-      var theTimestamp;
+      var theTimestamps;
 
       beforeEach(function() {
         userData.registerUser.returns(Promise.resolve());
         this.sinon.spy(domElement, 'submit');
-        theTimestamp = sinon.match.number;
+        theTimestamps = sinon.match.object;
       });
 
       it('asks it to also record registration and authentication timestamps and then submits the DOM form', function() {
@@ -93,8 +93,8 @@ describe('RegistrationForm', function() {
           'password-confirmation': password
         })
         .then(function() {
-          expect(userData.set).to.have.been.calledWith('timestamps/registration', theTimestamp);
-          expect(userData.set).to.have.been.calledWith('timestamps/lastLogin', theTimestamp);
+          expect(userData.set).not.to.have.been.calledBefore(userData.authenticateUser);
+          expect(userData.set).to.have.been.calledWith('timestamps', theTimestamps);
           expect(domElement.submit).to.have.been.called;
         });
       });
