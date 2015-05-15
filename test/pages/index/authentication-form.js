@@ -57,21 +57,25 @@ describe('AuthenticationForm', function() {
   });
 
   describe('when the data is correct', function() {
+    var theTimestamp;
+
     beforeEach(function() {
       this.sinon.stub(userData, 'authenticateUser').returns(Promise.resolve());
+      this.sinon.stub(userData, 'set').returns(Promise.resolve());
+      theTimestamp = this.sinon.match.number;
     });
 
-    it('asks userData to authenticate the new user', function(done) {
-      authenticationForm
+    it('asks userData to authenticate the new user and then record the login timestamp', function() {
+      return authenticationForm
       .submit({
         'email': email,
         'password': password
       })
       .then(function() {
         expect(userData.authenticateUser).to.have.been.calledWith(email, password);
-        done();
-      })
-      .catch(done);
+        expect(userData.set).to.have.been.calledWith('timestamps/lastLogin', theTimestamp);
+        expect(userData.set).to.have.been.calledAfter(userData.authenticateUser);
+      });
     });
 
     describe('when userData fulfills the authentication request', function() {
@@ -80,7 +84,7 @@ describe('AuthenticationForm', function() {
         this.sinon.spy(domElement, 'submit');
       });
 
-      it('submits the DOM form', function(done) {
+      it('submits the DOM form', function() {
         authenticationForm
         .submit({
           'email': email,
@@ -88,39 +92,35 @@ describe('AuthenticationForm', function() {
         })
         .then(function() {
           expect(domElement.submit).to.have.been.called;
-        })
-        .then(done, done);
+        });
       });
 
-      it('hides any previous validation error message', function(done) {
+      it('hides any previous validation error message', function() {
         formValidationError.show('Something’s not valid');
 
-        authenticationForm
+        return authenticationForm
         .submit({
           'email': email,
           'password': password
         })
         .then(function() {
           expect(formValidationError.isShown()).to.be.false;
-          done();
-        })
-        .catch(done);
+        });
       });
     });
 
     describe('when userData rejects the authentication request', function() {
       var userDataError;
 
-      beforeEach(function(done) {
+      beforeEach(function() {
         userDataError = new Error('Something bad happened');
         userData.authenticateUser.returns(Promise.reject(userDataError));
         this.sinon.spy(formValidationError, 'show');
 
-        authenticationForm.submit({
+        return authenticationForm.submit({
           'email': email,
           'password': password
-        })
-        .then(done, done);
+        });
       });
 
       it('displays the error', function() {

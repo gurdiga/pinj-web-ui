@@ -13,10 +13,15 @@ function AuthenticationForm(domElement, formValidationError, submitButtonSpinner
 
   this.processForm = function(formData) {
     return authenticateUser()
+    .then(recordTimestamp)
     .then(submitForm);
 
     function authenticateUser() {
       return userData.authenticateUser(formData.email, formData.password);
+    }
+
+    function recordTimestamp() {
+      return userData.set('timestamps/lastLogin', Date.now());
     }
 
     function submitForm() {
