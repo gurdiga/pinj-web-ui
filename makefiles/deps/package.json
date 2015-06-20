@@ -19,7 +19,7 @@
     "browserify-middleware": "4.1.0",
     "jade": "1.9.2",
     "glob": "5.0.10",
-    "mocha": "2.1.0",
+    "mocha": "2.2.5",
     "sinon": "1.15.3",
     "chai": "2.0.0",
     "chai-as-promised": "4.2.0",
