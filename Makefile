@@ -11,4 +11,7 @@ default: deps lint prepare-build clean-build server-restart
 
 pre-commit: default
 
+clean:
+	rm -rf node_modules/ bower_components/ build/
+
 include $(shell find makefiles -name '*.mk' | sort)
