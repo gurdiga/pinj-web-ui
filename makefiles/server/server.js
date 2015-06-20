@@ -17,6 +17,7 @@ app.set('views', './');
 app.set('view engine', 'jade');
 app.engine('jade', jade.__express);
 app.locals.pretty = true;
+app.locals.package = require('../../package.json');
 app.locals.testFiles = function() {
   return glob.sync('test/**/*.js')
   .filter(nonincludes)

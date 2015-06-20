@@ -20,7 +20,7 @@
     "jade": "1.9.2",
     "glob": "4.4.0",
     "mocha": "2.1.0",
-    "sinon": "1.12.1",
+    "sinon": "1.15.3",
     "chai": "2.0.0",
     "chai-as-promised": "4.2.0",
     "chai-jquery": "2.0.0",
