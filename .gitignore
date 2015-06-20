@@ -10,3 +10,5 @@ bower.json
 
 build
 server.log
+
+app/pages/common/js/airbrake-client.js

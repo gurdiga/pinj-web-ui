@@ -7,6 +7,20 @@ head
 		|  — 
 		block page.title
 
+	script(src="common/js/airbrake-client.js")
+	script.
+		var airbrake = new airbrakeJs.Client({projectId: 1, projectKey: '4814fe5b6c62544cb089f352239fdaf1'});
+
+		window.onerror = function(message, file, line) {
+		  airbrake.push({
+				error: {
+					message: message,
+					fileName: file,
+					lineNumber: line
+				}
+			});
+		};
+
 	<!--[if !IE]>
 	link(rel="dns-prefetch", href="//pinj-scripts.herokuapp.com")
 	link(rel="dns-prefetch", href="//auth.firebase.com")

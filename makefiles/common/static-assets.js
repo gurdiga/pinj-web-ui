@@ -2,7 +2,7 @@
 
 var glob = require('glob');
 
-var assets = glob.sync('app/pages/**/images/**/*');
+var assets = glob.sync('app/pages/**/{images,js}/**/*');
 var pairs = assets.reduce(function(pairs, asset) {
   var destination = asset.replace('app/pages', '');
   pairs[destination] = asset;

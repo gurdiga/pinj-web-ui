@@ -9,6 +9,7 @@
     "inherits": "2.0.1",
     "firebase": "2.2.4",
     "q": "1.1.2",
+    "airbrake-js": "0.4.3",
     "express": "4.11.2",
     "node-sass-middleware": "0.5.0",
     "bourbon": "thoughtbot/bourbon#v4.0.2",
