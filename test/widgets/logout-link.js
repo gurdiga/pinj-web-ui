@@ -39,7 +39,7 @@ describe('LogoutLink', function() {
 
       link.click();
       expect(userData.unauthenticateCurrentUser, 'tries to deauthenticate').to.have.been.called;
-      onNextTick(done);
+      Promise.nextTick().then(done);
     });
 
     it('logs the error', function() {
@@ -68,10 +68,6 @@ describe('LogoutLink', function() {
 
   function removeTrap() {
     document.body.removeChild(navigationTrap);
-  }
-
-  function onNextTick(f) {
-    setTimeout(f);
   }
 });
 

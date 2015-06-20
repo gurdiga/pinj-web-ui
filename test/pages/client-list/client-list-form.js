@@ -42,7 +42,7 @@ describe('ClientListForm', function() {
         clientListText = 'a list of new-line separated items';
         clientListLoadRequest.simulateSuccess(clientListText);
 
-        onNextTick(done);
+        Promise.nextTick().then(done);
       });
 
       it('fills the client list field with the value returned', function() {
@@ -61,7 +61,7 @@ describe('ClientListForm', function() {
         clientListLoadError = new Error('Something bad happened');
         clientListLoadRequest.simulateFailure(clientListLoadError);
 
-        onNextTick(done);
+        Promise.nextTick().then(done);
       });
 
       it('displays the error message', function() {
@@ -86,7 +86,7 @@ describe('ClientListForm', function() {
       clientListSaveRequest = {};
       this.sinon.stub(clientList, 'save').returns(createSimulatedRequest(clientListSaveRequest));
 
-      onNextTick(done);
+      Promise.nextTick().then(done);
     });
 
     it('on submit shows the submit spinner and prevents multiple submits', function() {
@@ -103,7 +103,7 @@ describe('ClientListForm', function() {
       beforeEach(function(done) {
         submitForm();
         clientListSaveRequest.simulateSuccess();
-        onNextTick(done);
+        Promise.nextTick().then(done);
       });
 
       it('hides the submit spinner', function() {
@@ -125,7 +125,7 @@ describe('ClientListForm', function() {
         clientListSaveError = new Error('Something bad happened');
         clientListSaveRequest.simulateFailure(clientListSaveError);
 
-        onNextTick(done);
+        Promise.nextTick().then(done);
       });
 
       it('displays the error message', function() {
@@ -153,10 +153,6 @@ describe('ClientListForm', function() {
     .then(function() {
       return DOM.require('#client-list-form', context.app);
     });
-  }
-
-  function onNextTick(f) {
-    setTimeout(f);
   }
 
   function createSimulatedRequest(request) {

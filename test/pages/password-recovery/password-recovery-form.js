@@ -63,7 +63,7 @@ describe('PasswordRecoveryForm', function() {
       })
       .catch(done);
 
-      onNextTick(function() {
+      Promise.nextTick().then(function() {
         expect(userData.sendPasswordRecoveryEmail).to.have.been.calledWith(email);
         done();
       });
@@ -92,7 +92,7 @@ describe('PasswordRecoveryForm', function() {
         })
         .catch(done);
 
-        onNextTick(function() {
+        Promise.nextTick().then(function() {
           expect(formValidationError.isShown()).to.be.false;
           done();
         });
@@ -151,7 +151,7 @@ describe('PasswordRecoveryForm', function() {
         beforeEach(function(done) {
           submitForm();
           userServiceRequest.simulateSuccess();
-          onNextTick(done);
+          Promise.nextTick().then(done);
         });
 
         it('hides the submit spinner', function() {
@@ -163,7 +163,7 @@ describe('PasswordRecoveryForm', function() {
         beforeEach(function(done) {
           submitForm();
           userServiceRequest.simulateFailure();
-          onNextTick(done);
+          Promise.nextTick().then(done);
         });
 
         it('hides the submit spinner', function() {
@@ -177,10 +177,6 @@ describe('PasswordRecoveryForm', function() {
         });
       }
     });
-
-    function onNextTick(f) {
-      setTimeout(f);
-    }
 
     function bubbleErrors(f) {
       setTimeout(f);

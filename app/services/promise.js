@@ -8,5 +8,8 @@ function Promise(f) {
 
 Promise.resolve = Q.resolve;
 Promise.reject = Q.reject;
+Promise.nextTick = function() {
+  return Q.delay(0);
+};
 
 module.exports = Promise;

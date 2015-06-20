@@ -69,7 +69,7 @@ describe('RegistrationForm', function() {
       })
       .catch(done);
 
-      onNextTick(function() {
+      Promise.nextTick().then(function() {
         expect(userData.registerUser).to.have.been.calledWith(email, password);
         expect(userData.authenticateUser).to.have.been.calledWith(email, password);
         done();
@@ -110,7 +110,7 @@ describe('RegistrationForm', function() {
         })
         .catch(done);
 
-        onNextTick(function() {
+        Promise.nextTick().then(function() {
           expect(formValidationError.isShown()).to.be.false;
           done();
         });
@@ -176,7 +176,7 @@ describe('RegistrationForm', function() {
         beforeEach(function(done) {
           submitForm();
           userServiceRequest.simulateSuccess();
-          onNextTick(done);
+          Promise.nextTick().then(done);
         });
 
         it('hides the progress indicator after the operation succeedes', function() {
@@ -188,7 +188,7 @@ describe('RegistrationForm', function() {
         beforeEach(function(done) {
           submitForm();
           userServiceRequest.simulateFailure();
-          onNextTick(done);
+          Promise.nextTick().then(done);
         });
 
         it('hides the progress indicator after the operation fails', function() {
@@ -206,10 +206,6 @@ describe('RegistrationForm', function() {
     });
 
     afterEach(removeTrap);
-
-    function onNextTick(f) {
-      setTimeout(f);
-    }
 
     function trapSubmitFor(form) {
       submitTrap = document.createElement('iframe');

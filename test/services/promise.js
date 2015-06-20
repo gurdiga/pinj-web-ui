@@ -24,4 +24,17 @@ describe('Promise', function() {
     })
     .catch(done);
   });
+
+  it('can wait for the next tick', function(done) {
+    var eventLoopTurned = false;
+
+    Promise.resolve().then(function() {
+      eventLoopTurned = true;
+    });
+
+    Promise.nextTick().then(function() {
+      expect(eventLoopTurned).to.be.true;
+      done();
+    });
+  });
 });
