@@ -15,6 +15,7 @@ describe('IndexPage', function() {
 
   beforeEach(function() {
     userData = new UserData();
+    this.sinon.stub(userData, 'set').returns(Promise.resolve());
   });
 
   describe('when user is already authenticated', function() {
