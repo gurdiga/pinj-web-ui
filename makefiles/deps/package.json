@@ -18,7 +18,7 @@
     "exorcist": "0.1.6",
     "browserify-middleware": "4.1.0",
     "jade": "1.9.2",
-    "glob": "4.4.0",
+    "glob": "5.0.10",
     "mocha": "2.1.0",
     "sinon": "1.15.3",
     "chai": "2.0.0",
