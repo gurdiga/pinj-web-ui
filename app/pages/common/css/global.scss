@@ -92,8 +92,27 @@ header {
 			@include transition(height .5s ease);
 			@extend %navigation-link;
 
+			&::after,
+			&::before {
+				/* this is to hide underline in IE */
+				height: 1em;
+				overflow: hidden;
+			}
+
 			&.private {
 				display: none;
+			}
+
+			&#logout {
+				color: red;
+				position: relative;
+				padding-right: 1.1em;
+				margin-right: 0;
+			}
+
+			&#logout::after {
+				content: '➠';
+				text-decoration: none;
 			}
 		}
 	}
@@ -174,6 +193,23 @@ a#password-recovery {
 
 				&.private {
 					display: none;
+				}
+
+				&#logout {
+					float: right;
+					height: auto;
+				}
+
+				&#logout::before {
+					content: '';
+				}
+
+				&#logout::after {
+					display: block;
+					position: absolute;
+					top: 2px;
+					right: 0;
+					vertical-align: -2px;
 				}
 			}
 		}
