@@ -1,6 +1,7 @@
 deps: \
 	node_modules/app \
 	app/pages/common/js/airbrake-client.js \
+	node_modules/bourbon/app/assets/stylesheets/_bourbon.scss \
 	app/pages/common/css/pure-nr-min.scss
 
 app/pages/common/js/airbrake-client.js: node_modules | app/pages/common/js
