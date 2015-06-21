@@ -1,11 +1,5 @@
 'use strict';
 
-var PasswordChangeForm = require('app/pages/password-change/password-change-form');
-var FormValidationError = require('app/widgets/form-validation-error');
-var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
-var Navigation = require('app/widgets/navigation');
-var DOM = require('app/services/dom');
-
 describe('PasswordChangeForm', function() {
   var passwordChangeForm, domElement, formValidationError, submitButtonSpinner;
   var productionDOMElement;
@@ -67,11 +61,35 @@ describe('PasswordChangeForm', function() {
       expect(button.type, 'type').to.equal('submit');
       expect(button.textContent, 'text label').to.equal('Schimbă parola');
     });
+
+    it('has a submit button spinner', function() {
+      var submitButton = DOM.require('button', domElement);
+      var spinner = submitButton.nextSibling;
+      expect(spinner.tagName, 'it’s an image').to.equal('IMG');
+      expect(spinner.style.display, 'it’s initially hidden').to.equal('none');
+      submitButton.click();
+      expect(spinner.style.display, 'it’s displayed after the button is clicked').to.equal('inline');
+    });
   });
 
-  describe('validation messages', function() {
-    it.skip('displays validation error messages', function() {
-      // TODO
+  describe('validation error message', function() {
+    var submitButton, message;
+
+    before(function() {
+      submitButton = DOM.require('button', domElement);
+      message = submitButton.previousSibling;
+      expect(message).to.exist;
+    });
+
+    it('is initially hidden', function(done) {
+      expect(message.style.display, 'before click message is hidden').to.equal('none');
+
+      submitButton.click();
+      Promise.nextTick().then(done);
+    });
+
+    it('is displayed after submitting the form', function() {
+      expect(message.style.display, 'is displayed').to.equal('block');
     });
   });
 
@@ -82,3 +100,10 @@ describe('PasswordChangeForm', function() {
     });
   }
 });
+
+var PasswordChangeForm = require('app/pages/password-change/password-change-form');
+var FormValidationError = require('app/widgets/form-validation-error');
+var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
+var Navigation = require('app/widgets/navigation');
+var DOM = require('app/services/dom');
+var Promise = require('app/services/promise');
