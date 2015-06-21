@@ -19,13 +19,13 @@ function ClientListPage(domElement, userData) {
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
   var clientList = new ClientList(userData);
-  var authenticationForm = new ClientListForm(formDOMElement, formValidationError, submitButtonSpinner, clientList);
+  var clientListForm = new ClientListForm(formDOMElement, formValidationError, submitButtonSpinner, clientList);
 
   this.isFormRelevant = function() {
     return userData.isCurrentlyAuthenticated();
   };
 
-  PageWithForm.call(this, domElement, authenticationForm, formDOMElement, notAuthenticatedMessageDOMElement);
+  PageWithForm.call(this, domElement, clientListForm, formDOMElement, notAuthenticatedMessageDOMElement);
   PageWithNavigation.call(this, domElement, userData);
 }
 
