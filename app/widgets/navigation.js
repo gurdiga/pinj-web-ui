@@ -16,6 +16,7 @@ Navigation.PAGES = {
   'IndexPage': 'Home',
   'RegistrationPage': 'Înregistrare',
   'ClientListPage': 'Lista de clienţi',
+  'PasswordChangePage': 'Schimbarea parolei',
   'PasswordRecoveryPage': 'Recuperarea parolei'
 };
 

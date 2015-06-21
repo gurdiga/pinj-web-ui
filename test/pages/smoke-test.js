@@ -163,6 +163,46 @@ describe('The smoke test', function() {
     });
   });
 
+  describe('Client list page', function() {
+    it('will go here', function() {
+      // TODO
+    });
+  });
+
+  describe.skip('Password change page', function() {
+    before(function() {
+      return H.navigateTo(Navigation.getPathForPage('PasswordChangePage'));
+    });
+
+    it('hast the appropriate <title>', function() {
+      var title = DOM.require('title', this.iframe.document.head);
+      expect(title.textContent).to.contain('Schimbarea parolei');
+    });
+
+    it('hast the appropriate heading', function() {
+      var heading = DOM.require('h2', this.app);
+      expect(heading.textContent).to.equal('Schimbarea parolei');
+    });
+
+    describe('when not authenticated', function() {
+      it('shows a message telling that you first need to authenticate', function() {
+        var message = $('#not-authenticated.information.message', this.app);
+        expect(message).to.exist;
+        expect(message).to.be.visible;
+      });
+
+      it('contains a link to the authentication form', function() {
+        // TODO
+      });
+    });
+
+    describe('when authenticated', function() {
+      it('shows three fields?', function() {
+        // TODO
+      });
+    });
+  });
+
   after(function() {
     var userData = new UserData();
     return userData.authenticateUser(email, password).then(function() {

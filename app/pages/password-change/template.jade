@@ -1,0 +1,21 @@
+extends ../layout
+
+block page.title
+	| Schimbarea parolei
+
+block content
+	h2
+		block page.title
+
+	form#password-change-form
+		fieldset.glued-fields
+			input(name="old-password", type="password", placeholder="Parola veche")
+			input(name="new-password", type="password", placeholder="Parola nouă")
+			input(name="new-password-confirmation", type="password", placeholder="Confirmarea")
+
+		button(type="submit") Schimbă parola
+
+	p#not-authenticated.information.message
+		| Pentru a schimba parola 
+		a(href="/") trebuie mai întîi să vă autentificaţi
+		| .
