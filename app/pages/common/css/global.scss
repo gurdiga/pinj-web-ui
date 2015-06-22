@@ -92,13 +92,6 @@ header {
 			@include transition(height .5s ease);
 			@extend %navigation-link;
 
-			&::after,
-			&::before {
-				/* this is to hide underline in IE */
-				height: 1em;
-				overflow: hidden;
-			}
-
 			&.private {
 				display: none;
 			}
@@ -130,6 +123,13 @@ a {
 
 	&.wrappable {
 		white-space: normal;
+	}
+
+	&::after,
+	&::before {
+		/* this is to hide underline in IE */
+		height: 1em;
+		overflow: hidden;
 	}
 }
 
