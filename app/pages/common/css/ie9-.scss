@@ -1,0 +1,16 @@
+body>* {
+	display: none !important;
+}
+
+body>header {
+	display: block !important;
+}
+
+body>header>nav {
+	display: none !important;
+}
+
+body>.ie9-,
+body>footer {
+	display: block !important;
+}
