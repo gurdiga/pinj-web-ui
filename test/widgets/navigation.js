@@ -70,8 +70,36 @@ describe('Navigation', function() {
   });
 
   describe('getPathForPage', function() {
+    it('returns / for IndexPage', function() {
+      expect(Navigation.getPathForPage('IndexPage')).to.equal('/');
+    });
+
     it('returns the path for any registered page', function() {
-      expect(Navigation.getPathForPage('IndexPage')).to.equal('/index.html');
+      expect(Navigation.getPathForPage('RegistrationPage')).to.equal('/registration.html');
+    });
+
+    it('returns the path for any registered page with multiple words', function() {
+      expect(Navigation.getPathForPage('ClientListPage')).to.equal('/client-list.html');
+    });
+
+    it('throws for an unknown page', function() {
+      expect(function() {
+        Navigation.getPathForPage('MagicPage');
+      }).to.throw(/Unknown page class “MagicPage”/);
+    });
+  });
+
+  describe('getSlugForPage', function() {
+    it('returns an empty string for the IndexPage', function() {
+      expect(Navigation.getSlugForPage('IndexPage')).to.equal('');
+    });
+
+    it('returns the slug for a given page class', function() {
+      expect(Navigation.getSlugForPage('RegistrationPage')).to.equal('registration');
+    });
+
+    it('works well with page classes that have multiple words', function() {
+      expect(Navigation.getSlugForPage('ClientListPage')).to.equal('client-list');
     });
 
     it('throws for an unknown page', function() {

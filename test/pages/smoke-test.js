@@ -271,6 +271,12 @@ describe('The smoke test', function() {
 
   function testPublicNavigation() {
     it('only shows the non-private navigation links', assertPublicNavigation);
+
+    it('marks the current page in the top nav', function() {
+      var pagePath = this.iframe.location.pathname;
+      var link = DOM.require('header nav a[href="' + pagePath + '"]', this.app);
+      expect(link.classList.contains('current')).to.be.true;
+    });
   }
 
   function assertPublicNavigation() {

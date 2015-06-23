@@ -92,6 +92,12 @@ header {
 			@include transition(height .5s ease);
 			@extend %navigation-link;
 
+			&.current {
+				pointer-events: none;
+				color: black;
+				text-decoration: none;
+			}
+
 			&.private {
 				display: none;
 			}

@@ -23,6 +23,10 @@ app.locals.testFiles = function() {
   .filter(nonincludes)
   .filter(applicationTest);
 };
+app.locals.currentIf = function(pagePath, slug) {
+  var thisSlug = pagePath.split('app/pages/').pop().split('/').shift();
+  return thisSlug === slug ? 'current' : '';
+};
 
 function nonincludes(path) {
   return path.indexOf('/include-') === -1;

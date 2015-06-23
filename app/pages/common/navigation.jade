@@ -1,7 +1,7 @@
 nav
 	input#menu-toggle(type="checkbox")
 	label(for="menu-toggle") Meniu
-	a(href="/") Home
-	a(href="/registration.html") Înregistrare
-	a.private(href="/client-list.html") Lista de clienţi
+	a(class=currentIf(filename, 'index'), href="/") Home
+	a(class=currentIf(filename, 'registration'), href="/registration.html") Înregistrare
+	a(class=currentIf(filename, 'client-list'), href="/client-list.html").private Lista de clienţi
 	a#logout.private(href="/") Ieşire

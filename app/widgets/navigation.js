@@ -23,8 +23,20 @@ Navigation.PAGES = {
 Navigation.getPathForPage = function(className) {
   verifyClassName(className);
 
-  return '/' + className
-    .replace(/Page$/, '.html')
+  if (className === 'IndexPage') return '/';
+
+  var slug = this.getSlugForPage(className);
+
+  return '/' + slug + '.html';
+};
+
+Navigation.getSlugForPage = function(className) {
+  verifyClassName(className);
+
+  if (className === 'IndexPage') return '';
+
+  return className
+    .replace(/Page$/, '')
     .replace(/[A-Z]/g, function(match, offset) {
       return (offset > 0 ? '-' : '') + match.toLowerCase();
     });
