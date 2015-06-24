@@ -157,6 +157,23 @@ describe('The smoke test', function() {
         expect(link, 'link').to.exist;
         expect(link).to.have.attr('href', '/');
       });
+
+      it('contains the hidden password change form', function() {
+        var form = $('#password-change-form', this.app);
+        expect(form, 'form').to.exist;
+        expect(form).not.to.be.visible;
+      });
+
+      it('includes the appropriate <script>', function() {
+        var script = DOM.require('script[src="password-change.js"]', this.app);
+        expect(script, 'the associated script').to.exist;
+      });
+
+      it('hides the form initially', function() {
+        var formDOMElement = DOM.require('#password-change-form', this.app);
+        expect(formDOMElement.style.display).to.equal('none');
+      });
+
     });
 
   });

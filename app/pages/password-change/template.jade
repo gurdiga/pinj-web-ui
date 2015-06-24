@@ -7,7 +7,11 @@ block content
 	h2
 		block page.title
 
-	form#password-change-form(method="POST", action="https://pinj-scripts.herokuapp.com/echo?to=%2Fpassword-change.html")
+	form#password-change-form(
+			method="POST",
+			action="https://pinj-scripts.herokuapp.com/echo?to=%2Fpassword-change.html",
+			style="display: none"
+		)
 		fieldset.glued-fields
 			input(name="old-password", type="password", placeholder="Parola veche")
 			input(name="new-password", type="password", placeholder="Parola nouă")
@@ -19,3 +23,6 @@ block content
 		| Pentru a schimba parola 
 		a(href="/") trebuie mai întîi să vă autentificaţi
 		| .
+
+block page.scripts
+	script(src="password-change.js")
