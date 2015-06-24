@@ -44,6 +44,17 @@ describe('UserData', function() {
     .then(done, done);
   });
 
+  it('can change user’s password', function() {
+    var oldPassword = password;
+    var newPassword = 'new-P4ssw0rd';
+
+    return userData.changePassword(oldPassword, newPassword)
+    .then(function() {
+      password = newPassword;
+      return userData.authenticateUser(email, newPassword);
+    });
+  });
+
   it('can unregister the registered user', function(done) {
     userData.unregisterUser(email, password)
     .then(done, done);

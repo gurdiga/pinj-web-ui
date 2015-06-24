@@ -1,9 +1,7 @@
 'use strict';
 
-var Promise = require('app/services/promise');
-/*global Firebase*/
-
 function UserData() {
+  /*global Firebase*/
   var firebaseRef = new Firebase('https://pinj-dev.firebaseio.com');
 
   this.registerUser = function(email, password) {
@@ -53,6 +51,16 @@ function UserData() {
     return new Promise(function(resolve, reject) {
       firebaseRef.resetPassword({email: email}, forwardTo(resolve, reject));
     });
+  };
+
+  this.changePassword = function(oldPassword, newPassword) {
+    return new Promise(function(resolve, reject) {
+      firebaseRef.changePassword({
+        email: this.getCurrentUserEmail(),
+        oldPassword: oldPassword,
+        newPassword: newPassword
+      }, forwardTo(resolve, reject));
+    }.bind(this));
   };
 
   this.unauthenticateCurrentUser = function() {
@@ -124,5 +132,7 @@ function getLocalizedError(code) {
   error.code = code;
   return error;
 }
+
+var Promise = require('app/services/promise');
 
 module.exports = UserData;
