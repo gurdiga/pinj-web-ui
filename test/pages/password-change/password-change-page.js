@@ -1,10 +1,6 @@
 'use strict';
 
-var PasswordChangePage = require('app/pages/password-change/password-change-page');
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-
-describe.skip('PasswordChangePage', function() {
+describe('PasswordChangePage', function() {
   var passwordChangePage, userData;
 
   before(function() {
@@ -16,7 +12,7 @@ describe.skip('PasswordChangePage', function() {
     this.sinon.stub(userData, 'isCurrentlyAuthenticated');
   });
 
-  describe('when user is not authenticated', function() {
+  describe('when user is NOT authenticated', function() {
     beforeEach(function() {
       userData.isCurrentlyAuthenticated.returns(false);
       passwordChangePage = new PasswordChangePage(this.app, userData);
@@ -27,4 +23,20 @@ describe.skip('PasswordChangePage', function() {
       expect(passwordChangePage.isFormIrrelevantMessageDisplayed()).to.be.true;
     });
   });
+
+  describe('when user is authenticated', function() {
+    beforeEach(function() {
+      userData.isCurrentlyAuthenticated.returns(true);
+      passwordChangePage = new PasswordChangePage(this.app, userData);
+    });
+
+    it('displays the form and hides the “not authenticated” message', function() {
+      expect(passwordChangePage.isFormHidden()).to.be.false;
+      expect(passwordChangePage.isFormIrrelevantMessageDisplayed()).to.be.false;
+    });
+  });
 });
+
+var PasswordChangePage = require('app/pages/password-change/password-change-page');
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');

@@ -9,10 +9,10 @@ var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 
 var PasswordChangeForm = require('./password-change-form');
 
-inherits(ClientListPage, PageWithForm);
-inherits(ClientListPage, PageWithNavigation);
+inherits(PasswordChangePage, PageWithForm);
+inherits(PasswordChangePage, PageWithNavigation);
 
-function ClientListPage(domElement, userData) {
+function PasswordChangePage(domElement, userData) {
   var formDOMElement = DOM.require('#password-change-form', domElement);
   var notAuthenticatedMessageDOMElement = DOM.require('#not-authenticated', domElement);
 
@@ -28,4 +28,4 @@ function ClientListPage(domElement, userData) {
   PageWithNavigation.call(this, domElement, userData);
 }
 
-module.exports = ClientListPage;
+module.exports = PasswordChangePage;
