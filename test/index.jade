@@ -56,7 +56,8 @@ body
 			var myGlobals = ['H'];
 			var ieIframeNameGlobals = ['app', 'submit-trap'];
 			var ieFirebaseGlobals = ['pLPCommand1', 'pRTLPCB1', 'pLPCommand2', 'pRTLPCB2'];
-			var allGlobals = myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals);
+			var strangeGlobals = ['__InspectorOverlayPage_html'];
+			var allGlobals = myGlobals.concat(ieIframeNameGlobals).concat(ieFirebaseGlobals).concat(strangeGlobals);
 
 			window.mocha.checkLeaks();
 			window.mocha.globals(allGlobals);
