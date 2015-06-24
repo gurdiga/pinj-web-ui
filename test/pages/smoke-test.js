@@ -24,7 +24,7 @@ describe('The smoke test', function() {
           testEmailValidation();
           testPasswordValidation();
 
-          describe('when UserData responds with an error', function() {
+          describe('when User Data service responds with an error', function() {
             before(function() {
               this.form['email'].value = 'unregistered-email@address.com';
               this.form['password'].value = 'a randomly incorrect password';
@@ -94,7 +94,7 @@ describe('The smoke test', function() {
           });
         });
 
-        describe('when UserData responds with an error', function() {
+        describe('when User Data service responds with an error', function() {
           before(function() {
             this.form['email'].value = 'test@test.com';
             this.form['password'].value = 'test@test.com';
