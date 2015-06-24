@@ -20,7 +20,7 @@ describe('Navigation', function() {
       this.sinon.stub(userData, 'isCurrentlyAuthenticated');
 
       privateLinks = getPrivateLinks(domElement);
-      expect(privateLinks).to.have.length(2);
+      expect(privateLinks, 'private link count').to.have.length(3);
       expect(areAllHidden(privateLinks), 'private links are hidden initially').to.be.true;
     });
 
