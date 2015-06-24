@@ -1,7 +1,7 @@
 'use strict';
 
 describe('PasswordChangeForm', function() {
-  var passwordChangeForm, domElement, formValidationError, submitButtonSpinner;
+  var passwordChangeForm, domElement, formValidationError, submitButtonSpinner, userData;
   var productionDOMElement;
 
   before(function() {
@@ -9,26 +9,21 @@ describe('PasswordChangeForm', function() {
     .then(function(domElement) { productionDOMElement = domElement; });
   });
 
-  before(function() {
+  beforeEach(function() {
     domElement = DOM.clone(productionDOMElement);
 
     formValidationError = new FormValidationError(domElement);
     submitButtonSpinner = new SubmitButtonSpinner(domElement);
-    passwordChangeForm = new PasswordChangeForm(domElement, formValidationError, submitButtonSpinner);
-  });
+    userData = new UserData();
 
-  describe('behaviour', function() {
-    it('POSTs to the appropriate URL', function() {
-      var form = domElement;
-      expect(form.method, 'method').to.equal('post');
-      expect(form.action, 'action').to.equal('https://pinj-scripts.herokuapp.com/echo?to=%2Fpassword-change.html');
-    });
+    passwordChangeForm = new PasswordChangeForm(domElement, formValidationError, submitButtonSpinner, userData);
+    this.sinon.stub(passwordChangeForm, 'processForm');
   });
 
   describe('UI elements', function() {
     var fieldset;
 
-    before(function() {
+    beforeEach(function() {
       fieldset = DOM.require('fieldset', domElement);
     });
 
@@ -75,21 +70,70 @@ describe('PasswordChangeForm', function() {
   describe('validation error message', function() {
     var submitButton, message;
 
-    before(function() {
+    beforeEach(function() {
       submitButton = DOM.require('button', domElement);
       message = submitButton.previousSibling;
       expect(message).to.exist;
     });
 
-    it('is initially hidden', function(done) {
+    it('is hidden initially and displayed after submitting the form', function(done) {
       expect(message.style.display, 'before click message is hidden').to.equal('none');
 
       submitButton.click();
+
+      Promise.nextTick().then(function() {
+        expect(message.style.display, 'is displayed').to.equal('block');
+        done();
+      });
+    });
+  });
+
+  describe('behaviour', function() {
+    it('POSTs to the appropriate URL', function() {
+      var form = domElement;
+      expect(form.method, 'method').to.equal('post');
+      expect(form.action, 'action').to.equal('https://pinj-scripts.herokuapp.com/echo?to=%2Fpassword-change.html');
+    });
+  });
+
+  describe('when providing appropriate old password, new password and its confirmation', function() {
+    var oldPassword, newPassword;
+
+    beforeEach(function(done) {
+      passwordChangeForm.processForm.restore();
+
+      this.sinon.spy(formValidationError, 'show');
+      this.sinon.spy(formValidationError, 'hide');
+      this.sinon.spy(submitButtonSpinner, 'show');
+      this.sinon.stub(userData, 'changePassword').returns(Promise.resolve());
+      this.sinon.spy(submitButtonSpinner, 'hide');
+
+      oldPassword = 'old-P4ssw0rd';
+      newPassword = 'new-P4ssw0rd';
+      passwordChangeForm.submit({
+        'old-password': oldPassword,
+        'new-password': newPassword,
+        'new-password-confirmation': newPassword
+      });
+
       Promise.nextTick().then(done);
     });
 
-    it('is displayed after submitting the form', function() {
-      expect(message.style.display, 'is displayed').to.equal('block');
+    it('hides any validation error', function() {
+      expect(formValidationError.hide).to.have.been.called;
+      expect(formValidationError.show).not.to.have.been.called;
+    });
+
+    it('displays the spinner before calling the User Data service', function() {
+      expect(submitButtonSpinner.show).to.have.been.calledBefore(userData.changePassword);
+    });
+
+    it('asks User Data service to change the password', function() {
+      expect(userData.changePassword).to.have.been.calledWith(oldPassword, newPassword);
+    });
+
+    it('hides the spinner after User Data has responded', function() {
+      expect(submitButtonSpinner.hide).to.have.been.calledAfter(userData.changePassword);
     });
   });
 
@@ -107,3 +151,4 @@ var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var Navigation = require('app/widgets/navigation');
 var DOM = require('app/services/dom');
 var Promise = require('app/services/promise');
+var UserData = require('app/services/user-data');
