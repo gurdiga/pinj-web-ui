@@ -12,7 +12,7 @@ function PasswordChangeFormValidator() {
     return [{
       'message': 'Este necesar să introduceţi parola curentă',
       'fulfilled': function(data) {
-        return data['current-password'] && !!data['current-password'].trim();
+        return data['old-password'] && !!data['old-password'].trim();
       }
     }, {
       'message': 'Este necesar să introduceţi parola nouă',

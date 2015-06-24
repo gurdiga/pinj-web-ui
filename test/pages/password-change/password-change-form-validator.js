@@ -11,7 +11,7 @@ describe('PasswordChangeFormValidator', function() {
 
   it('rejects missing current password', function() {
     expect(validator.validate({
-      'current-password': '',
+      'old-password': '',
       'new-password': '',
       'new-password-confirmation': ''
     })).to.be.rejectedWith('Este necesar să introduceţi parola curentă');
@@ -19,7 +19,7 @@ describe('PasswordChangeFormValidator', function() {
 
   it('rejects missing new password', function() {
     return expect(validator.validate({
-      'current-password': 'some-old-password',
+      'old-password': 'some-old-password',
       'new-password': '',
       'new-password-confirmation': ''
     })).to.be.rejectedWith('Este necesar să introduceţi parola nouă');
@@ -27,7 +27,7 @@ describe('PasswordChangeFormValidator', function() {
 
   it('rejects missing new password confirmation', function() {
     return expect(validator.validate({
-      'current-password': 'some-old-password',
+      'old-password': 'some-old-password',
       'new-password': 'some-new-password',
       'new-password-confirmation': ''
     })).to.be.rejectedWith('Este necesar să confirmaţi parola nouă');
@@ -35,7 +35,7 @@ describe('PasswordChangeFormValidator', function() {
 
   it('rejects incorrect new password confirmation', function() {
     return expect(validator.validate({
-      'current-password': 'some-old-password',
+      'old-password': 'some-old-password',
       'new-password': 'some-new-password',
       'new-password-confirmation': 'incorrect password confirmation'
     })).to.be.rejectedWith('Confirmarea parolei nu corespunde');
