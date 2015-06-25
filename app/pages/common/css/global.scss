@@ -13,6 +13,7 @@ $input-width: 215px;
 #registration-form,
 #authentication-form,
 #password-recovery-form,
+#password-change-form,
 #client-list-form {
 	@extend .pure-form;
 	margin-bottom: 2em;

@@ -8,17 +8,18 @@ var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 
 var PasswordChangeForm = require('./password-change-form');
+var MetaData = require('./meta-data');
 
 inherits(PasswordChangePage, PageWithForm);
 inherits(PasswordChangePage, PageWithNavigation);
 
 function PasswordChangePage(domElement, userData) {
-  var formDOMElement = DOM.require('#password-change-form', domElement);
-  var notAuthenticatedMessageDOMElement = DOM.require('#not-authenticated', domElement);
+  var formDOMElement = DOM.require(MetaData.FORM_SELECTOR, domElement);
+  var notAuthenticatedMessageDOMElement = DOM.require(MetaData.NOT_AUTHENTICATED_MESSAGE_ID, domElement);
 
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
-  var passwordChangeForm = new PasswordChangeForm(formDOMElement, formValidationError, submitButtonSpinner);
+  var passwordChangeForm = new PasswordChangeForm(formDOMElement, formValidationError, submitButtonSpinner, userData);
 
   this.isFormRelevant = function() {
     return userData.isCurrentlyAuthenticated();

@@ -7,6 +7,8 @@ describe('The smoke test', function() {
   var password = email;
 
   describe('when not authenticated', function() {
+    logOut();
+
     describe('Home page', function() {
       before(function() {
         return H.navigateTo(Navigation.getPathForPage('IndexPage'));
@@ -149,7 +151,7 @@ describe('The smoke test', function() {
       });
 
       it('shows a message telling that you first need to authenticate', function() {
-        var message = $('#not-authenticated.information.message', this.app);
+        var message = $(PasswordChangePageMetaData.NOT_AUTHENTICATED_MESSAGE_ID, this.app);
         expect(message, 'message').to.exist;
         expect(message, 'message').to.be.visible;
 
@@ -159,23 +161,21 @@ describe('The smoke test', function() {
       });
 
       it('contains the hidden password change form', function() {
-        var form = $('#password-change-form', this.app);
+        var form = $(PasswordChangePageMetaData.FORM_SELECTOR, this.app);
         expect(form, 'form').to.exist;
         expect(form).not.to.be.visible;
+      });
+
+      it('hides the form initially to prevent flickering', function() {
+        var formDOMElement = DOM.require('#password-change-form', this.app);
+        expect(formDOMElement.style.display).to.equal('none');
       });
 
       it('includes the appropriate <script>', function() {
         var script = DOM.require('script[src="password-change.js"]', this.app);
         expect(script, 'the associated script').to.exist;
       });
-
-      it('hides the form initially', function() {
-        var formDOMElement = DOM.require('#password-change-form', this.app);
-        expect(formDOMElement.style.display).to.equal('none');
-      });
-
     });
-
   });
 
   describe('when authenticated', function() {
@@ -223,9 +223,80 @@ describe('The smoke test', function() {
       });
     });
 
-    describe.skip('Password change page', function() {
-      it('will go here', function() {
-        // TODO
+    describe('Password change page', function() {
+      var form, submitButton;
+
+      before(function() {
+        return H.navigateTo(Navigation.getPathForPage('PasswordChangePage'));
+      });
+
+      beforeEach(function() {
+        form = DOM.require(PasswordChangePageMetaData.FORM_SELECTOR, this.app);
+        submitButton = DOM.require('button[type="submit"]', form);
+      });
+
+      it('displays the form appropriatelly', function() {
+        expect(form, 'form').to.exist;
+        expect(form.style.display, 'form display').to.equal('block');
+
+        var info = DOM.require('p', form);
+        expect(info, 'info paragraph').to.exist;
+        expect(info.textContent, 'info paragraph text').to.contain('Aici vă puteţi schimba parola');
+
+        var inputBorderRadius = window.getComputedStyle(form['old-password'])['border-radius'];
+        expect(inputBorderRadius, 'inputs have border radius').to.eq('4px 4px 0px 0px');
+      });
+
+      describe('when filling in invalid data into the form', function() {
+        before(function() {
+          submitButton.click();
+          return when(form, 'finished-work');
+        });
+
+        it('shows proper validation error messages', function() {
+          var errorMessage = DOM.require('.validation-error', form);
+          expect(errorMessage.style.display).to.eq('block');
+        });
+      });
+
+      describe('when the form is filled appropriatelly', function() {
+        var newPassword, oldPassword, userData;
+
+        before(function() {
+          userData = new UserData();
+
+          oldPassword = password;
+          newPassword = password + password;
+
+          form['old-password'].value = oldPassword;
+          form['new-password'].value = newPassword;
+          form['new-password-confirmation'].value = newPassword;
+          submitButton.click();
+
+          return when(form, 'finished-work');
+        });
+
+        it('doesn’t show any error', function() {
+          var errorMessage = DOM.require('.validation-error', form);
+          expect(errorMessage.style.display).to.eq('none');
+        });
+
+        it('changed the password', function() {
+          return userData.authenticateUser(email, newPassword);
+        });
+
+        it('changes the password back', function() {
+          form['old-password'].value = newPassword;
+          form['new-password'].value = oldPassword;
+          form['new-password-confirmation'].value = oldPassword;
+          submitButton.click();
+
+          return when(form, 'finished-work');
+        });
+
+        it('changed the password back', function() {
+          return userData.authenticateUser(email, password);
+        });
       });
     });
 
@@ -242,13 +313,16 @@ describe('The smoke test', function() {
   });
 
   function logOut() {
-    after(function() {
-      DOM.require('#logout', this.app).click();
-      return H.waitForReload();
-    });
+    after(doLogOut);
 
     var assertLoggedOut = assertPublicNavigation;
     after(assertLoggedOut);
+  }
+
+  function doLogOut() {
+    /*jshint validthis:true */
+    DOM.require('#logout', this.app).click();
+    return H.waitForReload();
   }
 
   function testEmailValidation() {
@@ -345,3 +419,4 @@ var Navigation = require('app/widgets/navigation');
 var DOM = require('app/services/dom');
 var when = require('app/util/when');
 var UserData = require('app/services/user-data');
+var PasswordChangePageMetaData = require('app/pages/password-change/meta-data');
