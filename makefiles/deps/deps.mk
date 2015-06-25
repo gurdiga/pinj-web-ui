@@ -12,7 +12,7 @@ app/pages/common/js:
 	mkdir $@
 
 node_modules: package.json
-	npm install
+	npm install && touch $@
 
 package.json:
 	ln --force --symbolic makefiles/deps/package.json
@@ -21,7 +21,7 @@ app/pages/common/css/pure-nr-min.scss: bower_components
 	cp bower_components/pure/pure-nr-min.css $@
 
 bower_components: bower.json
-	bower install
+	bower install && touch $@
 
 bower.json:
 	ln --force --symbolic makefiles/deps/bower.json
