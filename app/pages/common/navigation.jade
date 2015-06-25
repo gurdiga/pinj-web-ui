@@ -2,7 +2,7 @@ nav
 	input#menu-toggle(type="checkbox")
 	label(for="menu-toggle") Meniu
 	a(class=currentIf(filename, 'index'), href="/") Home
-	a(class=currentIf(filename, 'registration'), href="/registration.html") Înregistrare
+	a(class=currentIf(filename, 'registration'), href="/registration.html").public Înregistrare
 	a(class=currentIf(filename, 'client-list'), href="/client-list.html").private Lista de clienţi
 	a(class=currentIf(filename, 'password-change'), href="/password-change.html").private Schimbarea parolei
 	a#logout.private(href="/") Ieşire

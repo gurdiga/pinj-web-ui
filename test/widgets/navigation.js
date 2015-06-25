@@ -1,23 +1,23 @@
 'use strict';
 
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-var DOM = require('app/services/dom');
-
 describe('Navigation', function() {
   describe('adjusts link visibility appropriatelly', function() {
     var domElement, userData;
-    var privateLinks;
+    var privateLinks, publicLinks;
 
-    beforeEach(function(done) {
-      getProductionDOMElement(this)
-      .then(function(productionDOMElement) { domElement = productionDOMElement; })
-      .then(done, done);
+    beforeEach(function() {
+      return getProductionDOMElement(this)
+      .then(function(productionDOMElement) {
+        domElement = productionDOMElement;
+      });
     });
 
     beforeEach(function() {
       userData = new UserData();
       this.sinon.stub(userData, 'isCurrentlyAuthenticated');
+
+      publicLinks = getPublicLinks(domElement);
+      expect(publicLinks, 'public link count').to.have.length(1);
 
       privateLinks = getPrivateLinks(domElement);
       expect(privateLinks, 'private link count').to.have.length(3);
@@ -33,6 +33,10 @@ describe('Navigation', function() {
       it('private links are left hidden', function() {
         expect(areAllHidden(privateLinks)).to.be.true;
       });
+
+      it('displays public links', function() {
+        expect(areAllVisible(publicLinks)).to.be.true;
+      });
     });
 
     describe('when authenticated', function() {
@@ -44,10 +48,20 @@ describe('Navigation', function() {
       it('displays private links', function() {
         expect(areAllVisible(privateLinks)).to.be.true;
       });
+
+      it('hides the public links', function() {
+        expect(areAllHidden(publicLinks)).to.be.true;
+      });
     });
 
     function getAllLinks(domElement) {
       return [].slice.call(domElement.querySelectorAll('a'));
+    }
+
+    function getPublicLinks(domElement) {
+      return getAllLinks(domElement).filter(function(link) {
+        return link.classList.contains('public');
+      });
     }
 
     function getPrivateLinks(domElement) {
@@ -128,3 +142,7 @@ describe('Navigation', function() {
     });
   }
 });
+
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');
+var DOM = require('app/services/dom');

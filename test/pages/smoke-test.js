@@ -1,7 +1,7 @@
 'use strict';
 
 describe('The smoke test', function() {
-  var PRIVATE_LINKS = ['Home', 'Înregistrare', 'Lista de clienţi', 'Schimbarea parolei', 'Ieşire'];
+  var PRIVATE_LINKS = ['Home', 'Lista de clienţi', 'Schimbarea parolei', 'Ieşire'];
 
   var email = 'smoke-test' + Date.now() + '@test.com';
   var password = email;

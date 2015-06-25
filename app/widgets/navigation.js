@@ -1,13 +1,24 @@
 'use strict';
 
 function Navigation(domElement, userData) {
-  if (userData.isCurrentlyAuthenticated()) showPrivateLinks();
+  if (userData.isCurrentlyAuthenticated()) {
+    hidePublicLinks();
+    showPrivateLinks();
+  }
 
   function showPrivateLinks() {
     var links = [].slice.call(domElement.querySelectorAll('a'));
 
     links.forEach(function(link) {
       link.classList.remove('private');
+    });
+  }
+
+  function hidePublicLinks() {
+    var links = [].slice.call(domElement.querySelectorAll('a'));
+
+    links.forEach(function(link) {
+      if (link.classList.contains('public')) link.style.display = 'none';
     });
   }
 }
