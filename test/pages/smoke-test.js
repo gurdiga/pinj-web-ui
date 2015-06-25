@@ -244,7 +244,7 @@ describe('The smoke test', function() {
         expect(info.textContent, 'info paragraph text').to.contain('Aici vă puteţi schimba parola');
 
         var inputBorderRadius = window.getComputedStyle(form['old-password'])['border-radius'];
-        expect(inputBorderRadius, 'inputs have border radius').to.eq('4px 4px 0px 0px');
+        expect(inputBorderRadius, 'inputs have border radius').to.equal('4px 4px 0px 0px');
       });
 
       describe('when filling in invalid data into the form', function() {
@@ -255,7 +255,7 @@ describe('The smoke test', function() {
 
         it('shows proper validation error messages', function() {
           var errorMessage = DOM.require('.validation-error', form);
-          expect(errorMessage.style.display).to.eq('block');
+          expect(errorMessage.style.display).to.equal('block');
         });
       });
 
@@ -278,11 +278,26 @@ describe('The smoke test', function() {
 
         it('doesn’t show any error', function() {
           var errorMessage = DOM.require('.validation-error', form);
-          expect(errorMessage.style.display).to.eq('none');
+          expect(errorMessage.style.display).to.equal('none');
         });
 
         it('changed the password', function() {
           return userData.authenticateUser(email, newPassword);
+        });
+
+        it('clears the fields', function() {
+          expect(form['old-password'].value).to.equal('');
+          expect(form['new-password'].value).to.equal('');
+          expect(form['new-password-confirmation'].value).to.equal('');
+        });
+
+        it('shows a success message', function() {
+          var message = DOM.require('.success-message p', form);
+          expect(message, 'message').to.exist;
+          expect(message.textContent, 'text').to.equal('Parola a fost schimbată cu success.');
+
+          var messageStyle = window.getComputedStyle(message);
+          expect(messageStyle.fontStyle).to.equal('italic');
         });
 
         it('changes the password back', function() {

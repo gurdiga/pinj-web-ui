@@ -1,7 +1,7 @@
 'use strict';
 
 describe('PasswordChangeForm', function() {
-  var passwordChangeForm, domElement, formValidationError, submitButtonSpinner, userData;
+  var passwordChangeForm, domElement, formValidationError, formSuccessMessage, submitButtonSpinner, userData;
   var productionDOMElement;
 
   before(function() {
@@ -12,11 +12,18 @@ describe('PasswordChangeForm', function() {
   beforeEach(function() {
     domElement = DOM.clone(productionDOMElement);
 
+    formSuccessMessage = new FormSuccessMessage(domElement);
     formValidationError = new FormValidationError(domElement);
     submitButtonSpinner = new SubmitButtonSpinner(domElement);
     userData = new UserData();
 
-    passwordChangeForm = new PasswordChangeForm(domElement, formValidationError, submitButtonSpinner, userData);
+    passwordChangeForm = new PasswordChangeForm(
+      domElement,
+      formValidationError,
+      formSuccessMessage,
+      submitButtonSpinner,
+      userData
+    );
     this.sinon.stub(passwordChangeForm, 'processForm');
   });
 
@@ -104,6 +111,8 @@ describe('PasswordChangeForm', function() {
 
       this.sinon.spy(formValidationError, 'show');
       this.sinon.spy(formValidationError, 'hide');
+      this.sinon.spy(formSuccessMessage, 'hide');
+      this.sinon.spy(formSuccessMessage, 'show');
       this.sinon.spy(submitButtonSpinner, 'show');
       this.sinon.stub(userData, 'changePassword').returns(Promise.resolve());
       this.sinon.spy(submitButtonSpinner, 'hide');
@@ -124,6 +133,10 @@ describe('PasswordChangeForm', function() {
       expect(formValidationError.show).not.to.have.been.called;
     });
 
+    it('hides any success message', function() {
+      expect(formSuccessMessage.hide).to.have.been.calledBefore(userData.changePassword);
+    });
+
     it('displays the spinner before calling the User Data service', function() {
       expect(submitButtonSpinner.show).to.have.been.calledBefore(userData.changePassword);
     });
@@ -134,6 +147,17 @@ describe('PasswordChangeForm', function() {
 
     it('hides the spinner after User Data has responded', function() {
       expect(submitButtonSpinner.hide).to.have.been.calledAfter(userData.changePassword);
+    });
+
+    it('clears the fields', function() {
+      expect(domElement['old-password'].value).to.equal('');
+      expect(domElement['new-password'].value).to.equal('');
+      expect(domElement['new-password-confirmation'].value).to.equal('');
+    });
+
+    it('shows the success message', function() {
+      expect(formSuccessMessage.show).to.have.been.calledAfter(userData.changePassword);
+      expect(formSuccessMessage.show).to.have.been.calledWith('Parola a fost schimbată cu success.');
     });
   });
 
@@ -147,6 +171,7 @@ describe('PasswordChangeForm', function() {
 
 var PasswordChangeForm = require('app/pages/password-change/password-change-form');
 var FormValidationError = require('app/widgets/form-validation-error');
+var FormSuccessMessage = require('app/widgets/form-success-message');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var Navigation = require('app/widgets/navigation');
 var DOM = require('app/services/dom');

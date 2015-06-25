@@ -140,25 +140,43 @@ a {
 	}
 }
 
-.message {
+%message-text {
 	border-radius: 2px;
 	padding: .5em;
 	font-style: italic;
+	display: inline-block;
+	margin: 0;
+}
+
+.message {
+	@extend %message-text;
 
 	&.information {
 		background-color: #eee;
 	}
 }
 
-.validation-error {
+%message-container {
 	margin: .5em 0;
+}
+
+.validation-error {
+	@extend %message-container;
 
 	p {
-		@extend .message;
+		@extend %message-text;
 		color: #ca1c3c;
 		background-color: #fdd;
-		display: inline-block;
-		margin: 0;
+	}
+}
+
+.success-message {
+	@extend %message-container;
+
+	p {
+		@extend %message-text;
+		color: green;
+		background-color: #dfd;
 	}
 }
 
