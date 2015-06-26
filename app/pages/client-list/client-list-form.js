@@ -47,7 +47,7 @@ function ClientListForm(domElement, formValidationError, submitButtonSpinner, cl
   }
 
   function showLoadSpinner() {
-    loadSpinner.style.display = 'block';
+    loadSpinner.style.display = 'inline';
   }
 
   function hideLoadSpinner() {
