@@ -2,7 +2,7 @@ prepare-build: \
 	create-build-directory \
 	prepare-html \
 	prepare-js \
-	externalize-js-source-maps \
+	drop-js-source-maps \
 	prepare-css \
 	prepare-static-assets \
 	check-404s
@@ -26,13 +26,13 @@ prepare-js:
 		wget --no-verbose http://localhost:$$HTTP_PORT$$bundle --output-document=build$$bundle || exit 1; \
 	done
 
-externalize-js-source-maps:
+drop-js-source-maps:
 	@echo "Externalizing JS source maps:"
 	@node makefiles/common/bundle-entry-pairs.js | \
 	grep --invert-match 'test' | \
 	while read bundle entry; do \
 		echo $$bundle; \
-		exorcist build$$bundle.map < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
+		exorcist /dev/null < build$$bundle > build$$bundle.clean && mv build$$bundle.clean build$$bundle || exit 1; \
 	done;
 
 prepare-css:
