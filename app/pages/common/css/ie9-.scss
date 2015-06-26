@@ -1,16 +1,26 @@
-body>* {
-	display: none !important;
-}
-
-body>header {
+%visible {
 	display: block !important;
 }
 
-body>header>nav {
+%hidden {
 	display: none !important;
 }
 
-body>.ie9-,
-body>footer {
-	display: block !important;
+body {
+	&>* {
+		@extend %hidden;
+	}
+
+	&>header {
+		@extend %visible;
+
+		&>nav {
+			@extend %hidden;
+		}
+	}
+
+	&>.ie9-,
+	&>footer {
+		@extend %visible;
+	}
 }
