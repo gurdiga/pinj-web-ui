@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ClientListForm', function() {
+describe.only('ClientListForm', function() {
   var clientListForm, domElement, formValidationError, submitButtonSpinner, clientList;
   var productionDOMElement, currentUserEmail, clientListLoadRequest, clientListSaveRequest, clientListText;
 
@@ -25,6 +25,11 @@ describe('ClientListForm', function() {
   it('shows a spinner and disables the submit button initially', function() {
     expect(clientListForm.isLoadSpinnerDisplayed()).to.be.true;
     expect(clientListForm.isSubmitDisabled()).to.be.true;
+  });
+
+  it('has spell checking disabled for the textarea', function() {
+    var textarea = DOM.require('textarea', domElement);
+    expect(textarea.spellcheck, 'spell checking enabled').to.be.false;
   });
 
   describe('initial client list loading', function() {

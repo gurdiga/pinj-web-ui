@@ -13,7 +13,11 @@ block content
 			| prefixate cu “#”, de exemplu: #20-2e-767-22012013.
 
 		fieldset.glued-fields
-			textarea(name="client-list", placeholder="Exemple:\n#20-2e-767-22012013\nIon Grigorescu\nApă-Canal\nMoldtelecom")
+			textarea(
+				name="client-list",
+				placeholder="Exemple:\n#20-2e-767-22012013\nIon Grigorescu\nApă-Canal\nMoldtelecom",
+				spellcheck='false'
+			)
 			img#client-list-spinner(src="/common/images/spinner.gif", style="display: none;")
 
 		button(type="submit") Salvează
