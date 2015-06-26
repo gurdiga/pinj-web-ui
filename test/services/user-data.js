@@ -1,7 +1,5 @@
 'use strict';
 
-var UserData = require('app/services/user-data');
-
 describe('UserData', function() {
   this.timeout(10000);
 
@@ -13,35 +11,31 @@ describe('UserData', function() {
     userData = new UserData();
   });
 
-  it('can register a user', function(done) {
-    userData.registerUser(email, password)
-    .then(done, done);
+  it('can register a user', function() {
+    return userData.registerUser(email, password);
   });
 
-  it('can authenticate the registered user', function(done) {
-    userData.authenticateUser(email, password)
+  it('can authenticate the registered user', function() {
+    return userData.authenticateUser(email, password)
     .then(function() {
       expect(userData.isCurrentlyAuthenticated()).to.be.true;
       expect(userData.getCurrentUserEmail()).to.equal(email);
       expect(userData.getCurrentUserId()).to.exist;
-      done();
-    })
-    .catch(done);
+    });
   });
 
-  it('can get some saved piece of data', function(done) {
+  it('can get some saved piece of data', function() {
     var path = 'some/path';
     var value = 'yes';
 
-    userData.set(path, value)
+    return userData.set(path, value)
     .then(function() {
       return userData.get(path);
     })
     .then(function(returnedValue) {
       expect(returnedValue).to.equal(value);
     })
-    .then(deleteTestUserProfile)
-    .then(done, done);
+    .then(deleteTestUserProfile);
   });
 
   it('can change user’s password', function() {
@@ -55,20 +49,17 @@ describe('UserData', function() {
     });
   });
 
-  it('can unregister the registered user', function(done) {
-    userData.unregisterUser(email, password)
-    .then(done, done);
+  it('can unregister the registered user', function() {
+    return userData.unregisterUser(email, password);
   });
 
-  it('can unauthenticate the registered user', function(done) {
-    userData.unauthenticateCurrentUser()
+  it('can unauthenticate the registered user', function() {
+    return userData.unauthenticateCurrentUser()
     .then(function() {
       expect(userData.isCurrentlyAuthenticated()).to.be.false;
       expect(userData.getCurrentUserEmail()).to.equal('NOT_AUTHENTICATED');
       expect(userData.getCurrentUserId()).to.equal('NOT_AUTHENTICATED');
-      done();
-    })
-    .catch(done);
+    });
   });
 
   after(function(done) {
@@ -86,3 +77,5 @@ describe('UserData', function() {
     return userData.set('', null);
   }
 });
+
+var UserData = require('app/services/user-data');

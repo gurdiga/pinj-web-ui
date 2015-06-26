@@ -1,10 +1,5 @@
 'use strict';
 
-var RegistrationPage = require('app/pages/registration/registration-page');
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-var Promise = require('app/services/promise');
-
 describe('RegistrationPage', function() {
   var registrationPage, userData;
 
@@ -53,3 +48,8 @@ describe('RegistrationPage', function() {
     });
   });
 });
+
+var RegistrationPage = require('app/pages/registration/registration-page');
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');
+var Promise = require('app/services/promise');

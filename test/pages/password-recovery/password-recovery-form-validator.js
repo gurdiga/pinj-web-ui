@@ -1,7 +1,5 @@
 'use strict';
 
-var PasswordRecoveryFormValidator = require('app/pages/password-recovery/password-recovery-form-validator');
-
 describe('PasswordRecoveryFormValidator', function() {
   var validator;
 
@@ -10,25 +8,24 @@ describe('PasswordRecoveryFormValidator', function() {
   });
 
   describe('validate', function() {
-    it('rejects empty email', function(done) {
+    it('rejects empty email', function() {
       expect(validator.validate({
         'email': ''
-      })).to.be.rejectedWith('Adresa de email lipseşte')
-      .and.notify(done);
+      })).to.be.rejectedWith('Adresa de email lipseşte');
     });
 
-    it('rejects syntactically incorrect email', function(done) {
+    it('rejects syntactically incorrect email', function() {
       expect(validator.validate({
         'email': 'garbage'
-      })).to.be.rejectedWith('Adresa de email este incorectă sintactic')
-      .and.notify(done);
+      })).to.be.rejectedWith('Adresa de email este incorectă sintactic');
     });
 
-    it('accepts valid data', function(done) {
+    it('accepts valid data', function() {
       expect(validator.validate({
         'email': 'test@test.com'
-      })).to.be.fulfilled
-      .and.notify(done);
+      })).to.be.fulfilled;
     });
   });
 });
+
+var PasswordRecoveryFormValidator = require('app/pages/password-recovery/password-recovery-form-validator');

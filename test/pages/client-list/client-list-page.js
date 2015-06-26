@@ -1,15 +1,10 @@
 'use strict';
 
-var ClientListPage = require('app/pages/client-list/client-list-page');
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-
 describe('ClientListPage', function() {
   var clientListPage, userData;
 
-  before(function(done) {
-    H.navigateTo(Navigation.getPathForPage('ClientListPage'))
-    .then(done, done);
+  before(function() {
+    return H.navigateTo(Navigation.getPathForPage('ClientListPage'));
   });
 
   beforeEach(function() {
@@ -41,3 +36,7 @@ describe('ClientListPage', function() {
     });
   });
 });
+
+var ClientListPage = require('app/pages/client-list/client-list-page');
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');

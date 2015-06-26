@@ -1,21 +1,12 @@
 'use strict';
 
-var PasswordRecoveryForm = require('app/pages/password-recovery/password-recovery-form');
-var Navigation = require('app/widgets/navigation');
-var FormValidationError = require('app/widgets/form-validation-error');
-var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
-var UserData = require('app/services/user-data');
-var DOM = require('app/services/dom');
-var Promise = require('app/services/promise');
-
 describe('PasswordRecoveryForm', function() {
   var passwordRecoveryForm, domElement, formValidationError, submitButtonSpinner, userData, email;
   var productionDOMElement;
 
-  before(function(done) {
-    getProductionDOMElement(this)
-    .then(function(domElement) { productionDOMElement = domElement; })
-    .then(done, done);
+  before(function() {
+    return getProductionDOMElement(this)
+    .then(function(domElement) { productionDOMElement = domElement; });
   });
 
   beforeEach(function() {
@@ -38,15 +29,14 @@ describe('PasswordRecoveryForm', function() {
       this.sinon.spy(formValidationError, 'show');
     });
 
-    it('displays an appropriate error message', function(done) {
-      passwordRecoveryForm.submit({
+    it('displays an appropriate error message', function() {
+      return passwordRecoveryForm.submit({
         'email': 'garbage'
       })
       .catch(function(error) {
         expect(formValidationError.show).to.have.been.called;
         expect(formValidationError.getMessage(), 'error message text').to.equal(error.message);
-      })
-      .then(done, done);
+      });
     });
   });
 
@@ -190,3 +180,11 @@ describe('PasswordRecoveryForm', function() {
     });
   }
 });
+
+var PasswordRecoveryForm = require('app/pages/password-recovery/password-recovery-form');
+var Navigation = require('app/widgets/navigation');
+var FormValidationError = require('app/widgets/form-validation-error');
+var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
+var UserData = require('app/services/user-data');
+var DOM = require('app/services/dom');
+var Promise = require('app/services/promise');

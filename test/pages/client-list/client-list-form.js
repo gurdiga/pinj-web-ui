@@ -1,21 +1,12 @@
 'use strict';
 
-var ClientListForm = require('app/pages/client-list/client-list-form');
-var Navigation = require('app/widgets/navigation');
-var FormValidationError = require('app/widgets/form-validation-error');
-var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
-var ClientList = require('app/pages/client-list/client-list');
-var DOM = require('app/services/dom');
-var Promise = require('app/services/promise');
-
 describe('ClientListForm', function() {
   var clientListForm, domElement, formValidationError, submitButtonSpinner, clientList;
   var productionDOMElement, currentUserEmail, clientListLoadRequest, clientListSaveRequest, clientListText;
 
-  before(function(done) {
-    getProductionDOMElement(this)
-    .then(function(domElement) { productionDOMElement = domElement; })
-    .then(done, done);
+  before(function() {
+    return getProductionDOMElement(this)
+    .then(function(domElement) { productionDOMElement = domElement; });
   });
 
   beforeEach(function() {
@@ -103,6 +94,7 @@ describe('ClientListForm', function() {
       beforeEach(function(done) {
         submitForm();
         clientListSaveRequest.simulateSuccess();
+
         Promise.nextTick().then(done);
       });
 
@@ -162,3 +154,11 @@ describe('ClientListForm', function() {
     });
   }
 });
+
+var ClientListForm = require('app/pages/client-list/client-list-form');
+var Navigation = require('app/widgets/navigation');
+var FormValidationError = require('app/widgets/form-validation-error');
+var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
+var ClientList = require('app/pages/client-list/client-list');
+var DOM = require('app/services/dom');
+var Promise = require('app/services/promise');

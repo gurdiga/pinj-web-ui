@@ -1,19 +1,13 @@
 'use strict';
 
-var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-var Promise = require('app/services/promise');
-
 describe('PasswordRecoveryPage', function() {
   var passwordRecoveryPage, userData, email, queryString;
 
-  before(function(done) {
+  before(function() {
     email = 'test@test.com';
     queryString = '?email=' + encodeURIComponent(email);
 
-    H.navigateTo(Navigation.getPathForPage('PasswordRecoveryPage') + queryString)
-    .then(done, done);
+    return H.navigateTo(Navigation.getPathForPage('PasswordRecoveryPage') + queryString);
   });
 
   beforeEach(function() {
@@ -27,12 +21,12 @@ describe('PasswordRecoveryPage', function() {
   });
 
   describe('form submission', function() {
-    beforeEach(function(done) {
+    beforeEach(function() {
       this.sinon.stub(userData, 'sendPasswordRecoveryEmail').returns(Promise.resolve());
-      passwordRecoveryPage.submitForm({
+
+      return passwordRecoveryPage.submitForm({
         'email': email
-      })
-      .then(done, done);
+      });
     });
 
     it('replaces the form with a success message', function() {
@@ -41,3 +35,8 @@ describe('PasswordRecoveryPage', function() {
     });
   });
 });
+
+var PasswordRecoveryPage = require('app/pages/password-recovery/password-recovery-page');
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');
+var Promise = require('app/services/promise');

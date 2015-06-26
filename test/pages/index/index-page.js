@@ -1,16 +1,10 @@
 'use strict';
 
-var IndexPage = require('app/pages/index/index-page');
-var Navigation = require('app/widgets/navigation');
-var UserData = require('app/services/user-data');
-var Promise = require('app/services/promise');
-
 describe('IndexPage', function() {
   var indexPage, userData;
 
-  before(function(done) {
-    H.navigateTo(Navigation.getPathForPage('IndexPage'))
-    .then(done, done);
+  before(function() {
+    return H.navigateTo(Navigation.getPathForPage('IndexPage'));
   });
 
   beforeEach(function() {
@@ -38,13 +32,12 @@ describe('IndexPage', function() {
     });
 
     describe('after authentication', function() {
-      beforeEach(function(done) {
-        indexPage.submitForm({
+      beforeEach(function() {
+        return indexPage.submitForm({
           'email'   : 'test@test.com',
           'password': 'P4ssw0rd!'
         })
-        .then(H.waitForReload)
-        .then(done, done);
+        .then(H.waitForReload);
       });
 
       it('redirects to the client list page', function() {
@@ -53,3 +46,8 @@ describe('IndexPage', function() {
     });
   });
 });
+
+var IndexPage = require('app/pages/index/index-page');
+var Navigation = require('app/widgets/navigation');
+var UserData = require('app/services/user-data');
+var Promise = require('app/services/promise');

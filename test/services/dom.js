@@ -1,7 +1,5 @@
 'use strict';
 
-var DOM = require('app/services/dom');
-
 describe('DOM', function() {
   describe('require', function() {
     var returnValue;
@@ -104,3 +102,5 @@ describe('DOM', function() {
     });
   });
 });
+
+var DOM = require('app/services/dom');

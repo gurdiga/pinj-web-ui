@@ -15,13 +15,12 @@ describe('LogoutLink', function() {
   });
 
   describe('when deauthenticated successfully', function() {
-    beforeEach(function(done) {
+    beforeEach(function() {
       userData.unauthenticateCurrentUser.returns(Promise.resolve());
       link.click();
       expect(userData.unauthenticateCurrentUser, 'tries to deauthenticate').to.have.been.called;
 
-      this.helpers.waitForReload(navigationTrap)
-      .then(done, done);
+      return this.helpers.waitForReload(navigationTrap);
     });
 
     it('navigates the link', function() {
@@ -39,6 +38,7 @@ describe('LogoutLink', function() {
 
       link.click();
       expect(userData.unauthenticateCurrentUser, 'tries to deauthenticate').to.have.been.called;
+
       Promise.nextTick().then(done);
     });
 

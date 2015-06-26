@@ -1,13 +1,5 @@
 'use strict';
 
-var AuthenticationForm = require('app/pages/index/authentication-form');
-var Navigation = require('app/widgets/navigation');
-var FormValidationError = require('app/widgets/form-validation-error');
-var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
-var UserData = require('app/services/user-data');
-var DOM = require('app/services/dom');
-var Promise = require('app/services/promise');
-
 describe('AuthenticationForm', function() {
   var authenticationForm, domElement, formValidationError, submitButtonSpinner, userData;
   var productionDOMElement, email, password, submitTrap;
@@ -223,3 +215,11 @@ describe('AuthenticationForm', function() {
     });
   }
 });
+
+var AuthenticationForm = require('app/pages/index/authentication-form');
+var Navigation = require('app/widgets/navigation');
+var FormValidationError = require('app/widgets/form-validation-error');
+var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
+var UserData = require('app/services/user-data');
+var DOM = require('app/services/dom');
+var Promise = require('app/services/promise');
