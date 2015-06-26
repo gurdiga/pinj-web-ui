@@ -27,6 +27,11 @@ describe('ClientListForm', function() {
     expect(clientListForm.isSubmitDisabled()).to.be.true;
   });
 
+  it('has spell checking disabled for the textarea', function() {
+    var textarea = DOM.require('textarea', domElement);
+    expect(textarea.spellcheck, 'spell checking enabled').to.be.false;
+  });
+
   describe('initial client list loading', function() {
     describe('when ClientList.load() succeeds', function() {
       beforeEach(function(done) {
