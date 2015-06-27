@@ -26,5 +26,8 @@ bower_components: bower.json
 bower.json:
 	ln --force --symbolic makefiles/deps/bower.json
 
-node_modules/app: | node_modules
+.nvmrc:
+	ln --force --symbolic makefiles/deps/.nvmrc
+
+node_modules/app: | .nvmrc node_modules
 	ln --force --symbolic --target=node_modules ../app

@@ -11,4 +11,6 @@ bower.json
 build
 server.log
 
+.nvmrc
+
 app/pages/common/js/airbrake-client.js

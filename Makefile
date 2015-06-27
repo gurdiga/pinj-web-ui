@@ -12,6 +12,6 @@ default: deps lint prepare-build clean-build server-restart
 pre-commit: default
 
 clean:
-	rm -rf node_modules/ bower_components/ build/
+	rm -rf node_modules/ bower_components/ build/ .nvmrc package.json bower.json
 
 include $(shell find makefiles -name '*.mk' | sort)
