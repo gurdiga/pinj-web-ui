@@ -72,17 +72,14 @@ function UserData() {
 
   this.unregisterUser = function(email, password) {
     return new Promise(function(resolve, reject) {
-      firebaseRef.removeUser({
-        email: email,
-        password: password
-      }, function(error) {
-        if (!error) {
-          this.set('', null)
-          .then(resolve, reject);
-        } else {
-          reject(getLocalizedError(error.code));
-        }
-      }.bind(this));
+      this.set('', null)
+      .then(function() {
+        firebaseRef.removeUser({
+          email: email,
+          password: password
+        }, forwardTo(resolve, reject));
+      })
+      .catch(reject);
     }.bind(this));
   };
 

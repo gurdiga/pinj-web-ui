@@ -34,8 +34,7 @@ describe('UserData', function() {
     })
     .then(function(returnedValue) {
       expect(returnedValue).to.equal(value);
-    })
-    .then(deleteTestUserProfile);
+    });
   });
 
   it('can change user’s password', function() {
@@ -61,21 +60,6 @@ describe('UserData', function() {
       expect(userData.getCurrentUserId()).to.equal('NOT_AUTHENTICATED');
     });
   });
-
-  after(function(done) {
-    userData.unregisterUser(email, password)
-    .then(function() {
-      expect(it, 'User should have been unregistered').not.to.be.false;
-    })
-    .catch(function(error) {
-      expect(error.message).to.equal('Această adresă de email nu este înregistrată.');
-    })
-    .finally(done);
-  });
-
-  function deleteTestUserProfile() {
-    return userData.set('', null);
-  }
 });
 
 var UserData = require('app/services/user-data');
