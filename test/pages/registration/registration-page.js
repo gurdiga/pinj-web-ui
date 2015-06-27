@@ -33,14 +33,13 @@ describe('RegistrationPage', function() {
       registrationPage = new RegistrationPage(this.app, userData);
     });
 
-    beforeEach(function(done) {
-      registrationPage.submitForm({
+    beforeEach(function() {
+      return registrationPage.submitForm({
         'email'                 : 'test@test.com',
         'password'              : 'P4ssw0rd!',
         'password-confirmation' : 'P4ssw0rd!'
       })
-      .then(H.waitForReload)
-      .then(done, done);
+      .then(H.waitForReload);
     });
 
     it('redirects to the client list page', function() {
