@@ -43,7 +43,8 @@ function ClientListForm(domElement, formValidationError, submitButtonSpinner, cl
     .finally(function() {
       enableSubmitButton();
       hideLoadSpinner();
-    });
+    })
+    .then(emit(domElement, 'finished-loading-data'));
   }
 
   function showLoadSpinner() {
@@ -62,5 +63,7 @@ function ClientListForm(domElement, formValidationError, submitButtonSpinner, cl
     submitButton.disabled = false;
   }
 }
+
+var emit = require('app/util/emit');
 
 module.exports = ClientListForm;

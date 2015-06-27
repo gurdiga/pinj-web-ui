@@ -129,9 +129,29 @@ describe('The smoke test', function() {
       });
     });
 
-    describe.skip('Client list page', function() {
-      it('will go here', function() {
-        // TODO
+    describe('Client list page', function() {
+      before(function() {
+        return H.navigateTo(Navigation.getPathForPage('ClientListPage'));
+      });
+
+      it('displays the page title', function() {
+        var title = DOM.require('h2', this.app);
+        expect(title, 'title').to.exist;
+        expect(title.textContent, 'title text').to.equal('Lista de clienţi');
+      });
+
+      it('displays the note requiring authentication and the link to home page', function() {
+        var note = DOM.require('#not-authenticated', this.app);
+        expect(note, 'note').to.exist;
+        expect(note.textContent, 'note text').to.contain('Pentru a vă administra lista de clienţi');
+
+        var style = window.getComputedStyle(note);
+        expect(style.fontStyle, 'use an emphatic font style').to.equal('italic');
+        expect(style.backgroundColor, 'use an emphatic background color').to.equal('rgb(238, 238, 238)');
+
+        var link = DOM.require('a', note);
+        expect(link, 'link to the login form').to.exist;
+        expect(link.getAttribute('href'), 'link href').to.equal('/');
       });
     });
 
@@ -179,26 +199,24 @@ describe('The smoke test', function() {
   });
 
   describe('when authenticated', function() {
+    before(function() {
+      return H.navigateTo(Navigation.getPathForPage('IndexPage'));
+    });
+
+    before(function() {
+      this.form = DOM.require('#authentication-form', this.app);
+      this.submitButton = DOM.require('button[type="submit"]', this.form);
+
+      this.form['email'].value = email;
+      this.form['password'].value = password;
+      this.submitButton.click();
+      return H.waitForReload();
+    });
+
     describe('Home page', function() {
-      before(function() {
-        return H.navigateTo(Navigation.getPathForPage('IndexPage'));
-      });
-
-      describe('when the email and password are correct', function() {
-        before(function() {
-          this.form = DOM.require('#authentication-form', this.app);
-          this.submitButton = DOM.require('button[type="submit"]', this.form);
-
-          this.form['email'].value = email;
-          this.form['password'].value = password;
-          this.submitButton.click();
-          return H.waitForReload();
-        });
-
-        testAuthenticatesTheUser();
-        testDisplayedTheClientListPage();
-        testPrivateNavigation();
-      });
+      testAuthenticatesTheUser();
+      testDisplayedTheClientListPage();
+      testPrivateNavigation();
     });
 
     describe('Registration page', function() {
@@ -215,11 +233,121 @@ describe('The smoke test', function() {
         var message = $('#already-registered', this.app);
         expect(message).to.be.visible;
       });
+
+      it('is not displayed in the navigation', function() {
+        var navigationLink = $('header>nav>a[href="/registration.html"]');
+        expect(navigationLink, 'navigation link').not.to.be.visible;
+      });
     });
 
-    describe.skip('Client list page', function() {
-      it('will go here', function() {
-        // TODO
+    describe('Client list page', function() {
+      before(function() {
+        return H.navigateTo(Navigation.getPathForPage('ClientListPage'));
+      });
+
+      it('is marked as current in the top navigation', function() {
+        var navigationLink = DOM.require('header>nav>a[href="/client-list.html"]', this.app);
+        expect(navigationLink).to.exist;
+
+        var style = window.getComputedStyle(navigationLink);
+        expect(style.color, 'color').to.equal('rgb(0, 0, 0)');
+        expect(style.textDecoration, 'text decoration').to.equal('none');
+      });
+
+      it('displays the appropriate title', function() {
+        var title = DOM.require('h2', this.app);
+        expect(title).to.exist;
+        expect(title.textContent, 'title text').to.equal('Lista de clienţi');
+      });
+
+      it('displays a information paragraph explaining the purpose of the page', function() {
+        var p = $('p:contains("Aici introduceţi lista clienţilor")', this.app);
+        expect(p).to.exist;
+      });
+
+      it('displays the form', function() {
+        var form = $('#client-list-form', this.app);
+        expect(form).to.exist;
+        expect(form.is(':visible'), 'is visible').to.be.true;
+      });
+
+      it('displays the textarea to enter clients', function() {
+        var form = $('form', this.app);
+        var textarea = $('textarea[name="client-list"]', form);
+        expect(textarea).to.exist;
+        expect(textarea.attr('placeholder'), 'has a placeholder giving some good examples')
+          .to.equal('Exemple:\n#20-2e-767-22012013\nIon Grigorescu\nApă-Canal\nMoldtelecom');
+        expect(textarea.attr('spellcheck'), 'has spell checking disabled because these are mostly names and it only distracts')
+          .to.equal('false');
+        expect(textarea.is(':visible'), 'is visible').to.be.true;
+        expect(textarea.css('width'), 'has width less than 100% to allow for comfortable scrolling on mobile')
+          .to.equal(form.width() * 0.75 + 'px');
+        expect(textarea.css('height'), 'height').to.equal('250px');
+        expect(textarea.css('border-radius'), 'has nice rounded corners').to.equal('4px');
+        expect(textarea.css('font-family'), 'inherits the font').to.equal('Alegreya, serif');
+      });
+
+      it('displays the textarea spinner while the data is being loaded', function() {
+        var textareaSpinner = $('#client-list-spinner', this.app);
+        expect(textareaSpinner.is(':visible'), 'is visible').to.be.true;
+      });
+
+      it('displays the submit button', function() {
+        var button = $('form button[type="submit"]', this.app);
+        expect(button).to.exist;
+        expect(button.is(':visible'), 'is visible').to.be.true;
+        expect(button.css('font-family'), 'has a nice font').to.equal('\'Alegreya SC\'');
+        expect(button.css('color'), 'has nice inverted foregraound color').to.equal('rgb(255, 255, 255)');
+        expect(button.css('background-color'), 'has nice inverted background color').to.equal('rgb(0, 120, 231)');
+      });
+
+      describe('data persistence', function() {
+        var form, submitButton, submitButtonSpinner, textareaSpinner;
+        var data = 'Google\nJohn Doe\n' + Date.now();
+
+        before(function() {
+          form = DOM.require('form', this.app);
+
+          return when(form, 'finished-loading-data').then(function() {
+            form['client-list'].value = data;
+          });
+        });
+
+        it('hides the textarea spinner when the data has finished loading', function() {
+          textareaSpinner = $('#client-list-spinner', form);
+          expect(textareaSpinner.is(':not(:visible)')).to.be.true;
+        });
+
+        it('disables the button and displays the submit button spinner while saving', function() {
+          submitButton = $('button[type="submit"]', form);
+          submitButtonSpinner = $('.submit-button-spinner', form);
+
+          expect(submitButtonSpinner).to.exist;
+          submitButton.click();
+          expect(submitButton.is(':disabled'), 'button is disabled').to.be.true;
+          expect(submitButtonSpinner.is(':visible'), 'spinner is displayed').to.be.true;
+          return when(form, 'finished-work');
+        });
+
+        it('hides the submit button spinner and reenables the button when data is saved', function() {
+          expect(submitButton.is(':enabled'), 'button is enabled').to.be.true;
+          expect(submitButtonSpinner.is(':hidden'), 'spinner is hidden').to.be.true;
+        });
+
+        describe('after page reload', function() {
+          before(function() {
+            return H.navigateTo(Navigation.getPathForPage('ClientListPage'));
+          });
+
+          beforeEach(function() {
+            form = DOM.require('form', this.app);
+            return when(form, 'finished-loading-data');
+          });
+
+          it('has the saved data', function() {
+            expect(form['client-list'].value).to.equal(data);
+          });
+        });
       });
     });
 
@@ -320,10 +448,9 @@ describe('The smoke test', function() {
 
   after(function() {
     var userData = new UserData();
-    return userData.authenticateUser(email, password).then(function() {
-      return userData.set('', null).then(function() {
-        return userData.unregisterUser(email, password);
-      });
+    return userData.authenticateUser(email, password)
+    .then(function() {
+      return userData.unregisterUser(email, password);
     });
   });
 
