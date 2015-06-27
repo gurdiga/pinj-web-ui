@@ -7,9 +7,9 @@ export
 		\( -name '*.js' -or -name '*.json' \) \
 	)
 
-default: deps lint prepare-build clean-build server-restart
+default: deps lint
 
-pre-commit: default
+pre-commit: deps lint prepare-build clean-build server-restart
 
 clean:
 	rm -rf node_modules/ bower_components/ build/ .nvmrc package.json bower.json
