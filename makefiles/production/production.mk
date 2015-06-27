@@ -11,7 +11,7 @@ production: \
 	create-deploy-tag
 
 deploy-production:
-	$(call deploy-build, $(PRODUCTION_GIT_REMOTE), $(PRODUCTION_HOST_NAME))
+	$(call deploy-build, Production, $(PRODUCTION_GIT_REMOTE), $(PRODUCTION_HOST_NAME))
 
 create-deploy-tag:
 	git tag "production-deploy-$$(date +%Y%m%d-%H%M)"

@@ -11,7 +11,7 @@ staging: \
 	create-build-symlinks
 
 deploy-staging:
-	$(call deploy-build, $(STAGING_GIT_REMOTE), $(STAGING_HOST_NAME))
+	$(call deploy-build, Staging, $(STAGING_GIT_REMOTE), $(STAGING_HOST_NAME))
 
 test-staging:
 	@echo "Checking for 404s on stage:"
