@@ -153,6 +153,14 @@ describe('The smoke test', function() {
         expect(link, 'link to the login form').to.exist;
         expect(link.getAttribute('href'), 'link href').to.equal('/');
       });
+
+      it('doesn’t display the form and the first search note', function() {
+        var form = $('#client-list-form', this.app);
+        expect(form).not.to.be.visible;
+
+        var note = $('#client-list-form+p.information.message', this.app);
+        expect(note).not.to.be.visible;
+      });
     });
 
     describe('Password change page', function() {
@@ -299,6 +307,13 @@ describe('The smoke test', function() {
         expect(button.css('font-family'), 'has a nice font').to.equal('\'Alegreya SC\'');
         expect(button.css('color'), 'has nice inverted foregraound color').to.equal('rgb(255, 255, 255)');
         expect(button.css('background-color'), 'has nice inverted background color').to.equal('rgb(0, 120, 231)');
+      });
+
+      it('displays a note about first search', function() {
+        var note = $('form+p.information.message', this.app);
+        expect(note).to.exist;
+        expect(note.is(':visible')).to.be.true;
+        expect(note).to.contain('la prima căutare');
       });
 
       describe('data persistence', function() {

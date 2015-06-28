@@ -15,6 +15,13 @@ inherits(ClientListPage, PageWithNavigation);
 function ClientListPage(domElement, userData) {
   var formDOMElement = DOM.require('#client-list-form', domElement);
   var notAuthenticatedMessageDOMElement = DOM.require('#not-authenticated', domElement);
+  var firstSearchNoteDOMElement = DOM.require('#client-list-form+p.information.message', domElement);
+
+  if (userData.isCurrentlyAuthenticated()) {
+    firstSearchNoteDOMElement.style.display = 'block';
+  } else {
+    firstSearchNoteDOMElement.style.display = 'none';
+  }
 
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
