@@ -62,6 +62,11 @@ describe('The smoke test', function() {
             expect(emailField).to.have.value(enteredEmailAddress);
           });
         });
+
+        it('has autofocus on the login email field', function() {
+          var emailField = $('#authentication-form input[name="email"]', this.app);
+          expect(emailField).to.have.attr('autofocus');
+        });
       });
     });
 
