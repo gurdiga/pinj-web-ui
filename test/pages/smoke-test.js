@@ -310,10 +310,8 @@ describe('The smoke test', function() {
       });
 
       it('displays a note about first search', function() {
-        var note = $('form+p.information.message', this.app);
+        var note = $('p:contains("la prima căutare")', this.app);
         expect(note).to.exist;
-        expect(note.is(':visible')).to.be.true;
-        expect(note).to.contain('la prima căutare');
       });
 
       describe('data persistence', function() {
