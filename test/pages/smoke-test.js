@@ -269,7 +269,7 @@ describe('The smoke test', function() {
       });
 
       it('displays a information paragraph explaining the purpose of the page', function() {
-        var p = $('p:contains("Aici introduceţi lista clienţilor")', this.app);
+        var p = $('p:contains("Introduceţi numele, denumirea, sau numărul de dosar")', this.app);
         expect(p).to.exist;
       });
 
