@@ -1,11 +1,10 @@
 'use strict';
 
-describe.skip('Tooltip', function() {
+describe('Tooltip', function() {
   var tooltip, domElement;
 
   beforeEach(function() {
     domElement = prepareDOMElement();
-    domElement.textContent = '';
     tooltip = new Tooltip(domElement);
   });
 
@@ -16,10 +15,11 @@ describe.skip('Tooltip', function() {
     tooltip.show(text);
 
     expect(domElement.classList.contains('hidden'), 'is displayed').to.be.false;
-    expect(domElement.textContent).to.equal(text);
+    expect(domElement.firstChild.textContent).to.equal(text);
   });
 
   it('can be hidden', function() {
+    tooltip.show('Something.');
     expect(domElement.classList.contains('hidden'), 'is initially visible').to.be.false;
     tooltip.hide();
     expect(domElement.classList.contains('hidden'), 'is then hidden').to.be.true;
@@ -45,8 +45,7 @@ describe.skip('Tooltip', function() {
   });
 
   function prepareDOMElement() {
-    var div = document.createElement('div');
-    return div;
+    return document.createElement('div');
   }
 });
 
