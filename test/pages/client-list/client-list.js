@@ -15,7 +15,7 @@ describe('ClientList class', function() {
     it('saves the given string under /clients path', function() {
       return clientList.save(text)
       .then(function() {
-        expect(userData.set).to.have.been.calledWith('clients', text);
+        expect(userData.set).to.have.been.calledWith(config.CLIENT_LIST_PATH, text);
       });
     });
   });
@@ -24,7 +24,7 @@ describe('ClientList class', function() {
     it('returns the contents under the /clients path', function() {
       return clientList.load()
       .then(function() {
-        expect(userData.get).to.have.been.calledWith('clients');
+        expect(userData.get).to.have.been.calledWith(config.CLIENT_LIST_PATH);
       });
     });
   });
@@ -33,3 +33,4 @@ describe('ClientList class', function() {
 var ClientList = require('app/pages/client-list/client-list');
 var UserData = require('app/services/user-data');
 var Promise = require('app/services/promise');
+var config = require('app/config');
