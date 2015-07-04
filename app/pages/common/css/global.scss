@@ -154,10 +154,20 @@ a {
 	&.information {
 		background-color: #eee;
 	}
+
+	&.alert {
+		margin: 1em 0;
+		@extend %alert;
+	}
 }
 
 %message-container {
 	margin: .5em 0;
+}
+
+%alert {
+	color: #ca1c3c;
+	background-color: #fdd;
 }
 
 .validation-error {
@@ -165,8 +175,7 @@ a {
 
 	p {
 		@extend %message-text;
-		color: #ca1c3c;
-		background-color: #fdd;
+		@extend %alert;
 	}
 }
 
