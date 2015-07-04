@@ -45,13 +45,25 @@ function checkPayment(userData, accountSuspended, paymentOverdue) {
     /*jshint maxcomplexity:5*/
     if (inTrial) return;
     else if (isPaymentUpToDate) return;
-    else if (inGracePeriod) displayElement(paymentOverdue);
+    else if (inGracePeriod) displayElement(paymentOverdue, getGraceDaysLeft(timestamps));
     else displayElement(accountSuspended);
   });
 }
 
-function displayElement(domElement) {
+function displayElement(domElement, value) {
   domElement.style.display = 'block';
+  if (value) domElement.textContent = domElement.textContent.replace('#', value);
+}
+
+var ONE_DAY = 24 * 3600 * 1000;
+
+function getGraceDaysLeft(timestamps) {
+  var hasAnyPayments = !!timestamps.lastPayment;
+  var lastPaymentPeriodEnd = hasAnyPayments ?
+    timestamps.lastPayment + config.PAYMENT_PERIOD :
+    timestamps.registration + config.TRIAL_PERIOD;
+
+  return Math.round((config.GRACE_PERIOD - (Date.now() - lastPaymentPeriodEnd)) / ONE_DAY);
 }
 
 module.exports = ClientListPage;

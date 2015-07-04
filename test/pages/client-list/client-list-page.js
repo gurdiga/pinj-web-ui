@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('ClientListPage', function() {
+describe('ClientListPage', function() {
   var clientListPage, userData, domElement;
 
   before(function() {
@@ -70,6 +70,12 @@ describe.only('ClientListPage', function() {
 
       assertDisplayed('#payment-overdue');
       assertNotDisplayed('#account-suspended');
+
+      it('displays the number of days left befor the account is suspended', function() {
+        var alert = DOM.require('#payment-overdue', domElement);
+        var daysLeft = (config.GRACE_PERIOD - oneDay) / oneDay;
+        expect(alert.textContent).to.contain('în următoarele ' + daysLeft + ' zile');
+      });
     });
 
     describe('when payment ended and in grace period', function() {
