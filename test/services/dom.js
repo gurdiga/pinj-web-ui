@@ -40,6 +40,11 @@ describe('DOM', function() {
       expect(domElemement).not.to.equal(returnValue);
     });
 
+    it('works for <body> element too', function() {
+      returnValue = DOM.clone(document.body);
+      expect(returnValue.innerHTML).to.equal(document.body.innerHTML);
+    });
+
     function createADOMElement() {
       var div = document.createElement('div');
       div.textContent = 'This is a DIV';

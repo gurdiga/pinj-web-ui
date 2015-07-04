@@ -12,9 +12,8 @@ var DOM = {
   },
 
   clone: function(element) {
-    var container = document.createElement('div');
-    container.innerHTML = element.outerHTML;
-    return container.removeChild(container.firstChild);
+    var DEEP = true;
+    return element.cloneNode(DEEP);
   },
 
   isVisible: function(element) {
