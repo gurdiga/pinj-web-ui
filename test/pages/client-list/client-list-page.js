@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ClientListPage', function() {
+describe.only('ClientListPage', function() {
   var clientListPage, userData, domElement;
 
   before(function() {
@@ -29,8 +29,7 @@ describe('ClientListPage', function() {
     });
 
     it('doesn’t display the payment overdue message', function() {
-      var paymentOverdueNoteDOMElement = DOM.require('#account-suspended', domElement);
-      expect(paymentOverdueNoteDOMElement.style.display).to.equal('none');
+      expect(get('#account-suspended').style.display).to.equal('none');
     });
   });
 
@@ -45,39 +44,103 @@ describe('ClientListPage', function() {
       expect(clientListPage.isFormIrrelevantMessageDisplayed()).to.be.false;
     });
 
+    describe('when in trial period', function() {
+      beforeEach(function(done) {
+        setTimestamps({
+          'registration': Date.now() - config.TRIAL_PERIOD / 2,
+          'lastPayment': null
+        });
+
+        initPage().then(done);
+      });
+
+      assertNotDisplayed('#payment-overdue');
+      assertNotDisplayed('#account-suspended');
+    });
+
+    describe('when trial ended and in grace period', function() {
+      beforeEach(function(done) {
+        setTimestamps({
+          'registration': Date.now() - (config.TRIAL_PERIOD + oneDay),
+          'lastPayment': null
+        });
+
+        initPage().then(done);
+      });
+
+      assertDisplayed('#payment-overdue');
+      assertNotDisplayed('#account-suspended');
+    });
+
+    describe('when payment ended and in grace period', function() {
+      beforeEach(function(done) {
+        setTimestamps({
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
+          'lastPayment': Date.now() - config.PAYMENT_PERIOD - oneDay
+        });
+
+        initPage().then(done);
+      });
+
+      assertDisplayed('#payment-overdue');
+      assertNotDisplayed('#account-suspended');
+    });
+
     describe('when payment overdue and the grace period passed', function() {
       beforeEach(function(done) {
-        makePaymentOverdueAndOverGracePeriod();
-        clientListPage = new ClientListPage(domElement, userData);
-        Promise.nextTick().then(done);
+        setTimestamps({
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
+          'lastPayment': Date.now() - config.PAYMENT_PERIOD - config.GRACE_PERIOD - oneDay
+        });
+
+        initPage().then(done);
       });
 
-      it('displays the account suspended alert', function() {
-        var paymentOverdueNoteDOMElement = DOM.require('#account-suspended', domElement);
-        expect(paymentOverdueNoteDOMElement.style.display).to.equal('block');
-      });
-
-      function makePaymentOverdueAndOverGracePeriod() {
-        var oneDay = 24 * 3600 * 1000;
-        var overduePaymentTimestamp = Date.now() - (config.PAYMENT_PERIOD + config.PAYMENT_GRACE_PERIOD + oneDay);
-
-        userData.get.withArgs(config.LAST_PAYMENT_TIMESTAMP_PATH)
-        .returns(Promise.resolve(overduePaymentTimestamp));
-      }
-    });
-
-    describe('when payment overdue but the grace period', function() {
-      // TODO
-    });
-
-    describe('when in trial period', function() {
-      // TODO
+      assertNotDisplayed('#payment-overdue');
+      assertDisplayed('#account-suspended');
     });
 
     describe('when payment is OK', function() {
-      // TODO
+      beforeEach(function(done) {
+        setTimestamps({
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
+          'lastPayment': Date.now() - config.PAYMENT_PERIOD / 2
+        });
+
+        initPage().then(done);
+      });
+
+      assertNotDisplayed('#payment-overdue');
+      assertNotDisplayed('#account-suspended');
     });
+
+    var oneDay = 24 * 3600 * 1000;
+
+    function setTimestamps(timestamps) {
+      userData.get.withArgs(config.TIMESTAMPS_PATH).returns(Promise.resolve(timestamps));
+    }
+
+    function initPage() {
+      new ClientListPage(domElement, userData);
+      return Promise.nextTick();
+    }
+
+    function assertNotDisplayed(selector) {
+      it('doesn’t display ' + selector, function() {
+        expect(get(selector).style.display).to.equal('none');
+      });
+    }
+
+    function assertDisplayed(selector) {
+      it('displays ' + selector, function() {
+        expect(get(selector).style.display).to.equal('block');
+      });
+    }
   });
+
+  function get(selector) {
+    return DOM.require(selector, domElement);
+  }
 });
 
 var ClientListPage = require('app/pages/client-list/client-list-page');

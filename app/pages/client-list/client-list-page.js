@@ -11,7 +11,6 @@ function ClientListPage(domElement, userData) {
   var formDOMElement = DOM.require('#client-list-form', domElement);
   var notAuthenticatedMessageDOMElement = DOM.require('#not-authenticated', domElement);
   var firstSearchNoteDOMElement = DOM.require('#client-list-form+p.information.message', domElement);
-  var paymentOverdueNoteDOMElement = DOM.require('#account-suspended', domElement);
 
   if (userData.isCurrentlyAuthenticated()) {
     firstSearchNoteDOMElement.style.display = 'block';
@@ -19,7 +18,9 @@ function ClientListPage(domElement, userData) {
     firstSearchNoteDOMElement.style.display = 'none';
   }
 
-  checkPayment(userData, paymentOverdueNoteDOMElement);
+  var accountSuspendedNoteDOMElement = DOM.require('#account-suspended', domElement);
+  var paymentOverdueNoteDOMElement = DOM.require('#payment-overdue', domElement);
+  checkPayment(userData, accountSuspendedNoteDOMElement, paymentOverdueNoteDOMElement);
 
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
@@ -34,13 +35,23 @@ function ClientListPage(domElement, userData) {
   PageWithNavigation.call(this, domElement, userData);
 }
 
-function checkPayment(userData, paymentOverdueNoteDOMElement) {
-  userData.get(config.LAST_PAYMENT_TIMESTAMP_PATH)
-  .then(function(timestamp) {
-    if (timestamp && Date.now() - timestamp > config.PAYMENT_PERIOD + config.PAYMENT_GRACE_PERIOD) {
-      paymentOverdueNoteDOMElement.style.display = 'block';
-    }
+function checkPayment(userData, accountSuspended, paymentOverdue) {
+  userData.get(config.TIMESTAMPS_PATH)
+  .then(function(timestamps) {
+    var inTrial = Date.now() - timestamps.registration <= config.TRIAL_PERIOD;
+    var isPaymentUpToDate = !!timestamps.lastPayment && (Date.now() - timestamps.lastPayment <= config.PAYMENT_PERIOD);
+    var inGracePeriod = Date.now() - (timestamps.lastPayment || timestamps.registration) <= config.PAYMENT_PERIOD + config.GRACE_PERIOD;
+
+    /*jshint maxcomplexity:5*/
+    if (inTrial) return;
+    else if (isPaymentUpToDate) return;
+    else if (inGracePeriod) displayElement(paymentOverdue);
+    else displayElement(accountSuspended);
   });
+}
+
+function displayElement(domElement) {
+  domElement.style.display = 'block';
 }
 
 module.exports = ClientListPage;
