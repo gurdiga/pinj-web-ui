@@ -7,7 +7,7 @@ inherits(ClientListFormValidator, FormValidator);
 
 var VALID_CHARS = /^[-0-9a-zа-яăîşţâ \\n#]*$/i;
 var MIN_LENGTH = 4;
-var MAX_ITEMS = 30;
+var MAX_ITEMS = 50;
 
 function ClientListFormValidator() {
   FormValidator.call(this);
