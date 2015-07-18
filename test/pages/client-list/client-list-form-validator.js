@@ -64,14 +64,14 @@ describe('ClientListFormValidator', function() {
     return expect(validate('some - name')).to.be.rejectedWith(/În cadrul la denumiri, nu trebuie să fie spaţii lîngă “-”/);
   });
 
-  it('accepts a list of 30 items', function() {
-    var items = getRandomItems(30).join('\n');
+  it('accepts a list of 50 items', function() {
+    var items = getRandomItems(50).join('\n');
     return expect(validate(items)).to.be.fulfilled;
   });
 
-  it('rejects a list of more than 30 items', function() {
-    var items = getRandomItems(31).join('\n');
-    return expect(validate(items)).to.be.rejectedWith(/Puteţi avea maximum 30 de itemi în listă/);
+  it('rejects a list of more than 50 items', function() {
+    var items = getRandomItems(51).join('\n');
+    return expect(validate(items)).to.be.rejectedWith(/Puteţi avea maximum 50 de itemi în listă/);
   });
 
   function validate(clientList) {
