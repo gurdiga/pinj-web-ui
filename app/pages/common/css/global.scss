@@ -275,27 +275,3 @@ footer {
 		margin-right: .1em;
 	}
 }
-
-#client-list-form {
-	position: relative;
-
-	.validation-tooltip {
-		font-style: italic;
-		line-height: 1;
-		position: absolute;
-		left: 60%;
-		transform: translateY(-90%);
-		padding: .5em .75em;
-		background: #fdd;
-		border: 1px solid #fbb;
-		border-radius: 10px;
-		border-bottom-left-radius: 0;
-		box-shadow: 2px 2px 5px 0px rgba(90,90,90,0.75);
-		opacity: 1;
-		transition: opacity .25s ease;
-
-		&.hidden {
-			opacity: 0;
-		}
-	}
-}
