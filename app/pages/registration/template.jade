@@ -13,7 +13,11 @@ block content
 	p Primele 3 luni de la înregistrare sunt gratuite. Dacă vă este util, puteţi cumpăra
 		| un abonament anual de 15 USD.
 
-	form#registration-form(method="post", action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html")
+	form#registration-form(
+		method="post",
+		action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html",
+		novalidate="novalidate"
+	)
 		fieldset.glued-fields
 			input(name="email", type="text", placeholder="Adresa de email")
 			input(name="password", type="password", placeholder="Parola")

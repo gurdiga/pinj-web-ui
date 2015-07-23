@@ -17,11 +17,15 @@ block content
 		a(href="/index/images/email.png") un email
 		|  cînd se schimbă ceva.
 
-	form#authentication-form(method="post", action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html")
+	form#authentication-form(
+		method="post",
+		action="https://pinj-scripts.herokuapp.com/echo?to=%2Fclient-list.html",
+		novalidate="novalidate"
+	)
 		p Dacă v-aţi înregistrat deja, aici vă puteţi autentifica:
 
 		fieldset.glued-fields
-			input(name="email", type="text", placeholder="Adresa de email", autofocus="autofocus")
+			input(name="email", type="email", placeholder="Adresa de email", autofocus="autofocus")
 			input(name="password", type="password", placeholder="Parola")
 
 		a#password-recovery(href="/password-recovery.html") Uitată?

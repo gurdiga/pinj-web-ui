@@ -10,9 +10,9 @@ block content
 	p Introduceţi adresa dumneavoastră de email. Vă vom trimite o parolă valabilă
 		| timp de 24 de ore cu care o să vă puteţi accesa contul şi reseta parola.
 
-	form#password-recovery-form
+	form#password-recovery-form(novalidate="novalidate")
 		fieldset
-			input(name="email", type="text", placeholder="Adresa de email")
+			input(name="email", type="email", placeholder="Adresa de email")
 
 		button(type="submit") Trimite
 
