@@ -73,17 +73,27 @@ header {
 			display: none;
 		}
 
-		#menu-toggle:checked~a {
-			height: 1.7em;
+		#menu-toggle+label {
+			line-height: 2;
+			font-style: italic;
+			display: block;
+
+			&::before {
+				content: "▸";
+				display: inline-block;
+				font-style: normal;
+				width: 1em;
+			}
 		}
 
-		label[for="menu-toggle"]::before {
-			content: "▸";
-			margin-right: .1em;
-		}
+		#menu-toggle:checked {
+			~a {
+				height: 1.7em;
+			}
 
-		#menu-toggle:checked~label[for="menu-toggle"]::before {
-			content: "▾";
+			&+label::before {
+				content: "▾";
+			}
 		}
 
 		a {
