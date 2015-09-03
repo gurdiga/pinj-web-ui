@@ -38,14 +38,9 @@ function ClientListPage(domElement, userData) {
 function checkPayment(userData, accountSuspended, paymentOverdue) {
   userData.get(config.TIMESTAMPS_PATH)
   .then(function(timestamps) {
-    var inTrial = Date.now() - timestamps.registration <= config.TRIAL_PERIOD;
-    var isPaymentUpToDate = !!timestamps.lastPayment && (Date.now() - timestamps.lastPayment <= config.PAYMENT_PERIOD);
-    var inGracePeriod = Date.now() - (timestamps.lastPayment || timestamps.registration) <= config.PAYMENT_PERIOD + config.GRACE_PERIOD;
-
-    /*jshint maxcomplexity:5*/
-    if (inTrial) return;
-    else if (isPaymentUpToDate) return;
-    else if (inGracePeriod) displayElement(paymentOverdue, getGraceDaysLeft(timestamps));
+    if (isInTrial(timestamps)) return; // TODO: warn if last week of trial
+    else if (isPaymentUpToDate(timestamps)) return;
+    else if (isInGracePeriod(timestamps)) displayElement(paymentOverdue, getNumberOfDaysBeforeSuspendingAccount(timestamps));
     else displayElement(accountSuspended);
   });
 }
@@ -53,17 +48,6 @@ function checkPayment(userData, accountSuspended, paymentOverdue) {
 function displayElement(domElement, value) {
   domElement.style.display = 'block';
   if (value) domElement.textContent = domElement.textContent.replace('#', value);
-}
-
-var ONE_DAY = 24 * 3600 * 1000;
-
-function getGraceDaysLeft(timestamps) {
-  var hasAnyPayments = !!timestamps.lastPayment;
-  var lastPaymentPeriodEnd = hasAnyPayments ?
-    timestamps.lastPayment + config.PAYMENT_PERIOD :
-    timestamps.registration + config.TRIAL_PERIOD;
-
-  return Math.round((config.GRACE_PERIOD - (Date.now() - lastPaymentPeriodEnd)) / ONE_DAY);
 }
 
 module.exports = ClientListPage;
@@ -74,3 +58,7 @@ var FormValidationError = require('app/widgets/form-validation-error');
 var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var ClientList = require('./client-list');
 var ClientListForm = require('./client-list-form');
+var isInTrial = require('./is-in-trial');
+var isPaymentUpToDate = require('./is-payment-up-to-date');
+var isInGracePeriod = require('./is-in-grace-period');
+var getNumberOfDaysBeforeSuspendingAccount = require('./get-number-fo-days-before-suspending-account');
