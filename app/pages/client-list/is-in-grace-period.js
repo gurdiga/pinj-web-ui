@@ -1,13 +1,10 @@
 'use strict';
 
-function isInGracePeriod(timestamps) {
-  var inTrial = Date.now() - timestamps.registration <= config.TRIAL_PERIOD;
-  if (inTrial) return false;
+function isInGracePeriod(lastPaymentTimestamp) {
+  if (!lastPaymentTimestamp) return false;
 
-  var noPayment = !timestamps.lastPayment;
-  if (noPayment) return false;
+  var timeSinceLastPayment = Date.now() - lastPaymentTimestamp;
 
-  var timeSinceLastPayment = Date.now() - timestamps.lastPayment;
   return timeSinceLastPayment > config.PAYMENT_PERIOD &&
          timeSinceLastPayment <= config.PAYMENT_PERIOD + config.GRACE_PERIOD;
 }

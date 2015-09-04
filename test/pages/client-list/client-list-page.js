@@ -58,26 +58,6 @@ describe('ClientListPage', function() {
       assertNotDisplayed('#account-suspended');
     });
 
-    describe('when trial ended and in grace period', function() {
-      beforeEach(function(done) {
-        setTimestamps({
-          'registration': Date.now() - (config.TRIAL_PERIOD + oneDay),
-          'lastPayment': null
-        });
-
-        initPage().then(done);
-      });
-
-      assertDisplayed('#payment-overdue');
-      assertNotDisplayed('#account-suspended');
-
-      it('displays the number of days left befor the account is suspended', function() {
-        var alert = DOM.require('#payment-overdue', domElement);
-        var daysLeft = (config.GRACE_PERIOD - oneDay) / oneDay;
-        expect(alert.textContent).to.contain('în următoarele ' + daysLeft + ' zile');
-      });
-    });
-
     describe('when payment ended and in grace period', function() {
       beforeEach(function(done) {
         setTimestamps({
