@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ClientListFormValidator', function() {
+describe.only('ClientListFormValidator', function() {
   var validator;
 
   beforeEach(function() {
@@ -11,7 +11,7 @@ describe('ClientListFormValidator', function() {
     expect(validate('')).to.be.fulfilled;
   });
 
-  var charactersToReject = '.,;:?!%&'.split('');
+  var charactersToReject = ',;:?!%&'.split('');
 
   charactersToReject.forEach(function(character) {
     it('does not accept “' + character + '”', function() {
