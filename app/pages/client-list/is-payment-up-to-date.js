@@ -1,9 +1,9 @@
 'use strict';
 
-function isPaymentUpToDate(timestamps) {
-  if (!timestamps.lastPayment) return false;
+function isPaymentUpToDate(lastPaymentTimestamps) {
+  if (!lastPaymentTimestamps) return false;
 
-  var timeSinceLastPayment = Date.now() - timestamps.lastPayment;
+  var timeSinceLastPayment = Date.now() - lastPaymentTimestamps;
   return timeSinceLastPayment <= config.PAYMENT_PERIOD;
 }
 

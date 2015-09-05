@@ -39,7 +39,7 @@ function checkPayment(userData, accountSuspendedNoteDOMElement, paymentOverdueNo
   userData.get(config.TIMESTAMPS_PATH)
   .then(function(timestamps) {
     if (isInTrial(timestamps.registration)) return; // TODO: warn if last week of trial
-    else if (isPaymentUpToDate(timestamps)) return;
+    else if (isPaymentUpToDate(timestamps.lastPayment)) return;
     else if (isInGracePeriod(timestamps.lastPayment)) displayElement(paymentOverdueNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
     else displayElement(accountSuspendedNoteDOMElement);
   });
