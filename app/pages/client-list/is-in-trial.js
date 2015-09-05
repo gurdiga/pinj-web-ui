@@ -1,9 +1,7 @@
 'use strict';
 
-function isInTrial(timestamps) {
-  if (!timestamps.registration) return false;
-
-  var timeSinceRegistration = Date.now() - timestamps.registration;
+function isInTrial(registrationTimestamp) {
+  var timeSinceRegistration = Date.now() - registrationTimestamp;
   return timeSinceRegistration <= config.TRIAL_PERIOD;
 }
 
