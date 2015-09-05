@@ -158,6 +158,10 @@ a {
 	margin: 0;
 }
 
+%message-spacing {
+	margin: 1em 0;
+}
+
 .message {
 	@extend %message-text;
 
@@ -166,8 +170,14 @@ a {
 	}
 
 	&.alert {
-		margin: 1em 0;
+		@extend %message-spacing;
 		@extend %alert;
+	}
+
+	&.warning {
+		@extend %message-spacing;
+		color: #ed762b;
+		background-color: #fbefd1;
 	}
 }
 

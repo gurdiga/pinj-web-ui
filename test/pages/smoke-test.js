@@ -166,6 +166,26 @@ describe('The smoke test', function() {
         var note = $('#client-list-form+p.information.message', this.app);
         expect(note).not.to.be.visible;
       });
+
+      describe('messages', function() {
+        it('doesn’t display the message about the account being suspended', function() {
+          var accountSuspendedNote = $('#account-suspended', this.app);
+          expect(accountSuspendedNote).to.exist;
+          expect(accountSuspendedNote).not.to.be.visible;
+        });
+
+        it('doesn’t display the message about the payment being overdue', function() {
+          var paymentOverdueNote = $('#payment-overdue', this.app);
+          expect(paymentOverdueNote).to.exist;
+          expect(paymentOverdueNote).not.to.be.visible;
+        });
+
+        it('doesn’t display the message about the trial being almost over', function() {
+          var trialAlmostOverNote = $('#trial-almost-over', this.app);
+          expect(trialAlmostOverNote).to.exist;
+          expect(trialAlmostOverNote).not.to.be.visible;
+        });
+      });
     });
 
     describe('Password change page', function() {

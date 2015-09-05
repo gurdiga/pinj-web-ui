@@ -20,7 +20,8 @@ function ClientListPage(domElement, userData) {
 
   var accountSuspendedNoteDOMElement = DOM.require('#account-suspended', domElement);
   var paymentOverdueNoteDOMElement = DOM.require('#payment-overdue', domElement);
-  checkPayment(userData, accountSuspendedNoteDOMElement, paymentOverdueNoteDOMElement);
+  var trialAlmostOverNoteDOMElement = DOM.require('#trial-almost-over', domElement);
+  checkTrialAndPayment(userData, trialAlmostOverNoteDOMElement, accountSuspendedNoteDOMElement, paymentOverdueNoteDOMElement);
 
   var formValidationError = new FormValidationError(formDOMElement);
   var submitButtonSpinner = new SubmitButtonSpinner(formDOMElement);
@@ -35,12 +36,18 @@ function ClientListPage(domElement, userData) {
   PageWithNavigation.call(this, domElement, userData);
 }
 
-function checkPayment(userData, accountSuspendedNoteDOMElement, paymentOverdueNoteDOMElement) {
+function checkTrialAndPayment(userData, trialAlmostOverNoteDOMElement, accountSuspendedNoteDOMElement, paymentOverdueNoteDOMElement) {
   userData.get(config.TIMESTAMPS_PATH)
   .then(function(timestamps) {
-    if (isInTrial(timestamps.registration)) return; // TODO: warn if last week of trial
-    else if (isPaymentUpToDate(timestamps.lastPayment)) return;
-    else if (isInGracePeriod(timestamps.lastPayment)) displayElement(paymentOverdueNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
+    /*jshint maxcomplexity:5*/
+    if (isInTrial(timestamps.registration)) {
+      if (isTrialAlmostOver(timestamps.registration)) displayElement(trialAlmostOverNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
+      return;
+    }
+
+    if (isPaymentUpToDate(timestamps.lastPayment)) return;
+
+    if (isInGracePeriod(timestamps.lastPayment)) displayElement(paymentOverdueNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
     else displayElement(accountSuspendedNoteDOMElement);
   });
 }
@@ -59,6 +66,7 @@ var SubmitButtonSpinner = require('app/widgets/submit-button-spinner');
 var ClientList = require('./client-list');
 var ClientListForm = require('./client-list-form');
 var isInTrial = require('./is-in-trial');
+var isTrialAlmostOver = require('./is-trial-almost-over');
 var isPaymentUpToDate = require('./is-payment-up-to-date');
 var isInGracePeriod = require('./is-in-grace-period');
 var getNumberOfDaysBeforeSuspendingAccount = require('./get-number-fo-days-before-suspending-account');

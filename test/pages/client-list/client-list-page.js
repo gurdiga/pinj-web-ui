@@ -1,5 +1,7 @@
 'use strict';
 
+var ONE_DAY = 24 * 3600 * 1000;
+
 describe('ClientListPage', function() {
   var clientListPage, userData, domElement;
 
@@ -56,13 +58,29 @@ describe('ClientListPage', function() {
 
       assertNotDisplayed('#payment-overdue');
       assertNotDisplayed('#account-suspended');
+      assertNotDisplayed('#trial-almost-over');
+    });
+
+    describe('when trial period is almost over', function() {
+      beforeEach(function(done) {
+        setTimestamps({
+          'registration': Date.now() - config.TRIAL_PERIOD + config.TRIAL_ALMOST_OVER_PERIOD / 2,
+          'lastPayment': null
+        });
+
+        initPage().then(done);
+      });
+
+      assertNotDisplayed('#payment-overdue');
+      assertNotDisplayed('#account-suspended');
+      assertDisplayed('#trial-almost-over');
     });
 
     describe('when payment ended and in grace period', function() {
       beforeEach(function(done) {
         setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
-          'lastPayment': Date.now() - config.PAYMENT_PERIOD - oneDay
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
+          'lastPayment': Date.now() - config.PAYMENT_PERIOD - ONE_DAY
         });
 
         initPage().then(done);
@@ -70,13 +88,14 @@ describe('ClientListPage', function() {
 
       assertDisplayed('#payment-overdue');
       assertNotDisplayed('#account-suspended');
+      assertNotDisplayed('#trial-almost-over');
     });
 
     describe('when payment overdue and the grace period passed', function() {
       beforeEach(function(done) {
         setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
-          'lastPayment': Date.now() - config.PAYMENT_PERIOD - config.GRACE_PERIOD - oneDay
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
+          'lastPayment': Date.now() - config.PAYMENT_PERIOD - config.GRACE_PERIOD - ONE_DAY
         });
 
         initPage().then(done);
@@ -84,12 +103,13 @@ describe('ClientListPage', function() {
 
       assertNotDisplayed('#payment-overdue');
       assertDisplayed('#account-suspended');
+      assertNotDisplayed('#trial-almost-over');
     });
 
     describe('when payment is OK', function() {
       beforeEach(function(done) {
         setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - oneDay,
+          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
           'lastPayment': Date.now() - config.PAYMENT_PERIOD / 2
         });
 
@@ -98,9 +118,8 @@ describe('ClientListPage', function() {
 
       assertNotDisplayed('#payment-overdue');
       assertNotDisplayed('#account-suspended');
+      assertNotDisplayed('#trial-almost-over');
     });
-
-    var oneDay = 24 * 3600 * 1000;
 
     function setTimestamps(timestamps) {
       userData.get.withArgs(config.TIMESTAMPS_PATH).returns(Promise.resolve(timestamps));
