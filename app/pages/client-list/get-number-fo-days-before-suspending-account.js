@@ -3,9 +3,7 @@
 var ONE_DAY = 24 * 3600 * 1000;
 
 function getNumberOfDaysBeforeSuspendingAccount(timestamps) {
-  var isTrial = Date.now() - timestamps.registration < config.TRIAL_PERIOD;
-
-  if (isTrial) return daysOfTrialRemaining(timestamps);
+  if (isInTrial(timestamps.registration)) return daysOfTrialRemaining(timestamps);
   else return daysOfGraceRemaining(timestamps);
 }
 
@@ -24,5 +22,6 @@ function daysOfGraceRemaining(timestamps) {
 }
 
 var config = require('app/config');
+var isInTrial = require('./is-in-trial');
 
 module.exports = getNumberOfDaysBeforeSuspendingAccount;
