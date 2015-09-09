@@ -5,7 +5,7 @@ var inherits = require('inherits');
 
 inherits(ClientListFormValidator, FormValidator);
 
-var VALID_CHARS = /^[-0-9a-zа-яăîşţâ\. \\n#]*$/i;
+var VALID_CHARS = /^[-0-9a-zа-яăîşșţțâ\. \\n#]*$/i;
 var MIN_LENGTH = 4;
 var MAX_ITEMS = 50;
 
