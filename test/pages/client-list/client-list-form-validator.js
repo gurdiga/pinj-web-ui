@@ -1,6 +1,6 @@
 'use strict';
 
-describe('ClientListFormValidator', function() {
+describe.only('ClientListFormValidator', function() {
   var validator;
 
   beforeEach(function() {
@@ -44,8 +44,12 @@ describe('ClientListFormValidator', function() {
     return expect(validate('Кыржалы')).to.be.fulfilled;
   });
 
-  it('accepts Romanian characters', function() {
+  it('accepts Romanian characters with cedilla', function() {
     return expect(validate('MărţiŞor')).to.be.fulfilled;
+  });
+
+  it('accepts Romanian characters with diacritical comma', function() {
+    return expect(validate('MărțiȘor')).to.be.fulfilled;
   });
 
   it('accepts # at the beginning', function() {
