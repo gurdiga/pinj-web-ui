@@ -11,5 +11,6 @@ Promise.reject = Q.reject;
 Promise.nextTick = function() {
   return Q.delay(0);
 };
+Promise.all = Q.all;
 
 module.exports = Promise;

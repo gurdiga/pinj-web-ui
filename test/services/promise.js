@@ -31,6 +31,26 @@ describe('Promise', function() {
       done();
     });
   });
+
+  it('can combine promises', function(done) {
+    var promise1 = new Promise(function(resolve) {
+      setTimeout(function() { resolve(); }, 20);
+    });
+
+    var promise2 = new Promise(function(resolve) {
+      setTimeout(function() { resolve(); }, 10);
+    });
+
+    var startTime = Date.now();
+
+    Promise.all([promise1, promise2])
+    .then(function() {
+      var elapsedTime = Date.now() - startTime;
+      expect(elapsedTime).to.be.at.least(20);
+
+      done();
+    });
+  });
 });
 
 var Promise = require('app/services/promise');
