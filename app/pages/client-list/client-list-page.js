@@ -41,13 +41,15 @@ function checkTrialAndPayment(userData, trialAlmostOverNoteDOMElement, accountSu
   .then(function(timestamps) {
     /*jshint maxcomplexity:5*/
     if (isInTrial(timestamps.registration)) {
-      if (isTrialAlmostOver(timestamps.registration)) displayElement(trialAlmostOverNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
+      if (isTrialAlmostOver(timestamps.registration))
+        displayElement(trialAlmostOverNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
       return;
     }
 
     if (isPaymentUpToDate(timestamps.lastPayment)) return;
 
-    if (isInGracePeriod(timestamps.lastPayment)) displayElement(paymentOverdueNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
+    if (isInGracePeriod(timestamps.lastPayment))
+      displayElement(paymentOverdueNoteDOMElement, getNumberOfDaysBeforeSuspendingAccount(timestamps));
     else displayElement(accountSuspendedNoteDOMElement);
   });
 }

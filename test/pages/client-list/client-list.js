@@ -12,10 +12,16 @@ describe('ClientList class', function() {
   });
 
   describe('save', function() {
-    it('saves the given string under /clients path', function() {
+    beforeEach(function() {
+      this.sinon.stub(Date, 'now').returns(42);
+    });
+
+    it('saves the given string under /clients path, and the timestamp', function() {
       return clientList.save(text)
       .then(function() {
-        expect(userData.set).to.have.been.calledWith(config.CLIENT_LIST_PATH, text);
+        expect(userData.set, 'saves the client list').to.have.been.calledWith(config.CLIENT_LIST_PATH, text);
+        expect(userData.set, 'writes the timestamp').to.have.been
+          .calledWith(config.LAST_CLIENT_LIST_CHANGE_TIMESTAMP_PATH, Date.now());
       });
     });
   });

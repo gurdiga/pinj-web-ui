@@ -6,7 +6,10 @@ function ClientList(userData) {
   };
 
   this.save = function(list) {
-    return userData.set(config.CLIENT_LIST_PATH, list);
+    return userData.set(config.CLIENT_LIST_PATH, list)
+      .then(function() {
+        return userData.set(config.LAST_CLIENT_LIST_CHANGE_TIMESTAMP_PATH, Date.now());
+      });
   };
 }
 

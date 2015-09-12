@@ -13,7 +13,8 @@ var config = {
   CLIENT_LIST_PATH: '/clients',
   TIMESTAMPS_PATH: '/timestamps',
   REGISTRATION_TIMESTAMP_PATH: '/timestamps/registration',
-  LAST_PAYMENT_TIMESTAMP_PATH: '/timestamps/lastPayment'
+  LAST_PAYMENT_TIMESTAMP_PATH: '/timestamps/lastPayment',
+  LAST_CLIENT_LIST_CHANGE_TIMESTAMP_PATH: '/timestamps/lastClientListChange'
 };
 
 module.exports = config;
