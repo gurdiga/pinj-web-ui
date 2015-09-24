@@ -199,6 +199,13 @@ a {
 	}
 }
 
+.closing-message {
+	@extend %message-container;
+  @extend %message-text;
+  @extend %alert;
+	padding: .5em 2em;
+}
+
 .success-message {
 	@extend %message-container;
 
