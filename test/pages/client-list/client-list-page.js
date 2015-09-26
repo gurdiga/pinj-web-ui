@@ -1,7 +1,5 @@
 'use strict';
 
-var ONE_DAY = 24 * 3600 * 1000;
-
 describe('ClientListPage', function() {
   var clientListPage, userData, domElement;
 
@@ -29,10 +27,6 @@ describe('ClientListPage', function() {
       expect(clientListPage.isFormHidden()).to.be.true;
       expect(clientListPage.isFormIrrelevantMessageDisplayed()).to.be.true;
     });
-
-    it('doesn’t display the payment overdue message', function() {
-      expect(get('#account-suspended').style.display).to.equal('none');
-    });
   });
 
   describe('when user is authenticated', function() {
@@ -55,70 +49,6 @@ describe('ClientListPage', function() {
 
         initPage().then(done);
       });
-
-      assertNotDisplayed('#payment-overdue');
-      assertNotDisplayed('#account-suspended');
-      assertNotDisplayed('#trial-almost-over');
-    });
-
-    describe('when trial period is almost over', function() {
-      beforeEach(function(done) {
-        setTimestamps({
-          'registration': Date.now() - config.TRIAL_PERIOD + config.TRIAL_ALMOST_OVER_PERIOD / 2,
-          'lastPayment': null
-        });
-
-        initPage().then(done);
-      });
-
-      assertNotDisplayed('#payment-overdue');
-      assertNotDisplayed('#account-suspended');
-      assertDisplayed('#trial-almost-over');
-    });
-
-    describe('when payment ended and in grace period', function() {
-      beforeEach(function(done) {
-        setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
-          'lastPayment': Date.now() - config.PAYMENT_PERIOD - ONE_DAY
-        });
-
-        initPage().then(done);
-      });
-
-      assertDisplayed('#payment-overdue');
-      assertNotDisplayed('#account-suspended');
-      assertNotDisplayed('#trial-almost-over');
-    });
-
-    describe('when payment overdue and the grace period passed', function() {
-      beforeEach(function(done) {
-        setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
-          'lastPayment': Date.now() - config.PAYMENT_PERIOD - config.GRACE_PERIOD - ONE_DAY
-        });
-
-        initPage().then(done);
-      });
-
-      assertNotDisplayed('#payment-overdue');
-      assertDisplayed('#account-suspended');
-      assertNotDisplayed('#trial-almost-over');
-    });
-
-    describe('when payment is OK', function() {
-      beforeEach(function(done) {
-        setTimestamps({
-          'registration': Date.now() - config.PAYMENT_PERIOD - config.TRIAL_PERIOD - ONE_DAY,
-          'lastPayment': Date.now() - config.PAYMENT_PERIOD / 2
-        });
-
-        initPage().then(done);
-      });
-
-      assertNotDisplayed('#payment-overdue');
-      assertNotDisplayed('#account-suspended');
-      assertNotDisplayed('#trial-almost-over');
     });
 
     function setTimestamps(timestamps) {
@@ -129,23 +59,7 @@ describe('ClientListPage', function() {
       new ClientListPage(domElement, userData);
       return Promise.nextTick();
     }
-
-    function assertNotDisplayed(selector) {
-      it('doesn’t display ' + selector, function() {
-        expect(get(selector).style.display).to.equal('none');
-      });
-    }
-
-    function assertDisplayed(selector) {
-      it('displays ' + selector, function() {
-        expect(get(selector).style.display).to.equal('block');
-      });
-    }
   });
-
-  function get(selector) {
-    return DOM.require(selector, domElement);
-  }
 });
 
 var ClientListPage = require('app/pages/client-list/client-list-page');
